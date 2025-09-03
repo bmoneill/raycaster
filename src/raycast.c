@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 Raycaster *raycast_init(int w, int h) {
-    Raycaster *raycaster = (Raycaster *) malloc(sizeof(Raycaster));
+    Raycaster *raycaster = (Raycaster *) calloc(1, sizeof(Raycaster));
     if (!raycaster) {
         return NULL;
     }
@@ -28,8 +28,8 @@ int raycast_init_ptr(Raycaster *raycaster, int w, int h) {
         return 1;
     }
 
-    raycaster->w = w;
-    raycaster->h = h;
+    raycaster->size.w = w;
+    raycaster->size.h = h;
     return 0;
 }
 
@@ -43,13 +43,21 @@ void raycast_destroy(Raycaster *raycaster) {
 }
 
 void raycast_draw(Raycaster *raycaster, RaycasterRect *rect, RaycasterColor *color) {
-    // TODO Implement
+    for (int i = 0; i < rect->size.h; i++) {
+        for (int j = 0; j < rect->size.w; j++) {
+            if (rect->point.x + j < 0 || rect->point.x + j >= raycaster->size.w ||
+                rect->point.y + i < 0 || rect->point.y + i >= raycaster->size.h) {
+                continue;
+            }
+            raycaster->map[(rect->point.y + i) * raycaster->size.w + (rect->point.x + j)] = *color;
+        }
+    }
 }
 
 void raycast_erase(Raycaster *raycaster, RaycasterRect *rect) {
-    // TODO Implement
+    raycast_draw(raycaster, rect, (RaycasterColor[]){RAYCASTER_BLACK});
 }
 
-void raycast_render(Raycaster *raycaster) {
+void raycast_render(Raycaster *raycaster, int displayWidth, int displayHeight) {
     // TODO Implement
 }
