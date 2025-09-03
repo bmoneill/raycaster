@@ -1,10 +1,14 @@
 #include "raycast.h"
+#include "mapgen.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 
 int main(int argc, char *argv[]) {
     int w = 800;
     int h = 600;
+    int blockSize = 10;
+    int seed = 42;
     int black = 0x00000000;
     int red = 0x00FF0000;
     int purple = 0xFFFF00FF;
@@ -16,8 +20,7 @@ int main(int argc, char *argv[]) {
     Raycaster *raycaster = raycast_init(w, h);
     RaycastDimensions dims = {w, h};
     RaycastCamera camera = {{0, 0}, 0.0f, 90.0f};
-    raycast_draw(raycaster, &(RaycastRect){{50, 100}, {100, 60}}, &purple);
-    raycast_draw(raycaster, &(RaycastRect){{250, 150}, {60, 60}}, &green);
+    generate_map(raycaster, w, h, seed, blockSize);
 
     int running = 1;
     int draw = 1;
