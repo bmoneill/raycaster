@@ -26,7 +26,7 @@ add_library (
 	${LIBRARY_NAME} SHARED ${LIBRARY_PUBLIC_SRC}
 )
 
-target_link_libraries(${LIBRARY_NAME} SDL3::SDL3)
+target_link_libraries(${LIBRARY_NAME} SDL3::SDL3 m)
 
 set_target_properties(
 	${BINARY_NAME} PROPERTIES

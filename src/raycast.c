@@ -1,6 +1,9 @@
 #include "raycast.h"
 
+#include <math.h>
 #include <stdlib.h>
+
+static float raycaster_cast(Raycaster *raycaster, RaycasterPoint *point, float angle);
 
 Raycaster *raycast_init(int w, int h) {
     SDL_Init(SDL_INIT_VIDEO);
@@ -78,4 +81,21 @@ void raycast_render_2d(Raycaster *raycaster, RaycasterCamera *camera, RaycasterD
     }
 
     // TODO implement camera
+}
+
+static float raycaster_cast(Raycaster *raycaster, RaycasterPoint *point, float angle) {
+    RaycasterPoint current = *point;
+    while (current.x >= 0 && current.x < raycaster->size.w &&
+           current.y >= 0 && current.y < raycaster->size.h) {
+        int mapX = (int) current.x;
+        int mapY = (int) current.y;
+        if (raycaster->map[mapY * raycaster->size.w + mapX] != RAYCASTER_BLACK) {
+            float dx = current.x - point->x;
+            float dy = current.y - point->y;
+            return sqrtf(dx * dx + dy * dy);
+        }
+        current.x += cosf(angle * (M_PI / 180.0f));
+        current.y += sinf(angle * (M_PI / 180.0f));
+    }
+    return 0;
 }
