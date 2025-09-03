@@ -3,6 +3,8 @@
 #include <stdlib.h>
 
 Raycaster *raycast_init(int w, int h) {
+    SDL_Init(SDL_INIT_VIDEO);
+
     Raycaster *raycaster = (Raycaster *) calloc(1, sizeof(Raycaster));
     if (!raycaster) {
         return NULL;
@@ -49,7 +51,7 @@ void raycast_draw(Raycaster *raycaster, RaycasterRect *rect, RaycasterColor *col
                 rect->point.y + i < 0 || rect->point.y + i >= raycaster->size.h) {
                 continue;
             }
-            raycaster->map[(rect->point.y + i) * raycaster->size.w + (rect->point.x + j)] = *color;
+            raycaster->map[((int) rect->point.y + i) * raycaster->size.w + ((int) rect->point.x + j)] = *color;
         }
     }
 }
@@ -60,4 +62,20 @@ void raycast_erase(Raycaster *raycaster, RaycasterRect *rect) {
 
 void raycast_render(Raycaster *raycaster, int displayWidth, int displayHeight) {
     // TODO Implement
+}
+
+void raycast_render_2d(Raycaster *raycaster, RaycasterCamera *camera, RaycasterDimensions *dimensions, SDL_Renderer *renderer) {
+    for (int y = 0; y < raycaster->size.h; y++) {
+        for (int x = 0; x < raycaster->size.w; x++) {
+            RaycasterColor color = raycaster->map[y * raycaster->size.w + x];
+            SDL_SetRenderDrawColor(renderer,
+                                   (color >> 16) & 0xFF,
+                                   (color >> 8) & 0xFF,
+                                   color & 0xFF,
+                                   (color >> 24) & 0xFF);
+            SDL_RenderPoint(renderer, x, y);
+        }
+    }
+
+    // TODO implement camera
 }
