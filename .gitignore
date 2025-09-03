@@ -1,0 +1,13 @@
+vgcore.*
+*.o
+*.so
+*.a
+raycast_tests
+
+# CMake
+CMakeFiles/
+*.cmake
+CMakeCache.txt
+DartConfiguration.tcl
+Makefile
+Testing
