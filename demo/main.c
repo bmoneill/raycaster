@@ -8,7 +8,7 @@ int main(int argc, char *argv[]) {
     int w = 800;
     int h = 600;
     int blockSize = 10;
-    int seed = 42;
+    int seed = 40;
     int black = 0x00000000;
     int red = 0x00FF0000;
     int purple = 0xFFFF00FF;

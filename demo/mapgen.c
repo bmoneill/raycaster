@@ -2,20 +2,37 @@
 
 #include <stdlib.h>
 
-void generate_map(Raycaster *raycaster, int w, int h, int seed, int blockSize) {
-    const RaycastColor GREEN = 0xFF00FF00;
+static const RaycastColor GREEN = 0xFF00FF00;
 
+void generate_map(Raycaster *raycaster, int w, int h, int seed, int blockSize) {
     srand(seed);
-    memset(raycaster->map, GREEN, w * h * sizeof(RaycastColor));
+
+    for (int i = 0; i < w * h; i++) {
+        raycaster->map[i] = GREEN;
+    }
 
     int point = 0;
+    int direction = 1;
     for (int i = 0; i < w * h / blockSize; i++) {
-        raycaster->map[point] = RAYCAST_EMPTY;
-        int r = rand() % 3;
+        for (int j = 0; j < blockSize; j++) {
+            for (int k = 0; k < blockSize; k++) {
+                int idx = point + j + k * w;
+                if (idx < 0 || idx >= w * h) {
+                    continue;
+                }
+                raycaster->map[idx] = RAYCAST_EMPTY;
+            }
+        }
+        int r = rand() % 4;
         switch (r) {
-            case 0: point += blockSize; break;
-            case 1: point += w; break;
-            case 2: point -= blockSize; break;
+            case 0:
+                if ((point % w) + blockSize >= w) {
+                    direction *= -1;
+                }
+                point += blockSize * direction;
+                break;
+            case 1: case 2: point += w; break;
+            case 3: point -= w; break;
         }
 
         if (point < 0) {
