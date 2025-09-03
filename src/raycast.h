@@ -6,7 +6,7 @@
 
 typedef int32_t RaycastColor; // ARGB format: 0xAARRGGBB
 
-const RaycastColor RAYCAST_EMPTY = -1;
+static const RaycastColor RAYCAST_EMPTY = -1;
 
 typedef struct {
     float x;
