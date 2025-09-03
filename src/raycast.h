@@ -3,8 +3,12 @@
 
 #include <stdint.h>
 
+typedef int32_t RaycasterColor;
+
 typedef struct {
-    int *map;
+    RaycasterColor *map;
+    int w;
+    int h;
 } Raycaster;
 
 typedef struct {
@@ -14,9 +18,9 @@ typedef struct {
     int h;
 } RaycasterRect;
 
-typedef int32_t RaycasterColor;
 
-int raycast_init(Raycaster *raycaster, int w, int h);
+Raycaster *raycast_init(int w, int h);
+int raycast_init_ptr(Raycaster *raycaster, int w, int h);
 void raycast_destroy(Raycaster *raycaster);
 void raycast_draw(Raycaster *raycaster, RaycasterRect *rect, RaycasterColor *color);
 void raycast_erase(Raycaster *raycaster, RaycasterRect *rect);
