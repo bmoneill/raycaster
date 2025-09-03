@@ -22,11 +22,41 @@ int main(int argc, char *argv[]) {
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_EVENT_QUIT) {
                 running = 0;
+            } else if (event.type == SDL_EVENT_KEY_DOWN) {
+                draw = 1;
+                switch (event.key.scancode) {
+                    case SDL_SCANCODE_W:
+                        camera.position.y -= 1;
+                        draw = 1;
+                        break;
+                    case SDL_SCANCODE_S:
+                        camera.position.y += 1;
+                        break;
+                    case SDL_SCANCODE_A:
+                        camera.position.x -= 1;
+                        break;
+                    case SDL_SCANCODE_D:
+                        camera.position.x += 1;
+                        break;
+                    case SDL_SCANCODE_Q:
+                        camera.direction -= 1.0f;
+                        if (camera.direction < 0.0f) {
+                            camera.direction += 360.0f;
+                        }
+                        break;
+                    case SDL_SCANCODE_E:
+                        camera.direction += 1.0f;
+                        if (camera.direction >= 360.0f) {
+                            camera.direction -= 360.0f;
+                        }
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
         int w, h;
-
         if (draw) {
             SDL_GetWindowSize(window, &w, &h);
             SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
