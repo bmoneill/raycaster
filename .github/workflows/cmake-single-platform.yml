@@ -24,9 +24,6 @@ jobs:
       with:
         submodules: true
 
-    - name: Install dependencies
-      run: apt-get install libsdl2-dev
-
     - name: Configure CMake
       run: cmake -B ${{github.workspace}}/build -DTARGET_GROUP=test -DSDL_UNIX_CONSOLE_BUILD=ON
 
