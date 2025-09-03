@@ -129,10 +129,9 @@ void raycast_render(Raycaster *raycaster, int displayWidth, int displayHeight) {
  * @param camera The camera settings for rendering (currently unused).
  * @param dimensions The dimensions of the rendering area (currently unused).
  * @param renderer The SDL_Renderer to use for rendering.
- *
- * @todo Implement camera logic for 2D rendering.
  */
 void raycast_render_2d(Raycaster *raycaster, RaycasterCamera *camera, RaycasterDimensions *dimensions, SDL_Renderer *renderer) {
+    // Render the map
     for (int y = 0; y < raycaster->size.h; y++) {
         for (int x = 0; x < raycaster->size.w; x++) {
             RaycasterColor color = raycaster->map[y * raycaster->size.w + x];
@@ -145,6 +144,7 @@ void raycast_render_2d(Raycaster *raycaster, RaycasterCamera *camera, RaycasterD
         }
     }
 
+    // Render the rays
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
     float startX = camera->direction - (camera->fov / 2);
     float endX = camera->direction + (camera->fov / 2);
