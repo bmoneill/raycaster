@@ -10,6 +10,17 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -Wpedantic -Werror")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-unused-parameter -Wno-unused-function -Wno-unused-variable -Wno-missing-field-initializers")
 
 # SDL3
+include(FetchContent)
+function(include_dependency libName gitURL gitTag)
+    FetchContent_Declare(${libName}
+            GIT_REPOSITORY ${gitURL}
+            GIT_TAG        ${gitTag}
+            GIT_SHALLOW    TRUE
+            GIT_PROGRESS   TRUE
+    )
+
+    FetchContent_MakeAvailable(${libName})
+endfunction()
 find_package(SDL3 QUIET)
 if (NOT SDL3_FOUND)
     message(STATUS "Getting SDL3 from Github")

@@ -1,6 +1,6 @@
 # Raycaster
 
-[![Build Status](https://github.com/bmoneill/arena/actions/workflows/cmake-single-platform.yml/badge.svg?branch=main)](https://github.com/bmoneill/arena/actions/workflows/cmake-single-platform.yml).
+[![Build Status](https://github.com/bmoneill/raycaster/actions/workflows/cmake-single-platform.yml/badge.svg?branch=main)](https://github.com/bmoneill/raycaster/actions/workflows/cmake-single-platform.yml).
 
 This is a Raycasting engine using SDL3.
 
