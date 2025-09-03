@@ -3,8 +3,6 @@
 #include <math.h>
 #include <stdlib.h>
 
-static float raycaster_cast(Raycaster *raycaster, RaycasterPoint *point, float angle);
-
 /**
  * @brief Initialize a Raycaster instance.
  *
@@ -172,7 +170,7 @@ void raycast_render_2d(Raycaster *raycaster, RaycasterCamera *camera, RaycasterD
  *
  * @return The distance to the first non-black pixel, or 0 if no hit is found.
  */
-static float raycaster_cast(Raycaster *raycaster, RaycasterPoint *point, float angle) {
+float raycaster_cast(Raycaster *raycaster, RaycasterPoint *point, float angle) {
     RaycasterPoint current = *point;
     while (current.x >= 0 && current.x < raycaster->size.w &&
            current.y >= 0 && current.y < raycaster->size.h) {
@@ -187,4 +185,17 @@ static float raycaster_cast(Raycaster *raycaster, RaycasterPoint *point, float a
         current.y += sinf(angle * (M_PI / 180.0f));
     }
     return 0;
+}
+
+bool raycaster_collides(Raycaster *raycaster, RaycasterPoint *point) {
+    if (point->x < 0 || point->x >= raycaster->size.w ||
+        point->y < 0 || point->y >= raycaster->size.h) {
+        return true;
+    }
+    int mapX = (int) point->x;
+    int mapY = (int) point->y;
+    if (raycaster->map[mapY * raycaster->size.w + mapX] != RAYCASTER_BLACK) {
+        return true;
+    }
+    return false;
 }

@@ -36,6 +36,8 @@ typedef struct {
 
 Raycaster *raycast_init(int w, int h);
 int raycast_init_ptr(Raycaster *raycaster, int w, int h);
+float raycaster_cast(Raycaster *raycaster, RaycasterPoint *point, float angle);
+bool raycaster_collides(Raycaster *raycaster, RaycasterPoint *point);
 void raycast_destroy(Raycaster *raycaster);
 void raycast_draw(Raycaster *raycaster, RaycasterRect *rect, RaycasterColor *color);
 void raycast_erase(Raycaster *raycaster, RaycasterRect *rect);
