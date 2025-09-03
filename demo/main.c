@@ -9,12 +9,13 @@ int main(int argc, char *argv[]) {
                                           SDL_WINDOW_RESIZABLE);
     SDL_Renderer *renderer = SDL_CreateRenderer(window, NULL);
     int running = 1;
+    int draw = 1;
 
     Raycaster *raycaster = raycast_init(800, 600);
-    RaycasterCamera camera = {{400, 300}, 0.0f, 90.0f};
+    RaycasterCamera camera = {{450, 300}, 180.0f, 90.0f};
     RaycasterDimensions dims = {800, 600};
-    raycast_draw(raycaster, &(RaycasterRect){{50, 30}, {100, 60}}, (RaycasterColor[]){0xFFFF0000});
-    raycast_draw(raycaster, &(RaycasterRect){{250, 150}, {60, 60}}, (RaycasterColor[]){0xFFFF0000});
+    raycast_draw(raycaster, &(RaycasterRect){{50, 100}, {100, 60}}, (RaycasterColor[]){0x00FF00FF});
+    raycast_draw(raycaster, &(RaycasterRect){{250, 150}, {60, 60}}, (RaycasterColor[]){0x00FF00FF});
 
     while (running) {
         SDL_Event event;
@@ -25,13 +26,17 @@ int main(int argc, char *argv[]) {
         }
 
         int w, h;
-        SDL_GetWindowSize(window, &w, &h);
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-        SDL_RenderClear(renderer);
 
-        raycast_render_2d(raycaster, &camera, &dims, renderer);
+        if (draw) {
+            SDL_GetWindowSize(window, &w, &h);
+            SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+            SDL_RenderClear(renderer);
 
-        SDL_RenderPresent(renderer);
+            raycast_render_2d(raycaster, &camera, &dims, renderer);
+            SDL_RenderPresent(renderer);
+            draw = 0;
+        }
+
         SDL_Delay(16);
     }
 

@@ -145,7 +145,18 @@ void raycast_render_2d(Raycaster *raycaster, RaycasterCamera *camera, RaycasterD
         }
     }
 
-    // TODO implement camera
+    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+    float startX = camera->direction - (camera->fov / 2);
+    float endX = camera->direction + (camera->fov / 2);
+    for (float angle = startX; angle <= endX; angle += (camera->fov * 2) / dimensions->w) {
+        float distance = raycaster_cast(raycaster, &camera->position, angle);
+        if (distance == 0) {
+            distance = raycaster->size.w + raycaster->size.h;
+        }
+        SDL_RenderLine(renderer, camera->position.x, camera->position.y,
+                           camera->position.x + cosf(angle * (M_PI / 180.0f)) * distance,
+                           camera->position.y + sinf(angle * (M_PI / 180.0f)) * distance);
+    }
 }
 
 /**
