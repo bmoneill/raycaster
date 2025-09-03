@@ -25,19 +25,10 @@ int main(int argc, char *argv[]) {
             } else if (event.type == SDL_EVENT_KEY_DOWN) {
                 draw = 1;
                 switch (event.key.scancode) {
-                    case SDL_SCANCODE_W:
-                        camera.position.y -= 1;
-                        draw = 1;
-                        break;
-                    case SDL_SCANCODE_S:
-                        camera.position.y += 1;
-                        break;
-                    case SDL_SCANCODE_A:
-                        camera.position.x -= 1;
-                        break;
-                    case SDL_SCANCODE_D:
-                        camera.position.x += 1;
-                        break;
+                    case SDL_SCANCODE_W: camera.position.y -= 1; break;
+                    case SDL_SCANCODE_S: camera.position.y += 1; break;
+                    case SDL_SCANCODE_A: camera.position.x -= 1; break;
+                    case SDL_SCANCODE_D: camera.position.x += 1; break;
                     case SDL_SCANCODE_Q:
                         camera.direction -= 1.0f;
                         if (camera.direction < 0.0f) {
@@ -50,8 +41,7 @@ int main(int argc, char *argv[]) {
                             camera.direction -= 360.0f;
                         }
                         break;
-                    default:
-                        break;
+                    default: break;
                 }
             }
         }
