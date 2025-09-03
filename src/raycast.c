@@ -5,9 +5,16 @@
 
 static float raycaster_cast(Raycaster *raycaster, RaycasterPoint *point, float angle);
 
+/**
+ * @brief Initialize a Raycaster instance.
+ *
+ * This function allocates a new Raycaster instance and initializes it with the specified width and height.
+ *
+ * @param w The width of the Raycaster map.
+ * @param h The height of the Raycaster map.
+ * @return The newly allocated Raycaster instance, or NULL on failure.
+ */
 Raycaster *raycast_init(int w, int h) {
-    SDL_Init(SDL_INIT_VIDEO);
-
     Raycaster *raycaster = (Raycaster *) calloc(1, sizeof(Raycaster));
     if (!raycaster) {
         return NULL;
@@ -23,6 +30,17 @@ Raycaster *raycast_init(int w, int h) {
     return raycaster;
 }
 
+/**
+ * @brief (Re-)Initialize an allocated raycaster instance.
+ *
+ * This function initializes or re-initializes a pre-allocated Raycaster instance with the specified width and height.
+ * If the instance already has an allocated map, it will be freed before allocating a new one.
+ *
+ * @param raycaster The Raycaster to initialize.
+ * @param w The width of the Raycaster map.
+ * @param h The height of the Raycaster map.
+ * @return 0 on success, 1 on memory allocation failure.
+ */
 int raycast_init_ptr(Raycaster *raycaster, int w, int h) {
     if (raycaster->map) {
         free(raycaster->map);
@@ -38,6 +56,13 @@ int raycast_init_ptr(Raycaster *raycaster, int w, int h) {
     return 0;
 }
 
+/**
+ * @brief Destroy a Raycaster instance.
+ *
+ * This function frees the memory allocated for the Raycaster instance and its map.
+ *
+ * @param raycaster The Raycaster instance to destroy.
+ */
 void raycast_destroy(Raycaster *raycaster) {
     if (raycaster) {
         if (raycaster->map) {
@@ -47,6 +72,16 @@ void raycast_destroy(Raycaster *raycaster) {
     }
 }
 
+/**
+ * @brief Draw a rectangle on the Raycaster map.
+ *
+ * This function fills a rectangle area on the Raycaster map with the specified color.
+ * If the rectangle exceeds the bounds of the map, it will be clipped accordingly.
+ *
+ * @param raycaster The Raycaster instance to draw on.
+ * @param rect The rectangle to draw, defined by its top-left point and size.
+ * @param color The color to fill the rectangle with.
+ */
 void raycast_draw(Raycaster *raycaster, RaycasterRect *rect, RaycasterColor *color) {
     for (int i = 0; i < rect->size.h; i++) {
         for (int j = 0; j < rect->size.w; j++) {
@@ -59,14 +94,44 @@ void raycast_draw(Raycaster *raycaster, RaycasterRect *rect, RaycasterColor *col
     }
 }
 
+/**
+ * @brief Erase a rectangle area on the Raycaster map.
+ *
+ * This function fills a rectangle area on the Raycaster map with the background color (black).
+ *
+ * @param raycaster The Raycaster instance to erase from.
+ * @param rect The rectangle area to erase, defined by its top-left point and size.:w
+ */
 void raycast_erase(Raycaster *raycaster, RaycasterRect *rect) {
     raycast_draw(raycaster, rect, (RaycasterColor[]){RAYCASTER_BLACK});
 }
 
+/**
+ * @brief Render the Raycaster map to the display.
+ *
+ * This function is not yet implemented.
+ *
+ * @param raycaster The Raycaster instance to render.
+ * @param displayWidth The width of the display area.
+ * @param displayHeight The height of the display area.
+ */
 void raycast_render(Raycaster *raycaster, int displayWidth, int displayHeight) {
     // TODO Implement
 }
 
+/**
+ * @brief Render the Raycaster map in 2D mode to the display.
+ *
+ * This function renders the Raycaster map in a 2D view using the provided SDL_Renderer.
+ * The camera logic is currently not implemented.
+ *
+ * @param raycaster The Raycaster instance to render.
+ * @param camera The camera settings for rendering (currently unused).
+ * @param dimensions The dimensions of the rendering area (currently unused).
+ * @param renderer The SDL_Renderer to use for rendering.
+ *
+ * @todo Implement camera logic for 2D rendering.
+ */
 void raycast_render_2d(Raycaster *raycaster, RaycasterCamera *camera, RaycasterDimensions *dimensions, SDL_Renderer *renderer) {
     for (int y = 0; y < raycaster->size.h; y++) {
         for (int x = 0; x < raycaster->size.w; x++) {
@@ -83,6 +148,19 @@ void raycast_render_2d(Raycaster *raycaster, RaycasterCamera *camera, RaycasterD
     // TODO implement camera
 }
 
+/**
+ * @brief Cast a ray from a point at a given angle and return the distance to the first non-black pixel.
+ *
+ * This function simulates raycasting by moving step-by-step from the starting point in the specified direction
+ * until it hits a non-black pixel or goes out of bounds. It returns the distance traveled
+ * from the starting point to the hit point.
+ *
+ * @param raycaster The Raycaster instance containing the map.
+ * @param point The starting point of the ray.
+ * @param angle The angle of the ray in degrees.
+ *
+ * @return The distance to the first non-black pixel, or 0 if no hit is found.
+ */
 static float raycaster_cast(Raycaster *raycaster, RaycasterPoint *point, float angle) {
     RaycasterPoint current = *point;
     while (current.x >= 0 && current.x < raycaster->size.w &&
