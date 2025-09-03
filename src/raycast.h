@@ -4,44 +4,45 @@
 #include <stdint.h>
 #include <SDL3/SDL.h>
 
-#define RAYCASTER_BLACK 0x00000000
+typedef int32_t RaycastColor; // ARGB format: 0xAARRGGBB
 
-typedef int32_t RaycasterColor;
+const RaycastColor RAYCAST_EMPTY = -1;
 
 typedef struct {
     float x;
     float y;
-} RaycasterPoint;
+} RaycastPoint;
 
 typedef struct {
     int w;
     int h;
-} RaycasterDimensions;
+} RaycastDimensions;
 
 typedef struct {
-    RaycasterColor *map;
-    RaycasterDimensions size;
+    RaycastColor *map; // 1D array representing the 2D map
+    RaycastDimensions size; // Size of the entire map
 } Raycaster;
 
 typedef struct {
-    RaycasterPoint point;
-    RaycasterDimensions size;
-} RaycasterRect;
+    RaycastPoint point; // Point from top-left (x, y)
+    RaycastDimensions size; // Size (width, height)
+} RaycastRect;
 
 typedef struct {
-    RaycasterPoint position;
-    float direction;
-    float fov;
-} RaycasterCamera;
+    RaycastPoint position; // Position (x, y)
+    float direction; // Direction (deg)
+    float fov; // Field of view (deg)
+} RaycastCamera;
 
-Raycaster *raycast_init(int w, int h);
-int raycast_init_ptr(Raycaster *raycaster, int w, int h);
-float raycaster_cast(Raycaster *raycaster, RaycasterPoint *point, float angle);
-bool raycaster_collides(Raycaster *raycaster, RaycasterPoint *point);
-void raycast_destroy(Raycaster *raycaster);
-void raycast_draw(Raycaster *raycaster, RaycasterRect *rect, RaycasterColor *color);
-void raycast_erase(Raycaster *raycaster, RaycasterRect *rect);
-void raycast_render(Raycaster *raycaster, int displayWidth, int displayHeight);
-void raycast_render_2d(Raycaster *raycaster, RaycasterCamera *camera, RaycasterDimensions *dimensions, SDL_Renderer *renderer);
+Raycaster *raycast_init(int, int);
+int raycast_init_ptr(Raycaster *, int, int);
+float raycast_cast(Raycaster *, const RaycastPoint *, float);
+bool raycast_collides(Raycaster *, const RaycastPoint *);
+void raycast_destroy(Raycaster *);
+void raycast_draw(Raycaster *, const RaycastRect *, const RaycastColor *);
+void raycast_erase(Raycaster *, const RaycastRect *);
+void raycast_render(Raycaster *, int, int);
+void raycast_render_2d(Raycaster *, const RaycastCamera *, const RaycastDimensions *, SDL_Renderer *, const RaycastColor *, const RaycastColor *);
+void raycast_set_draw_color(SDL_Renderer *, const RaycastColor *);
 
 #endif

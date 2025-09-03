@@ -32,8 +32,8 @@ void test_raycast_init(void) {
 
 void test_raycast_draw(void) {
     INIT(100, 50);
-    RaycasterRect rect = {{10, 5}, {20, 10}};
-    RaycasterColor color = 0xFF00FF00;
+    RaycastRect rect = {{10, 5}, {20, 10}};
+    RaycastColor color = 0xFF00FF00;
     raycast_draw(raycaster, &rect, &color);
     for (int i = 0; i < rect.size.h; i++) {
         for (int j = 0; j < rect.size.w; j++) {
@@ -46,15 +46,15 @@ void test_raycast_draw(void) {
 
 void test_raycast_erase(void) {
     INIT(100, 50);
-    RaycasterRect rect = {{10, 5}, {20, 10}};
-    RaycasterColor color = 0xFF00FF00;
+    RaycastRect rect = {{10, 5}, {20, 10}};
+    RaycastColor color = 0xFF00FF00;
     raycast_draw(raycaster, &rect, &color);
     raycast_erase(raycaster, &rect);
     for (int i = 0; i < rect.size.h; i++) {
         for (int j = 0; j < rect.size.w; j++) {
             int x = rect.point.x + j;
             int y = rect.point.y + i;
-            TEST_ASSERT_EQUAL_INT(RAYCASTER_BLACK, raycaster->map[y * raycaster->size.w + x]);
+            TEST_ASSERT_EQUAL_INT(RAYCAST_EMPTY, raycaster->map[y * raycaster->size.w + x]);
         }
     }
 }

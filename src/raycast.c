@@ -45,10 +45,11 @@ int raycast_init_ptr(Raycaster *raycaster, int w, int h) {
         free(raycaster->map);
     }
 
-    raycaster->map = (RaycasterColor *) calloc(w * h, sizeof(RaycasterColor));
+    raycaster->map = (RaycastColor *) malloc(w * h * sizeof(RaycastColor));
     if (!raycaster->map) {
         return 1;
     }
+    memset(raycaster->map, -1, w * h * sizeof(RaycastColor));
 
     raycaster->size.w = w;
     raycaster->size.h = h;
@@ -81,7 +82,7 @@ void raycast_destroy(Raycaster *raycaster) {
  * @param rect The rectangle to draw, defined by its top-left point and size.
  * @param color The color to fill the rectangle with.
  */
-void raycast_draw(Raycaster *raycaster, RaycasterRect *rect, RaycasterColor *color) {
+void raycast_draw(Raycaster *raycaster, const RaycastRect *rect, const RaycastColor *color) {
     for (int i = 0; i < rect->size.h; i++) {
         for (int j = 0; j < rect->size.w; j++) {
             if (rect->point.x + j < 0 || rect->point.x + j >= raycaster->size.w ||
@@ -99,10 +100,10 @@ void raycast_draw(Raycaster *raycaster, RaycasterRect *rect, RaycasterColor *col
  * This function fills a rectangle area on the Raycaster map with the background color (black).
  *
  * @param raycaster The Raycaster instance to erase from.
- * @param rect The rectangle area to erase, defined by its top-left point and size.:w
+ * @param rect The rectangle area to erase, defined by its top-left point and size.
  */
-void raycast_erase(Raycaster *raycaster, RaycasterRect *rect) {
-    raycast_draw(raycaster, rect, (RaycasterColor[]){RAYCASTER_BLACK});
+void raycast_erase(Raycaster *raycaster, const RaycastRect *rect) {
+    raycast_draw(raycaster, rect, &RAYCAST_EMPTY);
 }
 
 /**
@@ -129,16 +130,13 @@ void raycast_render(Raycaster *raycaster, int displayWidth, int displayHeight) {
  * @param dimensions The dimensions of the rendering area (currently unused).
  * @param renderer The SDL_Renderer to use for rendering.
  */
-void raycast_render_2d(Raycaster *raycaster, RaycasterCamera *camera, RaycasterDimensions *dimensions, SDL_Renderer *renderer) {
+void raycast_render_2d(Raycaster *raycaster, const RaycastCamera *camera, const RaycastDimensions *dimensions,
+                       SDL_Renderer *renderer, const RaycastColor *background, const RaycastColor *rayColor) {
     // Render the map
     for (int y = 0; y < raycaster->size.h; y++) {
         for (int x = 0; x < raycaster->size.w; x++) {
-            RaycasterColor color = raycaster->map[y * raycaster->size.w + x];
-            SDL_SetRenderDrawColor(renderer,
-                                   (color >> 16) & 0xFF,
-                                   (color >> 8) & 0xFF,
-                                   color & 0xFF,
-                                   (color >> 24) & 0xFF);
+            RaycastColor color = raycaster->map[y * raycaster->size.w + x];
+            raycast_set_draw_color(renderer, (color == RAYCAST_EMPTY) ? background : &color);
             SDL_RenderPoint(renderer, x, y);
         }
     }
@@ -148,7 +146,7 @@ void raycast_render_2d(Raycaster *raycaster, RaycasterCamera *camera, RaycasterD
     float startX = camera->direction - (camera->fov / 2);
     float endX = camera->direction + (camera->fov / 2);
     for (float angle = startX; angle <= endX; angle += (camera->fov * 2) / dimensions->w) {
-        float distance = raycaster_cast(raycaster, &camera->position, angle);
+        float distance = raycast_cast(raycaster, &camera->position, angle);
         if (distance == 0) {
             distance = raycaster->size.w + raycaster->size.h;
         }
@@ -171,13 +169,13 @@ void raycast_render_2d(Raycaster *raycaster, RaycasterCamera *camera, RaycasterD
  *
  * @return The distance to the first non-black pixel, or 0 if no hit is found.
  */
-float raycaster_cast(Raycaster *raycaster, RaycasterPoint *point, float angle) {
-    RaycasterPoint current = *point;
+float raycast_cast(Raycaster *raycaster, const RaycastPoint *point, float angle) {
+    RaycastPoint current = *point;
     while (current.x >= 0 && current.x < raycaster->size.w &&
            current.y >= 0 && current.y < raycaster->size.h) {
         int mapX = (int) current.x;
         int mapY = (int) current.y;
-        if (raycaster->map[mapY * raycaster->size.w + mapX] != RAYCASTER_BLACK) {
+        if (raycaster->map[mapY * raycaster->size.w + mapX] != -1) {
             float dx = current.x - point->x;
             float dy = current.y - point->y;
             return sqrtf(dx * dx + dy * dy);
@@ -188,15 +186,24 @@ float raycaster_cast(Raycaster *raycaster, RaycasterPoint *point, float angle) {
     return 0;
 }
 
-bool raycaster_collides(Raycaster *raycaster, RaycasterPoint *point) {
+bool raycast_collides(Raycaster *raycaster, const RaycastPoint *point) {
     if (point->x < 0 || point->x >= raycaster->size.w ||
         point->y < 0 || point->y >= raycaster->size.h) {
         return true;
     }
     int mapX = (int) point->x;
     int mapY = (int) point->y;
-    if (raycaster->map[mapY * raycaster->size.w + mapX] != RAYCASTER_BLACK) {
+    if (raycaster->map[mapY * raycaster->size.w + mapX] != -1) {
         return true;
     }
     return false;
+}
+
+void raycast_set_draw_color(SDL_Renderer *renderer, const RaycastColor *color) {
+    int32_t c = *color;
+    SDL_SetRenderDrawColor(renderer,
+                           (c >> 16) & 0xFF,
+                           (c >> 8) & 0xFF,
+                           c & 0xFF,
+                           (c >> 24) & 0xFF);
 }
