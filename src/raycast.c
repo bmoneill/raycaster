@@ -136,8 +136,7 @@ void raycast_render(Raycaster *raycaster, const RaycastCamera *camera, const Ray
  * @param rayColor The color to use for rendering rays.
  */
 void raycast_render_2d(Raycaster *raycaster, const RaycastCamera *camera, const RaycastDimensions *dimensions,
-                       SDL_Renderer *renderer, const RaycastColor *background, const RaycastColor *rayColor,
-                       int x, int y) {
+                       SDL_Renderer *renderer, const RaycastColor *background, const RaycastColor *rayColor) {
     // Render the map
     for (int y = 0; y < raycaster->size.h; y++) {
         for (int x = 0; x < raycaster->size.w; x++) {
