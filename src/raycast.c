@@ -114,8 +114,11 @@ void raycast_erase(Raycaster *raycaster, const RaycastRect *rect) {
  * @param raycaster The Raycaster instance to render.
  * @param displayWidth The width of the display area.
  * @param displayHeight The height of the display area.
+ * @param renderer The SDL_Renderer to use for rendering.
+ * @param background The background color to use for empty spaces.
  */
-void raycast_render(Raycaster *raycaster, int displayWidth, int displayHeight) {
+void raycast_render(Raycaster *raycaster, const RaycastCamera *camera, const RaycastDimensions *dimensions,
+                       SDL_Renderer *renderer, const RaycastColor *background) {
     // TODO Implement
 }
 
@@ -129,9 +132,12 @@ void raycast_render(Raycaster *raycaster, int displayWidth, int displayHeight) {
  * @param camera The camera settings for rendering (currently unused).
  * @param dimensions The dimensions of the rendering area (currently unused).
  * @param renderer The SDL_Renderer to use for rendering.
+ * @param background The background color to use for empty spaces.
+ * @param rayColor The color to use for rendering rays.
  */
 void raycast_render_2d(Raycaster *raycaster, const RaycastCamera *camera, const RaycastDimensions *dimensions,
-                       SDL_Renderer *renderer, const RaycastColor *background, const RaycastColor *rayColor) {
+                       SDL_Renderer *renderer, const RaycastColor *background, const RaycastColor *rayColor,
+                       int x, int y) {
     // Render the map
     for (int y = 0; y < raycaster->size.h; y++) {
         for (int x = 0; x < raycaster->size.w; x++) {
@@ -142,11 +148,12 @@ void raycast_render_2d(Raycaster *raycaster, const RaycastCamera *camera, const 
     }
 
     // Render the rays
-    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+    RaycastColor hit = RAYCAST_EMPTY;
+    raycast_set_draw_color(renderer, rayColor);
     float startX = camera->direction - (camera->fov / 2);
     float endX = camera->direction + (camera->fov / 2);
     for (float angle = startX; angle <= endX; angle += (camera->fov * 2) / dimensions->w) {
-        float distance = raycast_cast(raycaster, &camera->position, angle);
+        float distance = raycast_cast(raycaster, &camera->position, angle, &hit);
         if (distance == 0) {
             distance = raycaster->size.w + raycaster->size.h;
         }
@@ -166,10 +173,11 @@ void raycast_render_2d(Raycaster *raycaster, const RaycastCamera *camera, const 
  * @param raycaster The Raycaster instance containing the map.
  * @param point The starting point of the ray.
  * @param angle The angle of the ray in degrees.
+ * @param hitColor Pointer to store the color of the hit pixel (if any).
  *
  * @return The distance to the first non-black pixel, or 0 if no hit is found.
  */
-float raycast_cast(Raycaster *raycaster, const RaycastPoint *point, float angle) {
+float raycast_cast(Raycaster *raycaster, const RaycastPoint *point, float angle, RaycastColor *hitColor) {
     RaycastPoint current = *point;
     while (current.x >= 0 && current.x < raycaster->size.w &&
            current.y >= 0 && current.y < raycaster->size.h) {
@@ -178,12 +186,13 @@ float raycast_cast(Raycaster *raycaster, const RaycastPoint *point, float angle)
         if (raycaster->map[mapY * raycaster->size.w + mapX] != -1) {
             float dx = current.x - point->x;
             float dy = current.y - point->y;
+            *hitColor = raycaster->map[mapY * raycaster->size.w + mapX];
             return sqrtf(dx * dx + dy * dy);
         }
         current.x += cosf(angle * (M_PI / 180.0f));
         current.y += sinf(angle * (M_PI / 180.0f));
     }
-    return 0;
+    return 0.0f;
 }
 
 bool raycast_collides(Raycaster *raycaster, const RaycastPoint *point) {
