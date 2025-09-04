@@ -194,6 +194,16 @@ float raycast_cast(Raycaster *raycaster, const RaycastPoint *point, float angle,
     return 0.0f;
 }
 
+/**
+ * @brief Check if a point collides with an occupied pixel in the Raycaster map.
+ *
+ * This function checks if the given point is within the bounds of the Raycaster map and
+ * if the corresponding pixel is not empty (i.e., it is occupied).
+ *
+ * @param raycaster The Raycaster instance containing the map.
+ * @param point The point to check for collision.
+ * @return true if the point collides with an occupied pixel, false otherwise.
+ */
 bool raycast_collides(Raycaster *raycaster, const RaycastPoint *point) {
     if (point->x < 0 || point->x >= raycaster->size.w ||
         point->y < 0 || point->y >= raycaster->size.h) {
@@ -207,8 +217,17 @@ bool raycast_collides(Raycaster *raycaster, const RaycastPoint *point) {
     return false;
 }
 
+/**
+ * @brief Set the SDL_Renderer draw color based on a RaycastColor.
+ *
+ * This function extracts the ARGB components from the RaycastColor and sets the SDL_Renderer
+ * draw color accordingly.
+ *
+ * @param renderer The SDL_Renderer to set the draw color for.
+ * @param color Pointer to the RaycastColor to use for setting the draw color.
+ */
 void raycast_set_draw_color(SDL_Renderer *renderer, const RaycastColor *color) {
-    int32_t c = *color;
+    #define c ((int32_t) *color)
     SDL_SetRenderDrawColor(renderer,
                            (c >> 16) & 0xFF,
                            (c >> 8) & 0xFF,
