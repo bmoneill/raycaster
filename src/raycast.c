@@ -97,7 +97,7 @@ void raycast_draw(Raycaster *raycaster, const RaycastRect *rect, const RaycastCo
 /**
  * @brief Erase a rectangle area on the Raycaster map.
  *
- * This function fills a rectangle area on the Raycaster map with the background color (black).
+ * This function sets a rectangle area to be empty.
  *
  * @param raycaster The Raycaster instance to erase from.
  * @param rect The rectangle area to erase, defined by its top-left point and size.
