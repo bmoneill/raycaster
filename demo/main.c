@@ -18,8 +18,7 @@ int main(int argc, char *argv[]) {
     SDL_Renderer *renderer = SDL_CreateRenderer(window, NULL);
 
     Raycaster *raycaster = raycast_init(w, h);
-    RaycastDimensions dims = {w, h};
-    RaycastCamera camera = {{0, 0}, 0.0f, 90.0f};
+    RaycastCamera camera = {0, 0, 0.0f, 90.0f};
     generate_map(raycaster, w, h, seed, blockSize);
 
     int running = 1;
@@ -32,20 +31,20 @@ int main(int argc, char *argv[]) {
             } else if (event.type == SDL_EVENT_KEY_DOWN) {
                 draw = 1;
                 switch (event.key.scancode) {
-                    case SDL_SCANCODE_W: camera.position.y -= 1; break;
-                    case SDL_SCANCODE_S: camera.position.y += 1; break;
-                    case SDL_SCANCODE_A: camera.position.x -= 1; break;
-                    case SDL_SCANCODE_D: camera.position.x += 1; break;
+                    case SDL_SCANCODE_W: camera.posY -= 1; break;
+                    case SDL_SCANCODE_S: camera.posY += 1; break;
+                    case SDL_SCANCODE_A: camera.posX -= 1; break;
+                    case SDL_SCANCODE_D: camera.posX += 1; break;
                     case SDL_SCANCODE_Q:
-                        camera.direction -= 1.0f;
-                        if (camera.direction < 0.0f) {
-                            camera.direction += 360.0f;
+                        camera.dirX -= 1.0f;
+                        if (camera.dirX < 0.0f) {
+                            camera.dirX += 360.0f;
                         }
                         break;
                     case SDL_SCANCODE_E:
-                        camera.direction += 1.0f;
-                        if (camera.direction >= 360.0f) {
-                            camera.direction -= 360.0f;
+                        camera.dirX += 1.0f;
+                        if (camera.dirX >= 360.0f) {
+                            camera.dirX -= 360.0f;
                         }
                         break;
                     default: break;
@@ -59,7 +58,7 @@ int main(int argc, char *argv[]) {
             SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
             SDL_RenderClear(renderer);
 
-            raycast_render_2d(raycaster, &camera, &dims, renderer, &black, &red);
+            raycast_render_2d(raycaster, &camera, renderer, w, h, &black, &red);
             SDL_RenderPresent(renderer);
             draw = 0;
         }

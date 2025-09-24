@@ -133,15 +133,15 @@ void raycast_render(Raycaster *raycaster, const RaycastCamera *camera, int w, in
 
         // Draw background above wall
         raycast_set_draw_color(renderer, background);
-        SDL_RenderDrawLine(renderer, x, 0, x, wallTop);
+        SDL_RenderLine(renderer, x, 0, x, wallTop);
 
         // Draw wall slice
         raycast_set_draw_color(renderer, (hitColor == RAYCAST_EMPTY) ? background : &hitColor);
-        SDL_RenderDrawLine(renderer, x, wallTop, x, wallBottom);
+        SDL_RenderLine(renderer, x, wallTop, x, wallBottom);
 
         // Draw background below wall
         raycast_set_draw_color(renderer, background);
-        SDL_RenderDrawLine(renderer, x, wallBottom, x, h);
+        SDL_RenderLine(renderer, x, wallBottom, x, h);
     }
 }
 

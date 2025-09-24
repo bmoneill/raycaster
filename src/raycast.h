@@ -33,13 +33,11 @@ typedef struct {
 
 Raycaster *raycast_init(int, int);
 int raycast_init_ptr(Raycaster *, int, int);
-float raycast_cast(Raycaster *, const RaycastPoint *, float, RaycastColor *);
-bool raycast_collides(Raycaster *, const RaycastPoint *);
+float raycast_cast(Raycaster *, float, float, float, RaycastColor *);
 void raycast_destroy(Raycaster *);
 void raycast_draw(Raycaster *, const RaycastRect *, const RaycastColor *);
 void raycast_erase(Raycaster *, const RaycastRect *);
-void raycast_render(Raycaster *, const RaycastCamera *, const RaycastDimensions *, SDL_Renderer *, const RaycastColor *);
-void raycast_render_2d(Raycaster *, const RaycastCamera *, const RaycastDimensions *, SDL_Renderer *, const RaycastColor *, const RaycastColor *);
+void raycast_render(Raycaster *, const RaycastCamera *, int, int, SDL_Renderer *, const RaycastColor *);
+void raycast_render_2d(Raycaster *, const RaycastCamera *, SDL_Renderer *, int, int, const RaycastColor *, const RaycastColor *);
 void raycast_set_draw_color(SDL_Renderer *, const RaycastColor *);
-
 #endif
