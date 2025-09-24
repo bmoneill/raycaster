@@ -85,7 +85,7 @@ void raycast_destroy(Raycaster *raycaster) {
 void raycast_draw(Raycaster *raycaster, const RaycastRect *rect, const RaycastColor *color) {
     for (int i = 0; i < rect->h; i++) {
         for (int j = 0; j < rect->w; j++) {
-            if (rect->x + j < 0 || rect->x + j >= raycaster->w ||
+            if (rect->x + j < 0 || rect->x + j >= raycaster->width ||
                 rect->y + i < 0 || rect->y + i >= raycaster->height) {
                 continue;
             }
