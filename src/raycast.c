@@ -83,13 +83,13 @@ void raycast_destroy(Raycaster *raycaster) {
  * @param color The color to fill the rectangle with.
  */
 void raycast_draw(Raycaster *raycaster, const RaycastRect *rect, const RaycastColor *color) {
-    for (int i = 0; i < rect->size.h; i++) {
-        for (int j = 0; j < rect->size.w; j++) {
-            if (rect->point.x + j < 0 || rect->point.x + j >= raycaster->size.w ||
-                rect->point.y + i < 0 || rect->point.y + i >= raycaster->size.h) {
+    for (int i = 0; i < rect->h; i++) {
+        for (int j = 0; j < rect->w; j++) {
+            if (rect->x + j < 0 || rect->x + j >= raycaster->width ||
+                rect->y + i < 0 || rect->y + i >= raycaster->height) {
                 continue;
             }
-            raycaster->map[((int) rect->point.y + i) * raycaster->size.w + ((int) rect->point.x + j)] = *color;
+            raycaster->map[((int) rect->y + i) * raycaster->width + ((int) rect->x + j)] = *color;
         }
     }
 }
@@ -119,7 +119,29 @@ void raycast_erase(Raycaster *raycaster, const RaycastRect *rect) {
  */
 void raycast_render(Raycaster *raycaster, const RaycastCamera *camera, const RaycastDimensions *dimensions,
                        SDL_Renderer *renderer, const RaycastColor *background) {
-    // TODO Implement
+    // Render each vertical slice (column) of the screen
+    for (int x = 0; x < dimensions->w; x++) {
+        float angle = camera->direction - (camera->fov / 2.0f) + (camera->fov * x) / dimensions->w;
+        RaycastColor hitColor = RAYCAST_EMPTY;
+        float distance = raycast_cast(raycaster, &camera->position, angle, &hitColor);
+
+        // Simple wall height calculation (inverse proportional to distance)
+        int wallHeight = (distance > 0.0f) ? (int)(dimensions->h / (distance + 0.0001f)) : 0;
+        int wallTop = (dimensions->h - wallHeight) / 2;
+        int wallBottom = wallTop + wallHeight;
+
+        // Draw background above wall
+        raycast_set_draw_color(renderer, background);
+        SDL_RenderDrawLine(renderer, x, 0, x, wallTop);
+
+        // Draw wall slice
+        raycast_set_draw_color(renderer, (hitColor == RAYCAST_EMPTY) ? background : &hitColor);
+        SDL_RenderDrawLine(renderer, x, wallTop, x, wallBottom);
+
+        // Draw background below wall
+        raycast_set_draw_color(renderer, background);
+        SDL_RenderDrawLine(renderer, x, wallBottom, x, dimensions->h);
+    }
 }
 
 /**
@@ -135,12 +157,12 @@ void raycast_render(Raycaster *raycaster, const RaycastCamera *camera, const Ray
  * @param background The background color to use for empty spaces.
  * @param rayColor The color to use for rendering rays.
  */
-void raycast_render_2d(Raycaster *raycaster, const RaycastCamera *camera, const RaycastDimensions *dimensions,
+void raycast_render_2d(Raycaster *raycaster, const RaycastCamera *camera,
                        SDL_Renderer *renderer, const RaycastColor *background, const RaycastColor *rayColor) {
     // Render the map
-    for (int y = 0; y < raycaster->size.h; y++) {
-        for (int x = 0; x < raycaster->size.w; x++) {
-            RaycastColor color = raycaster->map[y * raycaster->size.w + x];
+    for (int y = 0; y < raycaster->height; y++) {
+        for (int x = 0; x < raycaster->width; x++) {
+            RaycastColor color = raycaster->map[y * raycaster->width + x];
             raycast_set_draw_color(renderer, (color == RAYCAST_EMPTY) ? background : &color);
             SDL_RenderPoint(renderer, x, y);
         }
@@ -152,13 +174,13 @@ void raycast_render_2d(Raycaster *raycaster, const RaycastCamera *camera, const 
     float startX = camera->direction - (camera->fov / 2);
     float endX = camera->direction + (camera->fov / 2);
     for (float angle = startX; angle <= endX; angle += (camera->fov * 2) / dimensions->w) {
-        float distance = raycast_cast(raycaster, &camera->position, angle, &hit);
+        float distance = raycast_cast(raycaster, camera->posX, camera->posY, angle, &hit);
         if (distance == 0) {
-            distance = raycaster->size.w + raycaster->size.h;
+            distance = raycaster->width + raycaster->height;
         }
-        SDL_RenderLine(renderer, camera->position.x, camera->position.y,
-                           camera->position.x + cosf(angle * (M_PI / 180.0f)) * distance,
-                           camera->position.y + sinf(angle * (M_PI / 180.0f)) * distance);
+        SDL_RenderLine(renderer, camera->posX, camera->posY,
+                           camera->posX + cosf(angle * (M_PI / 180.0f)) * distance,
+                           camera->posY + sinf(angle * (M_PI / 180.0f)) * distance);
     }
 }
 
@@ -176,20 +198,21 @@ void raycast_render_2d(Raycaster *raycaster, const RaycastCamera *camera, const 
  *
  * @return The distance to the first non-black pixel, or 0 if no hit is found.
  */
-float raycast_cast(Raycaster *raycaster, const RaycastPoint *point, float angle, RaycastColor *hitColor) {
-    RaycastPoint current = *point;
-    while (current.x >= 0 && current.x < raycaster->size.w &&
-           current.y >= 0 && current.y < raycaster->size.h) {
-        int mapX = (int) current.x;
-        int mapY = (int) current.y;
-        if (raycaster->map[mapY * raycaster->size.w + mapX] != -1) {
-            float dx = current.x - point->x;
-            float dy = current.y - point->y;
-            *hitColor = raycaster->map[mapY * raycaster->size.w + mapX];
+float raycast_cast(Raycaster *raycaster, float x, float y, float angle, RaycastColor *hitColor) {
+    float currentX = x;
+    float currentY = y;
+    while (currentX >= 0 && currentX < raycaster->width &&
+           currentY >= 0 && currentY < raycaster->height) {
+        int mapX = (int) currentX;
+        int mapY = (int) currentY;
+        if (raycaster->map[mapY * raycaster->width + mapX] != -1) {
+            float dx = currentX - x;
+            float dy = currentY - y;
+            *hitColor = raycaster->map[mapY * raycaster->width + mapX];
             return sqrtf(dx * dx + dy * dy);
         }
-        current.x += cosf(angle * (M_PI / 180.0f));
-        current.y += sinf(angle * (M_PI / 180.0f));
+        currentX += cosf(angle * (M_PI / 180.0f));
+        currentY += sinf(angle * (M_PI / 180.0f));
     }
     return 0.0f;
 }
@@ -201,17 +224,18 @@ float raycast_cast(Raycaster *raycaster, const RaycastPoint *point, float angle,
  * if the corresponding pixel is not empty (i.e., it is occupied).
  *
  * @param raycaster The Raycaster instance containing the map.
- * @param point The point to check for collision.
+ * @param x The x coordinate to check for collision.
+ * @param y The y coordinate to check for collision.
  * @return true if the point collides with an occupied pixel, false otherwise.
  */
-bool raycast_collides(Raycaster *raycaster, const RaycastPoint *point) {
-    if (point->x < 0 || point->x >= raycaster->size.w ||
-        point->y < 0 || point->y >= raycaster->size.h) {
+bool raycast_collides(Raycaster *raycaster, float x, float y) {
+    if (x < 0 || x >= raycaster->width ||
+        y < 0 || y >= raycaster->height) {
         return true;
     }
-    int mapX = (int) point->x;
-    int mapY = (int) point->y;
-    if (raycaster->map[mapY * raycaster->size.w + mapX] != -1) {
+    int mapX = (int) x;
+    int mapY = (int) y;
+    if (raycaster->map[mapY * raycaster->width + mapX] != -1) {
         return true;
     }
     return false;

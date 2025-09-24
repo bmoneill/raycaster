@@ -9,29 +9,26 @@ typedef int32_t RaycastColor; // ARGB format: 0xAARRGGBB
 static const RaycastColor RAYCAST_EMPTY = -1;
 
 typedef struct {
-    float x;
-    float y;
-} RaycastPoint;
-
-typedef struct {
-    int w;
-    int h;
-} RaycastDimensions;
-
-typedef struct {
     RaycastColor *map; // 1D array representing the 2D map
-    RaycastDimensions size; // Size of the entire map
+    int width;
+    int height;
 } Raycaster;
 
 typedef struct {
-    RaycastPoint point; // Point from top-left (x, y)
-    RaycastDimensions size; // Size (width, height)
+    float x; // X coordinate
+    float y; // Y coordinate
+    float w; // Width
+    float h; // Height
 } RaycastRect;
 
 typedef struct {
-    RaycastPoint position; // Position (x, y)
-    float direction; // Direction (deg)
-    float fov; // Field of view (deg)
+    float posX; // X coordinate
+    float posY; // Y coordinate
+    float dirX; // Direction vector x
+    float dirY; // Direction vector y
+    float planeX; // Camera plane x
+    float planeY; // Camera plane y
+    int fov; // Field of view in degrees
 } RaycastCamera;
 
 Raycaster *raycast_init(int, int);
