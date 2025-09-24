@@ -51,8 +51,8 @@ int raycast_init_ptr(Raycaster *raycaster, int w, int h) {
     }
     memset(raycaster->map, -1, w * h * sizeof(RaycastColor));
 
-    raycaster->size.w = w;
-    raycaster->size.h = h;
+    raycaster->width = w;
+    raycaster->height = h;
     return 0;
 }
 
@@ -85,7 +85,7 @@ void raycast_destroy(Raycaster *raycaster) {
 void raycast_draw(Raycaster *raycaster, const RaycastRect *rect, const RaycastColor *color) {
     for (int i = 0; i < rect->h; i++) {
         for (int j = 0; j < rect->w; j++) {
-            if (rect->x + j < 0 || rect->x + j >= raycaster->width ||
+            if (rect->x + j < 0 || rect->x + j >= raycaster->w ||
                 rect->y + i < 0 || rect->y + i >= raycaster->height) {
                 continue;
             }
@@ -109,25 +109,26 @@ void raycast_erase(Raycaster *raycaster, const RaycastRect *rect) {
 /**
  * @brief Render the Raycaster map to the display.
  *
- * This function is not yet implemented.
- *
  * @param raycaster The Raycaster instance to render.
- * @param displayWidth The width of the display area.
- * @param displayHeight The height of the display area.
+ * @param camera The camera settings for rendering.
+ * @param w The width of the rendering area.
+ * @param h The height of the rendering area.
  * @param renderer The SDL_Renderer to use for rendering.
  * @param background The background color to use for empty spaces.
  */
-void raycast_render(Raycaster *raycaster, const RaycastCamera *camera, const RaycastDimensions *dimensions,
+void raycast_render(Raycaster *raycaster, const RaycastCamera *camera, int w, int h,
                        SDL_Renderer *renderer, const RaycastColor *background) {
+    float direction = atan2f(camera->dirY, camera->dirX) * (180.0f / M_PI);
+
     // Render each vertical slice (column) of the screen
-    for (int x = 0; x < dimensions->w; x++) {
-        float angle = camera->direction - (camera->fov / 2.0f) + (camera->fov * x) / dimensions->w;
+    for (int x = 0; x < w; x++) {
+        float angle = direction - (camera->fov / 2.0f) + (camera->fov * x) / w;
         RaycastColor hitColor = RAYCAST_EMPTY;
-        float distance = raycast_cast(raycaster, &camera->position, angle, &hitColor);
+        float distance = raycast_cast(raycaster, camera->posX, camera->posY, angle, &hitColor);
 
         // Simple wall height calculation (inverse proportional to distance)
-        int wallHeight = (distance > 0.0f) ? (int)(dimensions->h / (distance + 0.0001f)) : 0;
-        int wallTop = (dimensions->h - wallHeight) / 2;
+        int wallHeight = (distance > 0.0f) ? (int)(h / (distance + 0.0001f)) : 0;
+        int wallTop = (h - wallHeight) / 2;
         int wallBottom = wallTop + wallHeight;
 
         // Draw background above wall
@@ -140,7 +141,7 @@ void raycast_render(Raycaster *raycaster, const RaycastCamera *camera, const Ray
 
         // Draw background below wall
         raycast_set_draw_color(renderer, background);
-        SDL_RenderDrawLine(renderer, x, wallBottom, x, dimensions->h);
+        SDL_RenderDrawLine(renderer, x, wallBottom, x, h);
     }
 }
 
@@ -148,17 +149,18 @@ void raycast_render(Raycaster *raycaster, const RaycastCamera *camera, const Ray
  * @brief Render the Raycaster map in 2D mode to the display.
  *
  * This function renders the Raycaster map in a 2D view using the provided SDL_Renderer.
- * The camera logic is currently not implemented.
  *
  * @param raycaster The Raycaster instance to render.
  * @param camera The camera settings for rendering (currently unused).
- * @param dimensions The dimensions of the rendering area (currently unused).
  * @param renderer The SDL_Renderer to use for rendering.
+ * @param w The width of the rendering area.
+ * @param h The height of the rendering area.
  * @param background The background color to use for empty spaces.
  * @param rayColor The color to use for rendering rays.
  */
 void raycast_render_2d(Raycaster *raycaster, const RaycastCamera *camera,
-                       SDL_Renderer *renderer, const RaycastColor *background, const RaycastColor *rayColor) {
+                       SDL_Renderer *renderer, int w, int h, const RaycastColor *background,
+                       const RaycastColor *rayColor) {
     // Render the map
     for (int y = 0; y < raycaster->height; y++) {
         for (int x = 0; x < raycaster->width; x++) {
@@ -171,9 +173,10 @@ void raycast_render_2d(Raycaster *raycaster, const RaycastCamera *camera,
     // Render the rays
     RaycastColor hit = RAYCAST_EMPTY;
     raycast_set_draw_color(renderer, rayColor);
-    float startX = camera->direction - (camera->fov / 2);
-    float endX = camera->direction + (camera->fov / 2);
-    for (float angle = startX; angle <= endX; angle += (camera->fov * 2) / dimensions->w) {
+    float direction = atan2f(camera->dirY, camera->dirX) * (180.0f / M_PI);
+    float startX = direction - (camera->fov / 2);
+    float endX = direction + (camera->fov / 2);
+    for (float angle = startX; angle <= endX; angle += (camera->fov * 2) / w) {
         float distance = raycast_cast(raycaster, camera->posX, camera->posY, angle, &hit);
         if (distance == 0) {
             distance = raycaster->width + raycaster->height;
@@ -192,7 +195,8 @@ void raycast_render_2d(Raycaster *raycaster, const RaycastCamera *camera,
  * from the starting point to the hit point.
  *
  * @param raycaster The Raycaster instance containing the map.
- * @param point The starting point of the ray.
+ * @param x The x coordinate of the starting point.
+ * @param y The y coordinate of the starting point.
  * @param angle The angle of the ray in degrees.
  * @param hitColor Pointer to store the color of the hit pixel (if any).
  *
