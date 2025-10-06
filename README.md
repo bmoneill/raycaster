@@ -20,6 +20,10 @@ cmake --build .
 ctest .
 ```
 
+## Documentation
+
+[Library documentation is available here](https://bmoneill.github.io/raycaster/).
+
 ## Further Reading
 
 * [Lode's Computer Graphics Tutorial](https://lodev.org/cgtutor/raycasting.html)
