@@ -60,10 +60,10 @@ int main(int argc, char *argv[]) {
             } else if (event.type == SDL_EVENT_KEY_DOWN) {
                 draw = 1;
                 switch (event.key.scancode) {
-                    case SDL_SCANCODE_W: raycast_move_camera(&camera, RAYCAST_FORWARD); break;
-                    case SDL_SCANCODE_S: raycast_move_camera(&camera, RAYCAST_BACKWARD); break;
-                    case SDL_SCANCODE_A: raycast_move_camera(&camera, RAYCAST_LEFT); break;
-                    case SDL_SCANCODE_D: raycast_move_camera(&camera, RAYCAST_RIGHT); break;
+                    case SDL_SCANCODE_W: raycast_move_camera_with_collision(raycaster, &camera, RAYCAST_FORWARD); break;
+                    case SDL_SCANCODE_S: raycast_move_camera_with_collision(raycaster, &camera, RAYCAST_BACKWARD); break;
+                    case SDL_SCANCODE_A: raycast_move_camera_with_collision(raycaster, &camera, RAYCAST_LEFT); break;
+                    case SDL_SCANCODE_D: raycast_move_camera_with_collision(raycaster, &camera, RAYCAST_RIGHT); break;
                     case SDL_SCANCODE_Q: raycast_rotate_camera(&camera, -0.1f); break;
                     case SDL_SCANCODE_E: raycast_rotate_camera(&camera, 0.1f); break;
                     case SDL_SCANCODE_R: dimensions = dimensions == 2 ? 3 : 2; break;

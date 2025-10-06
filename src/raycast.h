@@ -38,13 +38,15 @@ typedef struct {
     int fov; // Field of view in degrees
 } RaycastCamera;
 
-Raycaster *raycast_init(int, int);
-int raycast_init_ptr(Raycaster*, int,   int);
 float raycast_cast(Raycaster*,   float, float, float, RaycastColor*);
+bool raycast_collides(Raycaster*, float, float);
 void raycast_destroy(Raycaster*);
 void raycast_draw(Raycaster*, const RaycastRect*, const RaycastColor*);
 void raycast_erase(Raycaster*, const RaycastRect*);
+Raycaster *raycast_init(int, int);
+int raycast_init_ptr(Raycaster*, int,   int);
 void raycast_move_camera(RaycastCamera*, RaycastDirection);
+void raycast_move_camera_with_collision(Raycaster*, RaycastCamera*, RaycastDirection);
 void raycast_render(Raycaster*, const RaycastCamera*, SDL_Renderer*, int, int,const RaycastColor*);
 void raycast_render_2d(Raycaster*, const RaycastCamera*, SDL_Renderer*, int, const RaycastColor*, const RaycastColor*);
 void raycast_rotate_camera(RaycastCamera*, float);

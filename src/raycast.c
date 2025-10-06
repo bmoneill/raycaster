@@ -130,6 +130,21 @@ void raycast_move_camera(RaycastCamera *camera, RaycastDirection direction) {
     }
 }
 
+void raycast_move_camera_with_collision(Raycaster* raycaster, RaycastCamera* camera, RaycastDirection direction) {
+    raycast_move_camera(camera, direction);
+    if (raycast_collides(raycaster, camera->posX, camera->posY)) {
+        if (direction == RAYCAST_FORWARD) {
+            raycast_move_camera(camera, RAYCAST_BACKWARD);
+        } else if (direction == RAYCAST_BACKWARD) {
+            raycast_move_camera(camera, RAYCAST_FORWARD);
+        } else if (direction == RAYCAST_LEFT) {
+            raycast_move_camera(camera, RAYCAST_RIGHT);
+        } else if (direction == RAYCAST_RIGHT) {
+            raycast_move_camera(camera, RAYCAST_LEFT);
+        }
+    }
+}
+
 /**
  * @brief Rotate the camera by a given angle.
  *
