@@ -18,7 +18,14 @@ int main(int argc, char *argv[]) {
     SDL_Renderer *renderer = SDL_CreateRenderer(window, NULL);
 
     Raycaster *raycaster = raycast_init(w, h);
-    RaycastCamera camera = {0, 0, 0.0f, 90.0f};
+    RaycastCamera camera = {0, 0, 0.0f, 90.0f, 0.0f, 0.0f, 90};
+    float posX; // X coordinate
+    float posY; // Y coordinate
+    float dirX; // Direction vector x
+    float dirY; // Direction vector y
+    float planeX; // Camera plane x
+    float planeY; // Camera plane y
+    int fov; // Field of view in degrees
     generate_map(raycaster, w, h, seed, blockSize);
 
     int running = 1;
@@ -52,13 +59,12 @@ int main(int argc, char *argv[]) {
             }
         }
 
-        int w, h;
         if (draw) {
             SDL_GetWindowSize(window, &w, &h);
             SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
             SDL_RenderClear(renderer);
 
-            raycast_render_2d(raycaster, &camera, renderer, w, h, &black, &red);
+            raycast_render_2d(raycaster, &camera, renderer, w, &black, &red);
             SDL_RenderPresent(renderer);
             draw = 0;
         }

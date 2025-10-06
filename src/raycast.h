@@ -38,6 +38,6 @@ void raycast_destroy(Raycaster *);
 void raycast_draw(Raycaster *, const RaycastRect *, const RaycastColor *);
 void raycast_erase(Raycaster *, const RaycastRect *);
 void raycast_render(Raycaster *, const RaycastCamera *, int, int, SDL_Renderer *, const RaycastColor *);
-void raycast_render_2d(Raycaster *, const RaycastCamera *, SDL_Renderer *, int, int, const RaycastColor *, const RaycastColor *);
+void raycast_render_2d(Raycaster *, const RaycastCamera *, SDL_Renderer *, int, const RaycastColor *, const RaycastColor *);
 void raycast_set_draw_color(SDL_Renderer *, const RaycastColor *);
 #endif

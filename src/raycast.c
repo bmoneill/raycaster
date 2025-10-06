@@ -3,6 +3,7 @@
 #include <math.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 /**
  * @brief Initialize a Raycaster instance.
@@ -159,7 +160,7 @@ void raycast_render(Raycaster *raycaster, const RaycastCamera *camera, int w, in
  * @param rayColor The color to use for rendering rays.
  */
 void raycast_render_2d(Raycaster *raycaster, const RaycastCamera *camera,
-                       SDL_Renderer *renderer, int w, int h, const RaycastColor *background,
+                       SDL_Renderer *renderer, int w, const RaycastColor *background,
                        const RaycastColor *rayColor) {
     // Render the map
     for (int y = 0; y < raycaster->height; y++) {
@@ -173,10 +174,14 @@ void raycast_render_2d(Raycaster *raycaster, const RaycastCamera *camera,
     // Render the rays
     RaycastColor hit = RAYCAST_EMPTY;
     raycast_set_draw_color(renderer, rayColor);
+    #ifndef M_PI
+    #define M_PI 3.14159265358979323846
+    #endif
     float direction = atan2f(camera->dirY, camera->dirX) * (180.0f / M_PI);
     float startX = direction - (camera->fov / 2);
     float endX = direction + (camera->fov / 2);
-    for (float angle = startX; angle <= endX; angle += (camera->fov * 2) / w) {
+    for (float angle = startX; angle <= endX; angle += ((float) camera->fov) / ((float) w)) {
+        printf("w: %d, fov: %d, Angle: %f\n", w, camera->fov, angle);
         float distance = raycast_cast(raycaster, camera->posX, camera->posY, angle, &hit);
         if (distance == 0) {
             distance = raycaster->width + raycaster->height;
