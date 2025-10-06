@@ -1,6 +1,7 @@
 #include "raycast.h"
 #include "mapgen.h"
 
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -32,30 +33,6 @@ int* expand_map(int *map, int w, int h, int nw, int nh) {
         }
     }
     return newMap;
-}
-
-enum Direction {
-    FORWARD,
-    BACKWARD,
-    LEFT,
-    RIGHT
-};
-
-void move_camera(RaycastCamera *camera, int direction) {
-    float speed = 0.01f;
-    if (direction == FORWARD) {
-        camera->posX += camera->dirX * speed;
-        camera->posY += camera->dirY * speed;
-    } else if (direction == BACKWARD) {
-        camera->posX -= camera->dirX * speed;
-        camera->posY -= camera->dirY * speed;
-    } else if (direction == LEFT) {
-        camera->posX -= camera->dirY * speed;
-        camera->posY += camera->dirX * speed;
-    } else if (direction == RIGHT) {
-        camera->posX += camera->dirY * speed;
-        camera->posY -= camera->dirX * speed;
-    }
 }
 
 int main(int argc, char *argv[]) {
@@ -93,28 +70,13 @@ int main(int argc, char *argv[]) {
             } else if (event.type == SDL_EVENT_KEY_DOWN) {
                 draw = 1;
                 switch (event.key.scancode) {
-                    case SDL_SCANCODE_W: move_camera(&camera, FORWARD); break;
-                    case SDL_SCANCODE_S: move_camera(&camera, BACKWARD); break;
-                    case SDL_SCANCODE_A: move_camera(&camera, LEFT); break;
-                    case SDL_SCANCODE_D: move_camera(&camera, RIGHT); break;
-                    case SDL_SCANCODE_Q:
-                        camera.dirX += 10.0f;
-/*                        if (camera.dirX < 0.0f) {
-                            camera.dirX -= 360.0f;
-                        }*/
-                        break;
-                    case SDL_SCANCODE_E:
-                        camera.dirX -= 10.0f;
-/*                        if (camera.dirX >= 360.0f) {
-                            camera.dirX += 360.0f;
-                        }*/
-                        break;
-                    case SDL_SCANCODE_R:
-                        if (dimensions == 2) {
-                            dimensions = 3;
-                        } else {
-                            dimensions = 2;
-                        }
+                    case SDL_SCANCODE_W: raycast_move_camera(&camera, RAYCAST_FORWARD); break;
+                    case SDL_SCANCODE_S: raycast_move_camera(&camera, RAYCAST_BACKWARD); break;
+                    case SDL_SCANCODE_A: raycast_move_camera(&camera, RAYCAST_LEFT); break;
+                    case SDL_SCANCODE_D: raycast_move_camera(&camera, RAYCAST_RIGHT); break;
+                    case SDL_SCANCODE_Q: raycast_rotate_camera(&camera, -0.1f); break;
+                    case SDL_SCANCODE_E: raycast_rotate_camera(&camera, 0.1f); break;
+                    case SDL_SCANCODE_R: dimensions = dimensions == 2 ? 3 : 2; break;
                     default: break;
                 }
             }
@@ -128,7 +90,7 @@ int main(int argc, char *argv[]) {
             if (dimensions == 2) {
                 raycast_render_2d(raycaster, &camera, renderer, w, &black, &red);
             } else {
-                raycast_render(raycaster, &camera, w, h, renderer, &black);
+                raycast_render(raycaster, &camera, renderer, w, h, &black);
             }
             SDL_RenderPresent(renderer);
             draw = 0;

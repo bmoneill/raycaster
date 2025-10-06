@@ -108,17 +108,52 @@ void raycast_erase(Raycaster *raycaster, const RaycastRect *rect) {
 }
 
 /**
+ * @brief Move the camera in the specified direction.
+ *
+ * @param camera The camera to move.
+ * @param direction The direction to move the camera
+ */
+void raycast_move_camera(RaycastCamera *camera, RaycastDirection direction) {
+    float speed = 0.01f;
+    if (direction == RAYCAST_FORWARD) {
+        camera->posX += camera->dirX * speed;
+        camera->posY += camera->dirY * speed;
+    } else if (direction == RAYCAST_BACKWARD) {
+        camera->posX -= camera->dirX * speed;
+        camera->posY -= camera->dirY * speed;
+    } else if (direction == RAYCAST_LEFT) {
+        camera->posX -= camera->dirY * speed;
+        camera->posY += camera->dirX * speed;
+    } else if (direction == RAYCAST_RIGHT) {
+        camera->posX += camera->dirY * speed;
+        camera->posY -= camera->dirX * speed;
+    }
+}
+
+/**
+ * @brief Rotate the camera by a given angle.
+ *
+ * @param camera The camera to rotate.
+ * @param angle The angle in radians to rotate the camera. Positive values rotate clockwise.
+ */
+void raycast_rotate_camera(RaycastCamera *camera, float angle) {
+    float oldDirX = camera->dirX;
+    camera->dirX = camera->dirX * cosf(angle) - camera->dirY * sinf(angle);
+    camera->dirY = oldDirX * sinf(angle) + camera->dirY * cosf(angle);
+}
+
+/**
  * @brief Render the Raycaster map to the display.
  *
  * @param raycaster The Raycaster instance to render.
  * @param camera The camera settings for rendering.
+ * @param renderer The SDL_Renderer to use for rendering.
  * @param w The width of the rendering area.
  * @param h The height of the rendering area.
- * @param renderer The SDL_Renderer to use for rendering.
  * @param background The background color to use for empty spaces.
  */
-void raycast_render(Raycaster *raycaster, const RaycastCamera *camera, int w, int h,
-                       SDL_Renderer *renderer, const RaycastColor *background) {
+void raycast_render(Raycaster *raycaster, const RaycastCamera *camera, SDL_Renderer* renderer,
+                    int w, int h, const RaycastColor *background) {
     float direction = atan2f(camera->dirY, camera->dirX) * (180.0f / M_PI);
 
     // Render each vertical slice (column) of the screen
