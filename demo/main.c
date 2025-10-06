@@ -1,5 +1,4 @@
 #include "raycast.h"
-#include "mapgen.h"
 
 #include <math.h>
 #include <stdio.h>
@@ -12,11 +11,12 @@
 #define BLUE 0xFF0000FF
 
 int demoMap[] = {
-    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-    BLUE,  RED,   BLUE,  BLUE,  BLUE,  BLUE,  BLUE,  BLUE,  -1,    -1,
-    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-    -1,    -1,    GREEN, GREEN, GREEN, GREEN, GREEN, -1,    -1,    -1,
-    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    BLUE,
+    GREEN, GREEN, PURPLE, PURPLE, PURPLE,  PURPLE,  PURPLE,  PURPLE,  PURPLE,  PURPLE,
+    BLUE,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    BLUE,
+    BLUE,  RED,   BLUE,  BLUE,  BLUE,  BLUE,  BLUE,  BLUE,  -1,    BLUE,
+    RED,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    BLUE,
+    RED,    -1,    GREEN, GREEN, GREEN, GREEN, GREEN, -1,    -1,    BLUE,
+    PURPLE,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    BLUE,
     BLUE,  BLUE,  BLUE,  BLUE,  BLUE,  BLUE,  BLUE,  BLUE,  BLUE,  BLUE,
 };
 
@@ -38,25 +38,15 @@ int* expand_map(int *map, int w, int h, int nw, int nh) {
 int main(int argc, char *argv[]) {
     int w = 800;
     int h = 600;
-    int blockSize = 20;
-    int seed = 40;
-    int black = 0x00000000;
-    int red = 0x00FF0000;
-    int purple = 0xFFFF00FF;
-    int green = 0xFF00FF00;
+    RaycastColor fg = RED;
+    RaycastColor bg = BLACK;
+
     SDL_Init(SDL_INIT_VIDEO);
     SDL_Window *window = SDL_CreateWindow("Raycaster Demo", w, h, SDL_WINDOW_RESIZABLE);
     SDL_Renderer *renderer = SDL_CreateRenderer(window, NULL);
 
     Raycaster *raycaster = raycast_init(w, h);
-    RaycastCamera camera = {0, 0, 0.0f, 90.0f, 0.0f, 0.0f, 90};
-    float posX; // X coordinate
-    float posY; // Y coordinate
-    float dirX; // Direction vector x
-    float dirY; // Direction vector y
-    float planeX; // Camera plane x
-    float planeY; // Camera plane y
-    int fov; // Field of view in degrees
+    RaycastCamera camera = {800/10 + 10, 800/6, 0.0f, 90.0f, 0.0f, 0.0f, 90};
     raycaster->map = expand_map(demoMap, 10, 6, w, h);
 
     int running = 1;
@@ -88,9 +78,9 @@ int main(int argc, char *argv[]) {
             SDL_RenderClear(renderer);
 
             if (dimensions == 2) {
-                raycast_render_2d(raycaster, &camera, renderer, w, &black, &red);
+                raycast_render_2d(raycaster, &camera, renderer, w, &bg, &fg);
             } else {
-                raycast_render(raycaster, &camera, renderer, w, h, &black);
+                raycast_render(raycaster, &camera, renderer, w, h, &bg);
             }
             SDL_RenderPresent(renderer);
             draw = 0;
