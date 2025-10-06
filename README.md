@@ -4,6 +4,8 @@
 
 This is a Raycasting engine using SDL3.
 
+
+
 ## Building
 
 ### Linux
@@ -23,6 +25,12 @@ ctest .
 ## Documentation
 
 [Library documentation is available here](https://bmoneill.github.io/raycaster/).
+
+## Showcase
+
+![3D View](https://oneill.sh/img/raycast-3d.gif)
+
+![2D View](https://oneill.sh/img/raycast-2d.gif)
 
 ## Further Reading
 
