@@ -181,7 +181,6 @@ void raycast_render_2d(Raycaster *raycaster, const RaycastCamera *camera,
     float startX = direction - (camera->fov / 2);
     float endX = direction + (camera->fov / 2);
     for (float angle = startX; angle <= endX; angle += ((float) camera->fov) / ((float) w)) {
-        printf("w: %d, fov: %d, Angle: %f\n", w, camera->fov, angle);
         float distance = raycast_cast(raycaster, camera->posX, camera->posY, angle, &hit);
         if (distance == 0) {
             distance = raycaster->width + raycaster->height;
