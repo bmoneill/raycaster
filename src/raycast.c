@@ -6,55 +6,61 @@
 #include <stdio.h>
 
 /**
- * @brief Initialize a Raycaster instance.
+ * @brief Cast a ray from a point at a given angle and return the distance to the first non-black pixel.
  *
- * This function allocates a new Raycaster instance and initializes it with the specified width and height.
+ * This function simulates raycasting by moving step-by-step from the starting point in the specified direction
+ * until it hits a non-black pixel or goes out of bounds. It returns the distance traveled
+ * from the starting point to the hit point.
  *
- * @param w The width of the Raycaster map.
- * @param h The height of the Raycaster map.
- * @return The newly allocated Raycaster instance, or NULL on failure.
+ * @param raycaster The Raycaster instance containing the map.
+ * @param x The x coordinate of the starting point.
+ * @param y The y coordinate of the starting point.
+ * @param angle The angle of the ray in degrees.
+ * @param hitColor Pointer to store the color of the hit pixel (if any).
+ *
+ * @return The distance to the first non-black pixel, or 0 if no hit is found.
  */
-Raycaster *raycast_init(int w, int h) {
-    Raycaster *raycaster = (Raycaster *) calloc(1, sizeof(Raycaster));
-    if (!raycaster) {
-        return NULL;
+float raycast_cast(Raycaster *raycaster, float x, float y, float angle, RaycastColor *hitColor) {
+    float currentX = x;
+    float currentY = y;
+    while (currentX >= 0 && currentX < raycaster->width &&
+           currentY >= 0 && currentY < raycaster->height) {
+        int mapX = (int) currentX;
+        int mapY = (int) currentY;
+        if (raycaster->map[mapY * raycaster->width + mapX] != -1) {
+            float dx = currentX - x;
+            float dy = currentY - y;
+            *hitColor = raycaster->map[mapY * raycaster->width + mapX];
+            return sqrtf(dx * dx + dy * dy);
+        }
+        currentX += cosf(angle * (M_PI / 180.0f));
+        currentY += sinf(angle * (M_PI / 180.0f));
     }
-
-    int result = raycast_init_ptr(raycaster, w, h);
-
-    if (result) {
-        free(raycaster);
-        return NULL;
-    }
-
-    return raycaster;
+    return 0.0f;
 }
 
 /**
- * @brief (Re-)Initialize an allocated raycaster instance.
+ * @brief Check if a point collides with an occupied pixel in the Raycaster map.
  *
- * This function initializes or re-initializes a pre-allocated Raycaster instance with the specified width and height.
- * If the instance already has an allocated map, it will be freed before allocating a new one.
+ * This function checks if the given point is within the bounds of the Raycaster map and
+ * if the corresponding pixel is not empty (i.e., it is occupied).
  *
- * @param raycaster The Raycaster to initialize.
- * @param w The width of the Raycaster map.
- * @param h The height of the Raycaster map.
- * @return 0 on success, 1 on memory allocation failure.
+ * @param raycaster The Raycaster instance containing the map.
+ * @param x The x coordinate to check for collision.
+ * @param y The y coordinate to check for collision.
+ * @return true if the point collides with an occupied pixel, false otherwise.
  */
-int raycast_init_ptr(Raycaster *raycaster, int w, int h) {
-    if (raycaster->map) {
-        free(raycaster->map);
+bool raycast_collides(Raycaster *raycaster, float x, float y) {
+    if (x < 0 || x >= raycaster->width ||
+        y < 0 || y >= raycaster->height) {
+        return true;
     }
-
-    raycaster->map = (RaycastColor *) malloc(w * h * sizeof(RaycastColor));
-    if (!raycaster->map) {
-        return 1;
+    int mapX = (int) x;
+    int mapY = (int) y;
+    if (raycaster->map[mapY * raycaster->width + mapX] != -1) {
+        return true;
     }
-    memset(raycaster->map, -1, w * h * sizeof(RaycastColor));
-
-    raycaster->width = w;
-    raycaster->height = h;
-    return 0;
+    return false;
 }
 
 /**
@@ -108,6 +114,58 @@ void raycast_erase(Raycaster *raycaster, const RaycastRect *rect) {
 }
 
 /**
+ * @brief Initialize a Raycaster instance.
+ *
+ * This function allocates a new Raycaster instance and initializes it with the specified width and height.
+ *
+ * @param w The width of the Raycaster map.
+ * @param h The height of the Raycaster map.
+ * @return The newly allocated Raycaster instance, or NULL on failure.
+ */
+Raycaster *raycast_init(int w, int h) {
+    Raycaster *raycaster = (Raycaster *) calloc(1, sizeof(Raycaster));
+    if (!raycaster) {
+        return NULL;
+    }
+
+    int result = raycast_init_ptr(raycaster, w, h);
+
+    if (result) {
+        free(raycaster);
+        return NULL;
+    }
+
+    return raycaster;
+}
+
+/**
+ * @brief (Re-)Initialize an allocated raycaster instance.
+ *
+ * This function initializes or re-initializes a pre-allocated Raycaster instance with the specified width and height.
+ * If the instance already has an allocated map, it will be freed before allocating a new one.
+ *
+ * @param raycaster The Raycaster to initialize.
+ * @param w The width of the Raycaster map.
+ * @param h The height of the Raycaster map.
+ * @return 0 on success, 1 on memory allocation failure.
+ */
+int raycast_init_ptr(Raycaster *raycaster, int w, int h) {
+    if (raycaster->map) {
+        free(raycaster->map);
+    }
+
+    raycaster->map = (RaycastColor *) malloc(w * h * sizeof(RaycastColor));
+    if (!raycaster->map) {
+        return 1;
+    }
+    memset(raycaster->map, -1, w * h * sizeof(RaycastColor));
+
+    raycaster->width = w;
+    raycaster->height = h;
+    return 0;
+}
+
+/**
  * @brief Move the camera in the specified direction.
  *
  * @param camera The camera to move.
@@ -143,18 +201,6 @@ void raycast_move_camera_with_collision(Raycaster* raycaster, RaycastCamera* cam
             raycast_move_camera(camera, RAYCAST_LEFT);
         }
     }
-}
-
-/**
- * @brief Rotate the camera by a given angle.
- *
- * @param camera The camera to rotate.
- * @param angle The angle in radians to rotate the camera. Positive values rotate clockwise.
- */
-void raycast_rotate_camera(RaycastCamera *camera, float angle) {
-    float oldDirX = camera->dirX;
-    camera->dirX = camera->dirX * cosf(angle) - camera->dirY * sinf(angle);
-    camera->dirY = oldDirX * sinf(angle) + camera->dirY * cosf(angle);
 }
 
 /**
@@ -239,61 +285,15 @@ void raycast_render_2d(Raycaster *raycaster, const RaycastCamera *camera,
 }
 
 /**
- * @brief Cast a ray from a point at a given angle and return the distance to the first non-black pixel.
+ * @brief Rotate the camera by a given angle.
  *
- * This function simulates raycasting by moving step-by-step from the starting point in the specified direction
- * until it hits a non-black pixel or goes out of bounds. It returns the distance traveled
- * from the starting point to the hit point.
- *
- * @param raycaster The Raycaster instance containing the map.
- * @param x The x coordinate of the starting point.
- * @param y The y coordinate of the starting point.
- * @param angle The angle of the ray in degrees.
- * @param hitColor Pointer to store the color of the hit pixel (if any).
- *
- * @return The distance to the first non-black pixel, or 0 if no hit is found.
+ * @param camera The camera to rotate.
+ * @param angle The angle in radians to rotate the camera. Positive values rotate clockwise.
  */
-float raycast_cast(Raycaster *raycaster, float x, float y, float angle, RaycastColor *hitColor) {
-    float currentX = x;
-    float currentY = y;
-    while (currentX >= 0 && currentX < raycaster->width &&
-           currentY >= 0 && currentY < raycaster->height) {
-        int mapX = (int) currentX;
-        int mapY = (int) currentY;
-        if (raycaster->map[mapY * raycaster->width + mapX] != -1) {
-            float dx = currentX - x;
-            float dy = currentY - y;
-            *hitColor = raycaster->map[mapY * raycaster->width + mapX];
-            return sqrtf(dx * dx + dy * dy);
-        }
-        currentX += cosf(angle * (M_PI / 180.0f));
-        currentY += sinf(angle * (M_PI / 180.0f));
-    }
-    return 0.0f;
-}
-
-/**
- * @brief Check if a point collides with an occupied pixel in the Raycaster map.
- *
- * This function checks if the given point is within the bounds of the Raycaster map and
- * if the corresponding pixel is not empty (i.e., it is occupied).
- *
- * @param raycaster The Raycaster instance containing the map.
- * @param x The x coordinate to check for collision.
- * @param y The y coordinate to check for collision.
- * @return true if the point collides with an occupied pixel, false otherwise.
- */
-bool raycast_collides(Raycaster *raycaster, float x, float y) {
-    if (x < 0 || x >= raycaster->width ||
-        y < 0 || y >= raycaster->height) {
-        return true;
-    }
-    int mapX = (int) x;
-    int mapY = (int) y;
-    if (raycaster->map[mapY * raycaster->width + mapX] != -1) {
-        return true;
-    }
-    return false;
+void raycast_rotate_camera(RaycastCamera *camera, float angle) {
+    float oldDirX = camera->dirX;
+    camera->dirX = camera->dirX * cosf(angle) - camera->dirY * sinf(angle);
+    camera->dirY = oldDirX * sinf(angle) + camera->dirY * cosf(angle);
 }
 
 /**
