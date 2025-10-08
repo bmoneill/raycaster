@@ -11,8 +11,9 @@
 #define GREEN 0xFF00FF00
 #define BLUE 0xFF0000FF
 
-static void demo      (int,  int, int, int);
-static int* expand_map(int*, int, int, int, int);
+static void demo             (int,  int,            int,        int);
+static int* expand_map       (int*, int,            int,        int,  int);
+static void handle_keypresses(int*, RaycastCamera*, Raycaster*, int*, int*);
 
 int demoMap[] = {
     GREEN,  GREEN,  PURPLE, PURPLE, PURPLE, PURPLE, PURPLE, PURPLE, PURPLE, PURPLE,
@@ -50,6 +51,7 @@ static void demo(int w, int h, int fg, int bg) {
     SDL_Init(SDL_INIT_VIDEO);
     SDL_Window *window = SDL_CreateWindow("Raycaster Demo", w, h, SDL_WINDOW_RESIZABLE);
     SDL_Renderer *renderer = SDL_CreateRenderer(window, NULL);
+    int keys[SDL_SCANCODE_COUNT] = {0};
 
     Raycaster *raycaster = raycast_init(w, h);
     RaycastCamera camera = {w/10 + 10, h/6+10, 0.0f, 90.0f, 0.0f, 0.0f, 90};
@@ -64,20 +66,14 @@ static void demo(int w, int h, int fg, int bg) {
             if (event.type == SDL_EVENT_QUIT) {
                 running = 0;
             } else if (event.type == SDL_EVENT_KEY_DOWN) {
+                keys[event.key.scancode] = 1;
                 draw = 1;
-                switch (event.key.scancode) {
-                    case SDL_SCANCODE_W: raycast_move_camera_with_collision(raycaster, &camera, RAYCAST_FORWARD); break;
-                    case SDL_SCANCODE_S: raycast_move_camera_with_collision(raycaster, &camera, RAYCAST_BACKWARD); break;
-                    case SDL_SCANCODE_A: raycast_move_camera_with_collision(raycaster, &camera, RAYCAST_LEFT); break;
-                    case SDL_SCANCODE_D: raycast_move_camera_with_collision(raycaster, &camera, RAYCAST_RIGHT); break;
-                    case SDL_SCANCODE_Q: raycast_rotate_camera(&camera, -0.1f); break;
-                    case SDL_SCANCODE_E: raycast_rotate_camera(&camera, 0.1f); break;
-                    case SDL_SCANCODE_R: dimensions = dimensions == 2 ? 3 : 2; break;
-                    default: break;
-                }
+                keys[event.key.scancode] = 1;
+            } else if (event.type == SDL_EVENT_KEY_UP) {
+                keys[event.key.scancode] = 0;
             }
         }
-
+        handle_keypresses(keys, &camera, raycaster, &draw, &dimensions);
         if (draw) {
             SDL_GetWindowSize(window, &w, &h);
             SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
@@ -114,4 +110,36 @@ static int* expand_map(int *map, int w, int h, int nw, int nh) {
         }
     }
     return newMap;
+}
+
+static void handle_keypresses(int* keys, RaycastCamera* camera, Raycaster* raycaster, int* draw, int* dimensions) {
+    if (keys[SDL_SCANCODE_W]) {
+        raycast_move_camera_with_collision(raycaster, camera, RAYCAST_FORWARD);
+        *draw = 1;
+    }
+    if (keys[SDL_SCANCODE_S]) {
+        raycast_move_camera_with_collision(raycaster, camera, RAYCAST_BACKWARD);
+        *draw = 1;
+    }
+    if (keys[SDL_SCANCODE_A]) {
+        raycast_move_camera_with_collision(raycaster, camera, RAYCAST_LEFT);
+        *draw = 1;
+    }
+    if (keys[SDL_SCANCODE_D]) {
+        raycast_move_camera_with_collision(raycaster, camera, RAYCAST_RIGHT);
+        *draw = 1;
+    }
+    if (keys[SDL_SCANCODE_Q]) {
+        raycast_rotate_camera(camera, -0.1f);
+        *draw = 1;
+    }
+    if (keys[SDL_SCANCODE_E]) {
+        raycast_rotate_camera(camera, 0.1f);
+        *draw = 1;
+    }
+    if (keys[SDL_SCANCODE_R]) {
+        *draw = 1;
+        *dimensions = *dimensions == 2 ? 3 : 2;
+        keys[SDL_SCANCODE_R] = 0;
+    }
 }
