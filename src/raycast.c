@@ -180,11 +180,11 @@ void raycast_move_camera(RaycastCamera *camera, RaycastDirection direction) {
         camera->posX -= camera->dirX * speed;
         camera->posY -= camera->dirY * speed;
     } else if (direction == RAYCAST_LEFT) {
-        camera->posX -= camera->dirY * speed;
-        camera->posY += camera->dirX * speed;
-    } else if (direction == RAYCAST_RIGHT) {
         camera->posX += camera->dirY * speed;
         camera->posY -= camera->dirX * speed;
+    } else if (direction == RAYCAST_RIGHT) {
+        camera->posX -= camera->dirY * speed;
+        camera->posY += camera->dirX * speed;
     }
 }
 
