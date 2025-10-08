@@ -251,19 +251,19 @@ void raycast_render(Raycaster *raycaster, const RaycastCamera *camera, SDL_Rende
  * @param camera The camera settings for rendering (currently unused).
  * @param renderer The SDL_Renderer to use for rendering.
  * @param w The width of the rendering area.
- * @param h The height of the rendering area.
+ * @param scale The scale factor for rendering the map.
  * @param background The background color to use for empty spaces.
  * @param rayColor The color to use for rendering rays.
  */
 void raycast_render_2d(Raycaster *raycaster, const RaycastCamera *camera,
-                       SDL_Renderer *renderer, int w, const RaycastColor *background,
+                       SDL_Renderer *renderer, int w, float scale, const RaycastColor *background,
                        const RaycastColor *rayColor) {
     // Render the map
     for (int y = 0; y < raycaster->height; y++) {
         for (int x = 0; x < raycaster->width; x++) {
             RaycastColor color = raycaster->map[y * raycaster->width + x];
             raycast_set_draw_color(renderer, (color == RAYCAST_EMPTY) ? background : &color);
-            SDL_RenderPoint(renderer, x, y);
+            SDL_RenderPoint(renderer, ((float) x) * scale, ((float) y) * scale);
         }
     }
 
@@ -278,9 +278,9 @@ void raycast_render_2d(Raycaster *raycaster, const RaycastCamera *camera,
         if (distance == 0) {
             distance = raycaster->width + raycaster->height;
         }
-        SDL_RenderLine(renderer, camera->posX, camera->posY,
-                           camera->posX + cosf(angle * (M_PI / 180.0f)) * distance,
-                           camera->posY + sinf(angle * (M_PI / 180.0f)) * distance);
+        SDL_RenderLine(renderer, camera->posX * scale, camera->posY * scale,
+                           (camera->posX + cosf(angle * (M_PI / 180.0f)) * distance) * scale,
+                           (camera->posY + sinf(angle * (M_PI / 180.0f)) * distance) * scale);
     }
 }
 

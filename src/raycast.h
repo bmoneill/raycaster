@@ -58,7 +58,8 @@ void       raycast_render                    (Raycaster*,          const Raycast
                                               int,                 const RaycastColor*);
 void       raycast_render_2d                 (Raycaster*,          const RaycastCamera*,
                                               SDL_Renderer*,       int,
-                                              const RaycastColor*, const RaycastColor*);
+                                              float,               const RaycastColor*,
+                                              const RaycastColor*);
 void       raycast_rotate_camera             (RaycastCamera*,      float);
 void       raycast_set_draw_color            (SDL_Renderer*,       const RaycastColor *);
 #endif

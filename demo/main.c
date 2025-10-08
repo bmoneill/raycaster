@@ -13,7 +13,7 @@
 
 static void demo             (int,  int,            int,        int);
 static int* expand_map       (int*, int,            int,        int,  int);
-static void handle_keypresses(int*, RaycastCamera*, Raycaster*, int*, int*);
+static void handle_keypresses(int*, RaycastCamera*, Raycaster*, int*);
 
 int demoMap[] = {
     GREEN,  GREEN,  PURPLE, PURPLE, PURPLE, PURPLE, PURPLE, PURPLE, PURPLE, PURPLE,
@@ -59,7 +59,6 @@ static void demo(int w, int h, int fg, int bg) {
 
     int running = 1;
     int draw = 1;
-    int dimensions = 2; // 2D or 3D rendering mode
     while (running) {
         SDL_Event event;
         while (SDL_PollEvent(&event)) {
@@ -73,17 +72,14 @@ static void demo(int w, int h, int fg, int bg) {
                 keys[event.key.scancode] = 0;
             }
         }
-        handle_keypresses(keys, &camera, raycaster, &draw, &dimensions);
+        handle_keypresses(keys, &camera, raycaster, &draw);
         if (draw) {
             SDL_GetWindowSize(window, &w, &h);
             SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
             SDL_RenderClear(renderer);
 
-            if (dimensions == 2) {
-                raycast_render_2d(raycaster, &camera, renderer, w, &bg, &fg);
-            } else {
-                raycast_render(raycaster, &camera, renderer, w, h, &bg);
-            }
+            raycast_render(raycaster, &camera, renderer, w, h, &bg);
+            raycast_render_2d(raycaster, &camera, renderer, w, 0.7, &bg, &fg);
             SDL_RenderPresent(renderer);
             draw = 0;
         }
@@ -112,7 +108,7 @@ static int* expand_map(int *map, int w, int h, int nw, int nh) {
     return newMap;
 }
 
-static void handle_keypresses(int* keys, RaycastCamera* camera, Raycaster* raycaster, int* draw, int* dimensions) {
+static void handle_keypresses(int* keys, RaycastCamera* camera, Raycaster* raycaster, int* draw) {
     if (keys[SDL_SCANCODE_W]) {
         raycast_move_camera_with_collision(raycaster, camera, RAYCAST_FORWARD);
         *draw = 1;
@@ -136,10 +132,5 @@ static void handle_keypresses(int* keys, RaycastCamera* camera, Raycaster* rayca
     if (keys[SDL_SCANCODE_E]) {
         raycast_rotate_camera(camera, 0.1f);
         *draw = 1;
-    }
-    if (keys[SDL_SCANCODE_R]) {
-        *draw = 1;
-        *dimensions = *dimensions == 2 ? 3 : 2;
-        keys[SDL_SCANCODE_R] = 0;
     }
 }
