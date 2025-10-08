@@ -20,7 +20,7 @@ var raycast_8h =
     [ "raycast_move_camera", "raycast_8h.html#a28dc5579bd972de94c3b62707ba3d6e8", null ],
     [ "raycast_move_camera_with_collision", "raycast_8h.html#a06d1752b0da92f3828b1efe05907eefb", null ],
     [ "raycast_render", "raycast_8h.html#a14d6797e49f3cd3d3b351568874cbf34", null ],
-    [ "raycast_render_2d", "raycast_8h.html#a7486941f6bddf75b2c9968cb837ca444", null ],
+    [ "raycast_render_2d", "raycast_8h.html#a379d15f3d2935f2574e1803a659fcf55", null ],
     [ "raycast_rotate_camera", "raycast_8h.html#a4e4f4f5f3533275c6cc9fc1f395b752a", null ],
     [ "raycast_set_draw_color", "raycast_8h.html#a0fb0cc6dce00b5f48e0a162ff35421ec", null ]
 ];

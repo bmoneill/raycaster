@@ -138,9 +138,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a9cfe5eb184d5a11a219f19ab5f25fef9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="raycast_8c.html#a9cfe5eb184d5a11a219f19ab5f25fef9">raycast_render</a> (<a class="el" href="structRaycaster.html">Raycaster</a> *raycaster, const <a class="el" href="structRaycastCamera.html">RaycastCamera</a> *camera, SDL_Renderer *renderer, int w, int h, const <a class="el" href="raycast_8h.html#adb0bb24e14c2e4ec0a30346919827041">RaycastColor</a> *background)</td></tr>
 <tr class="memdesc:a9cfe5eb184d5a11a219f19ab5f25fef9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Render the <a class="el" href="structRaycaster.html">Raycaster</a> map to the display.  <br /></td></tr>
 <tr class="separator:a9cfe5eb184d5a11a219f19ab5f25fef9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8918bfdca5db2deed08d0433cae21d59"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="raycast_8c.html#a8918bfdca5db2deed08d0433cae21d59">raycast_render_2d</a> (<a class="el" href="structRaycaster.html">Raycaster</a> *raycaster, const <a class="el" href="structRaycastCamera.html">RaycastCamera</a> *camera, SDL_Renderer *renderer, int w, const <a class="el" href="raycast_8h.html#adb0bb24e14c2e4ec0a30346919827041">RaycastColor</a> *background, const <a class="el" href="raycast_8h.html#adb0bb24e14c2e4ec0a30346919827041">RaycastColor</a> *rayColor)</td></tr>
-<tr class="memdesc:a8918bfdca5db2deed08d0433cae21d59"><td class="mdescLeft">&#160;</td><td class="mdescRight">Render the <a class="el" href="structRaycaster.html">Raycaster</a> map in 2D mode to the display.  <br /></td></tr>
-<tr class="separator:a8918bfdca5db2deed08d0433cae21d59"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa682711c794e1fa7ccaf98875dc84acf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="raycast_8c.html#aa682711c794e1fa7ccaf98875dc84acf">raycast_render_2d</a> (<a class="el" href="structRaycaster.html">Raycaster</a> *raycaster, const <a class="el" href="structRaycastCamera.html">RaycastCamera</a> *camera, SDL_Renderer *renderer, int w, float scale, const <a class="el" href="raycast_8h.html#adb0bb24e14c2e4ec0a30346919827041">RaycastColor</a> *background, const <a class="el" href="raycast_8h.html#adb0bb24e14c2e4ec0a30346919827041">RaycastColor</a> *rayColor)</td></tr>
+<tr class="memdesc:aa682711c794e1fa7ccaf98875dc84acf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Render the <a class="el" href="structRaycaster.html">Raycaster</a> map in 2D mode to the display.  <br /></td></tr>
+<tr class="separator:aa682711c794e1fa7ccaf98875dc84acf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1e5e7e2539b8e20a67a572903d6ff3ff"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="raycast_8c.html#a1e5e7e2539b8e20a67a572903d6ff3ff">raycast_rotate_camera</a> (<a class="el" href="structRaycastCamera.html">RaycastCamera</a> *camera, float angle)</td></tr>
 <tr class="memdesc:a1e5e7e2539b8e20a67a572903d6ff3ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rotate the camera by a given angle.  <br /></td></tr>
 <tr class="separator:a1e5e7e2539b8e20a67a572903d6ff3ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -601,8 +601,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a8918bfdca5db2deed08d0433cae21d59" name="a8918bfdca5db2deed08d0433cae21d59"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8918bfdca5db2deed08d0433cae21d59">&#9670;&#160;</a></span>raycast_render_2d()</h2>
+<a id="aa682711c794e1fa7ccaf98875dc84acf" name="aa682711c794e1fa7ccaf98875dc84acf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa682711c794e1fa7ccaf98875dc84acf">&#9670;&#160;</a></span>raycast_render_2d()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -634,6 +634,12 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>scale</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">const <a class="el" href="raycast_8h.html#adb0bb24e14c2e4ec0a30346919827041">RaycastColor</a> *&#160;</td>
           <td class="paramname"><em>background</em>, </td>
         </tr>
@@ -659,7 +665,7 @@ Functions</h2></td></tr>
     <tr><td class="paramname">camera</td><td>The camera settings for rendering (currently unused). </td></tr>
     <tr><td class="paramname">renderer</td><td>The SDL_Renderer to use for rendering. </td></tr>
     <tr><td class="paramname">w</td><td>The width of the rendering area. </td></tr>
-    <tr><td class="paramname">h</td><td>The height of the rendering area. </td></tr>
+    <tr><td class="paramname">scale</td><td>The scale factor for rendering the map. </td></tr>
     <tr><td class="paramname">background</td><td>The background color to use for empty spaces. </td></tr>
     <tr><td class="paramname">rayColor</td><td>The color to use for rendering rays. </td></tr>
   </table>
