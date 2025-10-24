@@ -6,11 +6,11 @@
 
 #define INIT(w, h) raycaster = raycast_init(w, h)
 
-Raycaster *raycaster = NULL;
+Raycaster* raycaster = NULL;
 
-void setUp(void) { }
+void       setUp(void) {}
 
-void tearDown(void) {
+void       tearDown(void) {
     if (raycaster) {
         if (raycaster->map) {
             free(raycaster->map);
@@ -21,8 +21,8 @@ void tearDown(void) {
 }
 
 void test_raycast_init(void) {
-    int w = 100;
-    int h = 50;
+    int w     = 100;
+    int h     = 50;
     raycaster = raycast_init(w, h);
     TEST_ASSERT_NOT_NULL(raycaster);
     TEST_ASSERT_NOT_NULL(raycaster->map);
@@ -32,7 +32,7 @@ void test_raycast_init(void) {
 
 void test_raycast_draw(void) {
     INIT(100, 50);
-    RaycastRect rect = {10, 5, 20, 10};
+    RaycastRect  rect  = { 10, 5, 20, 10 };
     RaycastColor color = 0xFF00FF00;
     raycast_draw(raycaster, &rect, &color);
     for (int i = 0; i < rect.h; i++) {
@@ -46,7 +46,7 @@ void test_raycast_draw(void) {
 
 void test_raycast_erase(void) {
     INIT(100, 50);
-    RaycastRect rect = {10, 5, 20, 10};
+    RaycastRect  rect  = { 10, 5, 20, 10 };
     RaycastColor color = 0xFF00FF00;
     raycast_draw(raycaster, &rect, &color);
     raycast_erase(raycaster, &rect);
@@ -58,12 +58,3 @@ void test_raycast_erase(void) {
         }
     }
 }
-
-int main(void) {
-    UNITY_BEGIN();
-    RUN_TEST(test_raycast_init);
-    RUN_TEST(test_raycast_draw);
-    RUN_TEST(test_raycast_erase);
-    return UNITY_END();
-}
-
