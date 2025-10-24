@@ -3,6 +3,7 @@ vgcore.*
 *.so
 *.a
 raycast_tests
+*_runner.c
 /demo/demo
 
 # CMake
