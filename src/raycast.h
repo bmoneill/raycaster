@@ -8,27 +8,56 @@ typedef int32_t           RaycastColor; // ARGB format: 0xAARRGGBB
 static const RaycastColor RAYCAST_EMPTY = -1;
 typedef enum { RAYCAST_FORWARD, RAYCAST_BACKWARD, RAYCAST_LEFT, RAYCAST_RIGHT } RaycastDirection;
 
+/**
+ * @struct Raycaster
+ * @brief Raycaster structure
+ *
+ * @param map 1D array representing the 2D map
+ * @param width Width of the map
+ * @param height Height of the map
+ */
 typedef struct {
-    RaycastColor* map; // 1D array representing the 2D map
+    RaycastColor* map;
     int           width;
     int           height;
 } Raycaster;
 
+/**
+ * @struct RaycastRect
+ * @brief Raycast rectangle structure
+ *
+ * @param x X coordinate
+ * @param y Y coordinate
+ * @param w Width
+ * @param h Height
+ */
 typedef struct {
-    float x; // X coordinate
-    float y; // Y coordinate
-    float w; // Width
-    float h; // Height
+    float x;
+    float y;
+    float w;
+    float h;
 } RaycastRect;
 
+/**
+ * @struct RaycastCamera
+ * @brief Raycast camera structure
+ *
+ * @param posX   X coordinate
+ * @param posY   Y coordinate
+ * @param dirX   Direction vector x
+ * @param dirY   Direction vector y
+ * @param planeX Camera plane x
+ * @param planeY Camera plane y
+ * @param fov    Field of view in degrees
+ */
 typedef struct {
-    float posX; // X coordinate
-    float posY; // Y coordinate
-    float dirX; // Direction vector x
-    float dirY; // Direction vector y
-    float planeX; // Camera plane x
-    float planeY; // Camera plane y
-    int   fov; // Field of view in degrees
+    float posX;
+    float posY;
+    float dirX;
+    float dirY;
+    float planeX;
+    float planeY;
+    int   fov;
 } RaycastCamera;
 
 float      raycast_cast(Raycaster*, float, float, float, RaycastColor*);
