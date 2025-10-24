@@ -98,18 +98,21 @@ $(document).ready(function(){initNavTree('raycast_8h.html',''); initResizable();
   <div class="headertitle"><div class="title">raycast.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;stdint.h&gt;</code><br />
-<code>#include &lt;SDL3/SDL.h&gt;</code><br />
+<div class="textblock"><code>#include &lt;SDL3/SDL.h&gt;</code><br />
+<code>#include &lt;stdint.h&gt;</code><br />
 </div>
 <p><a href="raycast_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRaycaster.html">Raycaster</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structRaycaster.html" title="Raycaster structure.">Raycaster</a> structure.  <a href="structRaycaster.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRaycastRect.html">RaycastRect</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Raycast rectangle structure.  <a href="structRaycastRect.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRaycastCamera.html">RaycastCamera</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Raycast camera structure.  <a href="structRaycastCamera.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
@@ -132,19 +135,19 @@ Functions</h2></td></tr>
 <tr class="memdesc:a128ca0d3e8558069f04b53c5995d56ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cast a ray from a point at a given angle and return the distance to the first non-black pixel.  <br /></td></tr>
 <tr class="separator:a128ca0d3e8558069f04b53c5995d56ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aac3675046ba5900969dc35d08fc94aad"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="raycast_8h.html#aac3675046ba5900969dc35d08fc94aad">raycast_collides</a> (<a class="el" href="structRaycaster.html">Raycaster</a> *, float, float)</td></tr>
-<tr class="memdesc:aac3675046ba5900969dc35d08fc94aad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a point collides with an occupied pixel in the <a class="el" href="structRaycaster.html">Raycaster</a> map.  <br /></td></tr>
+<tr class="memdesc:aac3675046ba5900969dc35d08fc94aad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a point collides with an occupied pixel in the <a class="el" href="structRaycaster.html" title="Raycaster structure.">Raycaster</a> map.  <br /></td></tr>
 <tr class="separator:aac3675046ba5900969dc35d08fc94aad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad2b765f9782f6a43155a0b8a7f9678a2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="raycast_8h.html#ad2b765f9782f6a43155a0b8a7f9678a2">raycast_destroy</a> (<a class="el" href="structRaycaster.html">Raycaster</a> *)</td></tr>
-<tr class="memdesc:ad2b765f9782f6a43155a0b8a7f9678a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy a <a class="el" href="structRaycaster.html">Raycaster</a> instance.  <br /></td></tr>
+<tr class="memdesc:ad2b765f9782f6a43155a0b8a7f9678a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy a <a class="el" href="structRaycaster.html" title="Raycaster structure.">Raycaster</a> instance.  <br /></td></tr>
 <tr class="separator:ad2b765f9782f6a43155a0b8a7f9678a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab2fc4c351c097fd26644bc276fad7c36"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="raycast_8h.html#ab2fc4c351c097fd26644bc276fad7c36">raycast_draw</a> (<a class="el" href="structRaycaster.html">Raycaster</a> *, const <a class="el" href="structRaycastRect.html">RaycastRect</a> *, const <a class="el" href="raycast_8h.html#adb0bb24e14c2e4ec0a30346919827041">RaycastColor</a> *)</td></tr>
-<tr class="memdesc:ab2fc4c351c097fd26644bc276fad7c36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draw a rectangle on the <a class="el" href="structRaycaster.html">Raycaster</a> map.  <br /></td></tr>
+<tr class="memdesc:ab2fc4c351c097fd26644bc276fad7c36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draw a rectangle on the <a class="el" href="structRaycaster.html" title="Raycaster structure.">Raycaster</a> map.  <br /></td></tr>
 <tr class="separator:ab2fc4c351c097fd26644bc276fad7c36"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a94e782fec208fe07426218f54539c306"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="raycast_8h.html#a94e782fec208fe07426218f54539c306">raycast_erase</a> (<a class="el" href="structRaycaster.html">Raycaster</a> *, const <a class="el" href="structRaycastRect.html">RaycastRect</a> *)</td></tr>
-<tr class="memdesc:a94e782fec208fe07426218f54539c306"><td class="mdescLeft">&#160;</td><td class="mdescRight">Erase a rectangle area on the <a class="el" href="structRaycaster.html">Raycaster</a> map.  <br /></td></tr>
+<tr class="memdesc:a94e782fec208fe07426218f54539c306"><td class="mdescLeft">&#160;</td><td class="mdescRight">Erase a rectangle area on the <a class="el" href="structRaycaster.html" title="Raycaster structure.">Raycaster</a> map.  <br /></td></tr>
 <tr class="separator:a94e782fec208fe07426218f54539c306"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af5e289b5cdd2070bd0ecc8964a51f1bb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structRaycaster.html">Raycaster</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="raycast_8h.html#af5e289b5cdd2070bd0ecc8964a51f1bb">raycast_init</a> (int, int)</td></tr>
-<tr class="memdesc:af5e289b5cdd2070bd0ecc8964a51f1bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize a <a class="el" href="structRaycaster.html">Raycaster</a> instance.  <br /></td></tr>
+<tr class="memdesc:af5e289b5cdd2070bd0ecc8964a51f1bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize a <a class="el" href="structRaycaster.html" title="Raycaster structure.">Raycaster</a> instance.  <br /></td></tr>
 <tr class="separator:af5e289b5cdd2070bd0ecc8964a51f1bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a47feb8008470b64562813dbcdd5b0183"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="raycast_8h.html#a47feb8008470b64562813dbcdd5b0183">raycast_init_ptr</a> (<a class="el" href="structRaycaster.html">Raycaster</a> *, int, int)</td></tr>
 <tr class="memdesc:a47feb8008470b64562813dbcdd5b0183"><td class="mdescLeft">&#160;</td><td class="mdescRight">(Re-)Initialize an allocated raycaster instance.  <br /></td></tr>
@@ -155,10 +158,10 @@ Functions</h2></td></tr>
 <tr class="memitem:a06d1752b0da92f3828b1efe05907eefb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="raycast_8h.html#a06d1752b0da92f3828b1efe05907eefb">raycast_move_camera_with_collision</a> (<a class="el" href="structRaycaster.html">Raycaster</a> *, <a class="el" href="structRaycastCamera.html">RaycastCamera</a> *, <a class="el" href="raycast_8h.html#a3fb1488b5c585184a8ab764c2e9346e2">RaycastDirection</a>)</td></tr>
 <tr class="separator:a06d1752b0da92f3828b1efe05907eefb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a14d6797e49f3cd3d3b351568874cbf34"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="raycast_8h.html#a14d6797e49f3cd3d3b351568874cbf34">raycast_render</a> (<a class="el" href="structRaycaster.html">Raycaster</a> *, const <a class="el" href="structRaycastCamera.html">RaycastCamera</a> *, SDL_Renderer *, int, int, const <a class="el" href="raycast_8h.html#adb0bb24e14c2e4ec0a30346919827041">RaycastColor</a> *)</td></tr>
-<tr class="memdesc:a14d6797e49f3cd3d3b351568874cbf34"><td class="mdescLeft">&#160;</td><td class="mdescRight">Render the <a class="el" href="structRaycaster.html">Raycaster</a> map to the display.  <br /></td></tr>
+<tr class="memdesc:a14d6797e49f3cd3d3b351568874cbf34"><td class="mdescLeft">&#160;</td><td class="mdescRight">Render the <a class="el" href="structRaycaster.html" title="Raycaster structure.">Raycaster</a> map to the display.  <br /></td></tr>
 <tr class="separator:a14d6797e49f3cd3d3b351568874cbf34"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a379d15f3d2935f2574e1803a659fcf55"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="raycast_8h.html#a379d15f3d2935f2574e1803a659fcf55">raycast_render_2d</a> (<a class="el" href="structRaycaster.html">Raycaster</a> *, const <a class="el" href="structRaycastCamera.html">RaycastCamera</a> *, SDL_Renderer *, int, float, const <a class="el" href="raycast_8h.html#adb0bb24e14c2e4ec0a30346919827041">RaycastColor</a> *, const <a class="el" href="raycast_8h.html#adb0bb24e14c2e4ec0a30346919827041">RaycastColor</a> *)</td></tr>
-<tr class="memdesc:a379d15f3d2935f2574e1803a659fcf55"><td class="mdescLeft">&#160;</td><td class="mdescRight">Render the <a class="el" href="structRaycaster.html">Raycaster</a> map in 2D mode to the display.  <br /></td></tr>
+<tr class="memdesc:a379d15f3d2935f2574e1803a659fcf55"><td class="mdescLeft">&#160;</td><td class="mdescRight">Render the <a class="el" href="structRaycaster.html" title="Raycaster structure.">Raycaster</a> map in 2D mode to the display.  <br /></td></tr>
 <tr class="separator:a379d15f3d2935f2574e1803a659fcf55"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4e4f4f5f3533275c6cc9fc1f395b752a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="raycast_8h.html#a4e4f4f5f3533275c6cc9fc1f395b752a">raycast_rotate_camera</a> (<a class="el" href="structRaycastCamera.html">RaycastCamera</a> *, float)</td></tr>
 <tr class="memdesc:a4e4f4f5f3533275c6cc9fc1f395b752a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rotate the camera by a given angle.  <br /></td></tr>
@@ -252,7 +255,7 @@ Functions</h2></td></tr>
 <p>This function simulates raycasting by moving step-by-step from the starting point in the specified direction until it hits a non-black pixel or goes out of bounds. It returns the distance traveled from the starting point to the hit point.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">raycaster</td><td>The <a class="el" href="structRaycaster.html">Raycaster</a> instance containing the map. </td></tr>
+    <tr><td class="paramname">raycaster</td><td>The <a class="el" href="structRaycaster.html" title="Raycaster structure.">Raycaster</a> instance containing the map. </td></tr>
     <tr><td class="paramname">x</td><td>The x coordinate of the starting point. </td></tr>
     <tr><td class="paramname">y</td><td>The y coordinate of the starting point. </td></tr>
     <tr><td class="paramname">angle</td><td>The angle of the ray in degrees. </td></tr>
@@ -296,11 +299,11 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Check if a point collides with an occupied pixel in the <a class="el" href="structRaycaster.html">Raycaster</a> map. </p>
-<p>This function checks if the given point is within the bounds of the <a class="el" href="structRaycaster.html">Raycaster</a> map and if the corresponding pixel is not empty (i.e., it is occupied).</p>
+<p>Check if a point collides with an occupied pixel in the <a class="el" href="structRaycaster.html" title="Raycaster structure.">Raycaster</a> map. </p>
+<p>This function checks if the given point is within the bounds of the <a class="el" href="structRaycaster.html" title="Raycaster structure.">Raycaster</a> map and if the corresponding pixel is not empty (i.e., it is occupied).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">raycaster</td><td>The <a class="el" href="structRaycaster.html">Raycaster</a> instance containing the map. </td></tr>
+    <tr><td class="paramname">raycaster</td><td>The <a class="el" href="structRaycaster.html" title="Raycaster structure.">Raycaster</a> instance containing the map. </td></tr>
     <tr><td class="paramname">x</td><td>The x coordinate to check for collision. </td></tr>
     <tr><td class="paramname">y</td><td>The y coordinate to check for collision. </td></tr>
   </table>
@@ -326,11 +329,11 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Destroy a <a class="el" href="structRaycaster.html">Raycaster</a> instance. </p>
-<p>This function frees the memory allocated for the <a class="el" href="structRaycaster.html">Raycaster</a> instance and its map.</p>
+<p>Destroy a <a class="el" href="structRaycaster.html" title="Raycaster structure.">Raycaster</a> instance. </p>
+<p>This function frees the memory allocated for the <a class="el" href="structRaycaster.html" title="Raycaster structure.">Raycaster</a> instance and its map.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">raycaster</td><td>The <a class="el" href="structRaycaster.html">Raycaster</a> instance to destroy. </td></tr>
+    <tr><td class="paramname">raycaster</td><td>The <a class="el" href="structRaycaster.html" title="Raycaster structure.">Raycaster</a> instance to destroy. </td></tr>
   </table>
   </dd>
 </dl>
@@ -369,11 +372,11 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Draw a rectangle on the <a class="el" href="structRaycaster.html">Raycaster</a> map. </p>
-<p>This function fills a rectangle area on the <a class="el" href="structRaycaster.html">Raycaster</a> map with the specified color. If the rectangle exceeds the bounds of the map, it will be clipped accordingly.</p>
+<p>Draw a rectangle on the <a class="el" href="structRaycaster.html" title="Raycaster structure.">Raycaster</a> map. </p>
+<p>This function fills a rectangle area on the <a class="el" href="structRaycaster.html" title="Raycaster structure.">Raycaster</a> map with the specified color. If the rectangle exceeds the bounds of the map, it will be clipped accordingly.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">raycaster</td><td>The <a class="el" href="structRaycaster.html">Raycaster</a> instance to draw on. </td></tr>
+    <tr><td class="paramname">raycaster</td><td>The <a class="el" href="structRaycaster.html" title="Raycaster structure.">Raycaster</a> instance to draw on. </td></tr>
     <tr><td class="paramname">rect</td><td>The rectangle to draw, defined by its top-left point and size. </td></tr>
     <tr><td class="paramname">color</td><td>The color to fill the rectangle with. </td></tr>
   </table>
@@ -408,11 +411,11 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Erase a rectangle area on the <a class="el" href="structRaycaster.html">Raycaster</a> map. </p>
+<p>Erase a rectangle area on the <a class="el" href="structRaycaster.html" title="Raycaster structure.">Raycaster</a> map. </p>
 <p>This function sets a rectangle area to be empty.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">raycaster</td><td>The <a class="el" href="structRaycaster.html">Raycaster</a> instance to erase from. </td></tr>
+    <tr><td class="paramname">raycaster</td><td>The <a class="el" href="structRaycaster.html" title="Raycaster structure.">Raycaster</a> instance to erase from. </td></tr>
     <tr><td class="paramname">rect</td><td>The rectangle area to erase, defined by its top-left point and size. </td></tr>
   </table>
   </dd>
@@ -446,16 +449,16 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Initialize a <a class="el" href="structRaycaster.html">Raycaster</a> instance. </p>
-<p>This function allocates a new <a class="el" href="structRaycaster.html">Raycaster</a> instance and initializes it with the specified width and height.</p>
+<p>Initialize a <a class="el" href="structRaycaster.html" title="Raycaster structure.">Raycaster</a> instance. </p>
+<p>This function allocates a new <a class="el" href="structRaycaster.html" title="Raycaster structure.">Raycaster</a> instance and initializes it with the specified width and height.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">w</td><td>The width of the <a class="el" href="structRaycaster.html">Raycaster</a> map. </td></tr>
-    <tr><td class="paramname">h</td><td>The height of the <a class="el" href="structRaycaster.html">Raycaster</a> map. </td></tr>
+    <tr><td class="paramname">w</td><td>The width of the <a class="el" href="structRaycaster.html" title="Raycaster structure.">Raycaster</a> map. </td></tr>
+    <tr><td class="paramname">h</td><td>The height of the <a class="el" href="structRaycaster.html" title="Raycaster structure.">Raycaster</a> map. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The newly allocated <a class="el" href="structRaycaster.html">Raycaster</a> instance, or NULL on failure. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The newly allocated <a class="el" href="structRaycaster.html" title="Raycaster structure.">Raycaster</a> instance, or NULL on failure. </dd></dl>
 
 </div>
 </div>
@@ -492,12 +495,12 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>(Re-)Initialize an allocated raycaster instance. </p>
-<p>This function initializes or re-initializes a pre-allocated <a class="el" href="structRaycaster.html">Raycaster</a> instance with the specified width and height. If the instance already has an allocated map, it will be freed before allocating a new one.</p>
+<p>This function initializes or re-initializes a pre-allocated <a class="el" href="structRaycaster.html" title="Raycaster structure.">Raycaster</a> instance with the specified width and height. If the instance already has an allocated map, it will be freed before allocating a new one.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">raycaster</td><td>The <a class="el" href="structRaycaster.html">Raycaster</a> to initialize. </td></tr>
-    <tr><td class="paramname">w</td><td>The width of the <a class="el" href="structRaycaster.html">Raycaster</a> map. </td></tr>
-    <tr><td class="paramname">h</td><td>The height of the <a class="el" href="structRaycaster.html">Raycaster</a> map. </td></tr>
+    <tr><td class="paramname">raycaster</td><td>The <a class="el" href="structRaycaster.html" title="Raycaster structure.">Raycaster</a> to initialize. </td></tr>
+    <tr><td class="paramname">w</td><td>The width of the <a class="el" href="structRaycaster.html" title="Raycaster structure.">Raycaster</a> map. </td></tr>
+    <tr><td class="paramname">h</td><td>The height of the <a class="el" href="structRaycaster.html" title="Raycaster structure.">Raycaster</a> map. </td></tr>
   </table>
   </dd>
 </dl>
@@ -626,10 +629,10 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Render the <a class="el" href="structRaycaster.html">Raycaster</a> map to the display. </p>
+<p>Render the <a class="el" href="structRaycaster.html" title="Raycaster structure.">Raycaster</a> map to the display. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">raycaster</td><td>The <a class="el" href="structRaycaster.html">Raycaster</a> instance to render. </td></tr>
+    <tr><td class="paramname">raycaster</td><td>The <a class="el" href="structRaycaster.html" title="Raycaster structure.">Raycaster</a> instance to render. </td></tr>
     <tr><td class="paramname">camera</td><td>The camera settings for rendering. </td></tr>
     <tr><td class="paramname">renderer</td><td>The SDL_Renderer to use for rendering. </td></tr>
     <tr><td class="paramname">w</td><td>The width of the rendering area. </td></tr>
@@ -697,11 +700,11 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Render the <a class="el" href="structRaycaster.html">Raycaster</a> map in 2D mode to the display. </p>
-<p>This function renders the <a class="el" href="structRaycaster.html">Raycaster</a> map in a 2D view using the provided SDL_Renderer.</p>
+<p>Render the <a class="el" href="structRaycaster.html" title="Raycaster structure.">Raycaster</a> map in 2D mode to the display. </p>
+<p>This function renders the <a class="el" href="structRaycaster.html" title="Raycaster structure.">Raycaster</a> map in a 2D view using the provided SDL_Renderer.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">raycaster</td><td>The <a class="el" href="structRaycaster.html">Raycaster</a> instance to render. </td></tr>
+    <tr><td class="paramname">raycaster</td><td>The <a class="el" href="structRaycaster.html" title="Raycaster structure.">Raycaster</a> instance to render. </td></tr>
     <tr><td class="paramname">camera</td><td>The camera settings for rendering (currently unused). </td></tr>
     <tr><td class="paramname">renderer</td><td>The SDL_Renderer to use for rendering. </td></tr>
     <tr><td class="paramname">w</td><td>The width of the rendering area. </td></tr>
