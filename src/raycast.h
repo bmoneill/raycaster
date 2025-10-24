@@ -70,8 +70,13 @@ int        raycast_init_ptr(Raycaster*, int, int);
 void       raycast_move_camera(RaycastCamera*, RaycastDirection);
 void       raycast_move_camera_with_collision(Raycaster*, RaycastCamera*, RaycastDirection);
 void raycast_render(Raycaster*, const RaycastCamera*, SDL_Renderer*, int, int, const RaycastColor*);
-void raycast_render_2d(
-    Raycaster*, const RaycastCamera*, SDL_Renderer*, int, const RaycastColor*, const RaycastColor*);
+void raycast_render_2d(Raycaster*,
+                       const RaycastCamera*,
+                       SDL_Renderer*,
+                       int,
+                       float,
+                       const RaycastColor*,
+                       const RaycastColor*);
 void raycast_rotate_camera(RaycastCamera*, float);
 void raycast_set_draw_color(SDL_Renderer*, const RaycastColor*);
 #endif
