@@ -1,6 +1,6 @@
 #include "unity.h"
 
-#include "raycast.h"
+#include "raycast/raycast.h"
 
 #include <stdlib.h>
 

@@ -14,18 +14,18 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-unused-parameter -Wno-unused-function -
 
 include(GNUInstallDirs)
 
-set(LIBRARY_BASE_PATH "raycast/")
+set(LIBRARY_BASE_PATH ".")
 
 INCLUDE_DIRECTORIES (
 	"${LIBRARY_BASE_PATH}"
 )
 
 set(LIBRARY_PUBLIC_SRC
-	"${LIBRARY_BASE_PATH}/raycast.c"
+	"${LIBRARY_BASE_PATH}/raycast/raycast.c"
 )
 
 set(LIBRARY_PUBLIC_HEADERS
-	"${LIBRARY_BASE_PATH}/raycast.h"
+	"${LIBRARY_BASE_PATH}/raycast/raycast.h"
 )
 
 add_library (
