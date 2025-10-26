@@ -1,7 +1,5 @@
 project("libraycast" C)
 
-set(PROJECT_NAME "libraycast")
-
 set(LIBRARY_NAME "raycast")
 set(LIBRARY_VERSION_MAJOR 0)
 set(LIBRARY_VERSION_STRING 0.0)
@@ -16,7 +14,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-unused-parameter -Wno-unused-function -
 
 include(GNUInstallDirs)
 
-set(LIBRARY_BASE_PATH ".")
+set(LIBRARY_BASE_PATH "raycast/")
 
 INCLUDE_DIRECTORIES (
 	"${LIBRARY_BASE_PATH}"
