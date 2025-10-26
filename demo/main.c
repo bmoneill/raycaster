@@ -1,7 +1,6 @@
-#include "raycast.h"
+#include "raycast/raycast.h"
 
 #include <getopt.h>
-#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 
