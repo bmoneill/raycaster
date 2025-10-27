@@ -13,3 +13,7 @@ CMakeCache.txt
 DartConfiguration.tcl
 Makefile
 Testing
+
+# etc
+.clangd
+.zed
