@@ -31,12 +31,13 @@ int main(int argc, char *argv[]) {
     RaycastColor bg = BLACK;
 
     int opt;
-    while ((opt = getopt(argc, argv, "w:h:f:b:")) != -1) {
+    while ((opt = getopt(argc, argv, "w:h:f:b:v")) != -1) {
         switch (opt) {
             case 'w': w = atoi(optarg); break;
             case 'h': h = atoi(optarg); break;
             case 'f': fg = (RaycastColor) strtol(optarg, NULL, 16); break;
             case 'b': bg = (RaycastColor) strtol(optarg, NULL, 16); break;
+            case 'v': printf("libraycast %s\n", raycast_version()); return 0;
             default:
                 fprintf(stderr, "Usage: %s [-w width] [-h height] [-f foreground_color] [-b background_color]\n", argv[0]);
                 exit(EXIT_FAILURE);

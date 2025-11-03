@@ -156,7 +156,6 @@ int raycast_init_ptr(Raycaster* raycaster, int w, int h) {
     if (!raycaster->map) {
         return 1;
     }
-    memset(raycaster->map, -1, w * h * sizeof(RaycastColor));
 
     raycaster->width  = w;
     raycaster->height = h;
@@ -319,3 +318,10 @@ void raycast_set_draw_color(SDL_Renderer* renderer, const RaycastColor* color) {
 #define c ((int32_t) *color)
     SDL_SetRenderDrawColor(renderer, (c >> 16) & 0xFF, (c >> 8) & 0xFF, c & 0xFF, (c >> 24) & 0xFF);
 }
+
+/**
+ * @brief Get the version of the libraycast library.
+ *
+ * @return A string containing the version of the libraycast library.
+ */
+const char* raycast_version(void) { return LIBRAYCAST_VERSION; }

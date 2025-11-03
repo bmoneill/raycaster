@@ -2,6 +2,17 @@ cmake_minimum_required(VERSION 3.31.6)
 project("libraycast" C)
 include(CTest)
 
+execute_process(
+    COMMAND git rev-parse --short HEAD
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    OUTPUT_VARIABLE GIT_COMMIT_HASH
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
+# Version
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DLIBRAYCAST_VERSION='\"${GIT_COMMIT_HASH}\"'")
+
+
 # SDL3
 include(FetchContent)
 function(include_dependency libName gitURL gitTag)

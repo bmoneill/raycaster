@@ -4,6 +4,10 @@
 #include <SDL3/SDL.h>
 #include <stdint.h>
 
+#ifndef LIBRAYCAST_VERSION
+#define LIBRAYCAST_VERSION "unknown"
+#endif
+
 typedef int32_t           RaycastColor; // ARGB format: 0xAARRGGBB
 static const RaycastColor RAYCAST_EMPTY = -1;
 typedef enum { RAYCAST_FORWARD, RAYCAST_BACKWARD, RAYCAST_LEFT, RAYCAST_RIGHT } RaycastDirection;
@@ -79,4 +83,6 @@ void raycast_render_2d(Raycaster*,
                        const RaycastColor*);
 void raycast_rotate_camera(RaycastCamera*, float);
 void raycast_set_draw_color(SDL_Renderer*, const RaycastColor*);
+const char* raycast_version(void);
+
 #endif
