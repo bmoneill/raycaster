@@ -1,5 +1,28 @@
 var searchData=
 [
-  ['w_0',['w',['../structRaycastRect.html#a56eca241e2896b9f57a79589e76fd24b',1,'RaycastRect']]],
-  ['width_1',['width',['../structRaycaster.html#a2474a5474cbff19523a51eb1de01cda4',1,'Raycaster']]]
+  ['raycast_2ec_0',['raycast.c',['../raycast_8c.html',1,'']]],
+  ['raycast_2eh_1',['raycast.h',['../raycast_8h.html',1,'']]],
+  ['raycast_5fbackward_2',['RAYCAST_BACKWARD',['../raycast_8h.html#a3fb1488b5c585184a8ab764c2e9346e2af2f4ecc6752e8b0cc07e28685ad999d9',1,'raycast.h']]],
+  ['raycast_5fcast_3',['raycast_cast',['../raycast_8c.html#a4339aff034d75ddf9909bb8651e03b30',1,'raycast_cast(Raycaster *raycaster, float x, float y, float angle, RaycastColor *hitColor):&#160;raycast.c'],['../raycast_8h.html#a128ca0d3e8558069f04b53c5995d56ca',1,'raycast_cast(Raycaster *, float, float, float, RaycastColor *):&#160;raycast.c']]],
+  ['raycast_5fcollides_4',['raycast_collides',['../raycast_8c.html#a9e59eddf9b8ebb43dbc8896628907d4f',1,'raycast_collides(Raycaster *raycaster, float x, float y):&#160;raycast.c'],['../raycast_8h.html#aac3675046ba5900969dc35d08fc94aad',1,'raycast_collides(Raycaster *, float, float):&#160;raycast.c']]],
+  ['raycast_5fdestroy_5',['raycast_destroy',['../raycast_8c.html#aa58f1a011a3e12428cde979356e647e4',1,'raycast_destroy(Raycaster *raycaster):&#160;raycast.c'],['../raycast_8h.html#ad2b765f9782f6a43155a0b8a7f9678a2',1,'raycast_destroy(Raycaster *):&#160;raycast.c']]],
+  ['raycast_5fdraw_6',['raycast_draw',['../raycast_8c.html#a04602da8a6c602c19a028701cff631e6',1,'raycast_draw(Raycaster *raycaster, const RaycastRect *rect, const RaycastColor *color):&#160;raycast.c'],['../raycast_8h.html#ab2fc4c351c097fd26644bc276fad7c36',1,'raycast_draw(Raycaster *, const RaycastRect *, const RaycastColor *):&#160;raycast.c']]],
+  ['raycast_5ferase_7',['raycast_erase',['../raycast_8c.html#aa511c202dc11f8ec4f84851be5c9e4aa',1,'raycast_erase(Raycaster *raycaster, const RaycastRect *rect):&#160;raycast.c'],['../raycast_8h.html#a94e782fec208fe07426218f54539c306',1,'raycast_erase(Raycaster *, const RaycastRect *):&#160;raycast.c']]],
+  ['raycast_5fforward_8',['RAYCAST_FORWARD',['../raycast_8h.html#a3fb1488b5c585184a8ab764c2e9346e2a30786283d189fac4c894883d50987515',1,'raycast.h']]],
+  ['raycast_5finit_9',['raycast_init',['../raycast_8h.html#af5e289b5cdd2070bd0ecc8964a51f1bb',1,'raycast_init(int, int):&#160;raycast.c'],['../raycast_8c.html#ab26f2f272dff47d0ca4f0c333eaffe04',1,'raycast_init(int w, int h):&#160;raycast.c']]],
+  ['raycast_5finit_5fptr_10',['raycast_init_ptr',['../raycast_8c.html#ab67a6396fbf82f9f596b5ae82f38ec34',1,'raycast_init_ptr(Raycaster *raycaster, int w, int h):&#160;raycast.c'],['../raycast_8h.html#a47feb8008470b64562813dbcdd5b0183',1,'raycast_init_ptr(Raycaster *, int, int):&#160;raycast.c']]],
+  ['raycast_5fleft_11',['RAYCAST_LEFT',['../raycast_8h.html#a3fb1488b5c585184a8ab764c2e9346e2a59e81b411fddb448e4313bbf5acbbe1e',1,'raycast.h']]],
+  ['raycast_5fmove_5fcamera_12',['raycast_move_camera',['../raycast_8c.html#a03b716aa079020146d531c59cfdb094e',1,'raycast_move_camera(RaycastCamera *camera, RaycastDirection direction):&#160;raycast.c'],['../raycast_8h.html#a28dc5579bd972de94c3b62707ba3d6e8',1,'raycast_move_camera(RaycastCamera *, RaycastDirection):&#160;raycast.c']]],
+  ['raycast_5fmove_5fcamera_5fwith_5fcollision_13',['raycast_move_camera_with_collision',['../raycast_8c.html#a6cc0b9bc21913da6b55067d5698e21bc',1,'raycast_move_camera_with_collision(Raycaster *raycaster, RaycastCamera *camera, RaycastDirection direction):&#160;raycast.c'],['../raycast_8h.html#a06d1752b0da92f3828b1efe05907eefb',1,'raycast_move_camera_with_collision(Raycaster *, RaycastCamera *, RaycastDirection):&#160;raycast.c']]],
+  ['raycast_5frender_14',['raycast_render',['../raycast_8c.html#a9cfe5eb184d5a11a219f19ab5f25fef9',1,'raycast_render(Raycaster *raycaster, const RaycastCamera *camera, SDL_Renderer *renderer, int w, int h, const RaycastColor *background):&#160;raycast.c'],['../raycast_8h.html#a14d6797e49f3cd3d3b351568874cbf34',1,'raycast_render(Raycaster *, const RaycastCamera *, SDL_Renderer *, int, int, const RaycastColor *):&#160;raycast.c']]],
+  ['raycast_5frender_5f2d_15',['raycast_render_2d',['../raycast_8c.html#aa682711c794e1fa7ccaf98875dc84acf',1,'raycast_render_2d(Raycaster *raycaster, const RaycastCamera *camera, SDL_Renderer *renderer, int w, float scale, const RaycastColor *background, const RaycastColor *rayColor):&#160;raycast.c'],['../raycast_8h.html#a379d15f3d2935f2574e1803a659fcf55',1,'raycast_render_2d(Raycaster *, const RaycastCamera *, SDL_Renderer *, int, float, const RaycastColor *, const RaycastColor *):&#160;raycast.c']]],
+  ['raycast_5fright_16',['RAYCAST_RIGHT',['../raycast_8h.html#a3fb1488b5c585184a8ab764c2e9346e2a3735cb2a68b554cec1f1019af5d695c1',1,'raycast.h']]],
+  ['raycast_5frotate_5fcamera_17',['raycast_rotate_camera',['../raycast_8c.html#a1e5e7e2539b8e20a67a572903d6ff3ff',1,'raycast_rotate_camera(RaycastCamera *camera, float angle):&#160;raycast.c'],['../raycast_8h.html#a4e4f4f5f3533275c6cc9fc1f395b752a',1,'raycast_rotate_camera(RaycastCamera *, float):&#160;raycast.c']]],
+  ['raycast_5fset_5fdraw_5fcolor_18',['raycast_set_draw_color',['../raycast_8c.html#afacd1942fb7bc17f9a7c184aeadc0e19',1,'raycast_set_draw_color(SDL_Renderer *renderer, const RaycastColor *color):&#160;raycast.c'],['../raycast_8h.html#a0fb0cc6dce00b5f48e0a162ff35421ec',1,'raycast_set_draw_color(SDL_Renderer *, const RaycastColor *):&#160;raycast.c']]],
+  ['raycast_5fversion_19',['raycast_version',['../raycast_8c.html#ab6c2a4c9c9e2778155a0ea592a332661',1,'raycast_version(void):&#160;raycast.c'],['../raycast_8h.html#ab6c2a4c9c9e2778155a0ea592a332661',1,'raycast_version(void):&#160;raycast.c']]],
+  ['raycastcamera_20',['RaycastCamera',['../structRaycastCamera.html',1,'']]],
+  ['raycastcolor_21',['RaycastColor',['../raycast_8h.html#adb0bb24e14c2e4ec0a30346919827041',1,'raycast.h']]],
+  ['raycastdirection_22',['RaycastDirection',['../raycast_8h.html#a3fb1488b5c585184a8ab764c2e9346e2',1,'raycast.h']]],
+  ['raycaster_23',['Raycaster',['../structRaycaster.html',1,'']]],
+  ['raycastrect_24',['RaycastRect',['../structRaycastRect.html',1,'']]]
 ];

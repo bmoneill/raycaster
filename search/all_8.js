@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['x_0',['x',['../structRaycastRect.html#ad0da36b2558901e21e7a30f6c227a45e',1,'RaycastRect']]]
+  ['w_0',['w',['../structRaycastRect.html#a56eca241e2896b9f57a79589e76fd24b',1,'RaycastRect']]],
+  ['width_1',['width',['../structRaycaster.html#a2474a5474cbff19523a51eb1de01cda4',1,'Raycaster']]]
 ];

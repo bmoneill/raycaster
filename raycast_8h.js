@@ -3,6 +3,7 @@ var raycast_8h =
     [ "Raycaster", "structRaycaster.html", "structRaycaster" ],
     [ "RaycastRect", "structRaycastRect.html", "structRaycastRect" ],
     [ "RaycastCamera", "structRaycastCamera.html", "structRaycastCamera" ],
+    [ "LIBRAYCAST_VERSION", "raycast_8h.html#a34ab7249259c7980b60dfe4cf6ed38bd", null ],
     [ "RaycastColor", "raycast_8h.html#adb0bb24e14c2e4ec0a30346919827041", null ],
     [ "RaycastDirection", "raycast_8h.html#a3fb1488b5c585184a8ab764c2e9346e2", [
       [ "RAYCAST_FORWARD", "raycast_8h.html#a3fb1488b5c585184a8ab764c2e9346e2a30786283d189fac4c894883d50987515", null ],
@@ -22,5 +23,6 @@ var raycast_8h =
     [ "raycast_render", "raycast_8h.html#a14d6797e49f3cd3d3b351568874cbf34", null ],
     [ "raycast_render_2d", "raycast_8h.html#a379d15f3d2935f2574e1803a659fcf55", null ],
     [ "raycast_rotate_camera", "raycast_8h.html#a4e4f4f5f3533275c6cc9fc1f395b752a", null ],
-    [ "raycast_set_draw_color", "raycast_8h.html#a0fb0cc6dce00b5f48e0a162ff35421ec", null ]
+    [ "raycast_set_draw_color", "raycast_8h.html#a0fb0cc6dce00b5f48e0a162ff35421ec", null ],
+    [ "raycast_version", "raycast_8h.html#ab6c2a4c9c9e2778155a0ea592a332661", null ]
 ];

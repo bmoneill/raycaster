@@ -13,5 +13,6 @@ var raycast_8c =
     [ "raycast_render", "raycast_8c.html#a9cfe5eb184d5a11a219f19ab5f25fef9", null ],
     [ "raycast_render_2d", "raycast_8c.html#aa682711c794e1fa7ccaf98875dc84acf", null ],
     [ "raycast_rotate_camera", "raycast_8c.html#a1e5e7e2539b8e20a67a572903d6ff3ff", null ],
-    [ "raycast_set_draw_color", "raycast_8c.html#afacd1942fb7bc17f9a7c184aeadc0e19", null ]
+    [ "raycast_set_draw_color", "raycast_8c.html#afacd1942fb7bc17f9a7c184aeadc0e19", null ],
+    [ "raycast_version", "raycast_8c.html#ab6c2a4c9c9e2778155a0ea592a332661", null ]
 ];
