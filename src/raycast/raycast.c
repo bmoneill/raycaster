@@ -339,8 +339,7 @@ int raycast_init_ptr(Raycaster* raycaster, int w, int h) {
  * @param camera The camera to move.
  * @param direction The direction to move the camera
  */
-void raycast_move_camera(RaycastCamera* camera, RaycastDirection direction) {
-    float speed = 0.05f;
+void raycast_move_camera(RaycastCamera* camera, RaycastDirection direction, float speed) {
     if (direction == RAYCAST_FORWARD) {
         camera->posX += camera->dirX * speed;
         camera->posY += camera->dirY * speed;
@@ -358,17 +357,18 @@ void raycast_move_camera(RaycastCamera* camera, RaycastDirection direction) {
 
 void raycast_move_camera_with_collision(Raycaster*       raycaster,
                                         RaycastCamera*   camera,
-                                        RaycastDirection direction) {
-    raycast_move_camera(camera, direction);
+                                        RaycastDirection direction,
+                                        float            speed) {
+    raycast_move_camera(camera, direction, speed);
     if (raycast_collides(raycaster, camera->posX, camera->posY)) {
         if (direction == RAYCAST_FORWARD) {
-            raycast_move_camera(camera, RAYCAST_BACKWARD);
+            raycast_move_camera(camera, RAYCAST_BACKWARD, speed);
         } else if (direction == RAYCAST_BACKWARD) {
-            raycast_move_camera(camera, RAYCAST_FORWARD);
+            raycast_move_camera(camera, RAYCAST_FORWARD, speed);
         } else if (direction == RAYCAST_LEFT) {
-            raycast_move_camera(camera, RAYCAST_RIGHT);
+            raycast_move_camera(camera, RAYCAST_RIGHT, speed);
         } else if (direction == RAYCAST_RIGHT) {
-            raycast_move_camera(camera, RAYCAST_LEFT);
+            raycast_move_camera(camera, RAYCAST_LEFT, speed);
         }
     }
 }

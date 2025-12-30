@@ -111,8 +111,8 @@ void            raycast_draw(Raycaster*, const RaycastRect*, const RaycastColor*
 void            raycast_erase(Raycaster*, const RaycastRect*);
 Raycaster*      raycast_init(int, int);
 int             raycast_init_ptr(Raycaster*, int, int);
-void            raycast_move_camera(RaycastCamera*, RaycastDirection);
-void            raycast_move_camera_with_collision(Raycaster*, RaycastCamera*, RaycastDirection);
+void            raycast_move_camera(RaycastCamera*, RaycastDirection, float);
+void raycast_move_camera_with_collision(Raycaster*, RaycastCamera*, RaycastDirection, float);
 void raycast_render(Raycaster*, const RaycastCamera*, SDL_Renderer*, int, int, const RaycastColor*);
 void raycast_render_textured(
     Raycaster*, const RaycastCamera*, SDL_Renderer*, int, int, const RaycastColor*);
