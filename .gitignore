@@ -4,7 +4,8 @@ vgcore.*
 *.a
 raycast_tests
 *_runner.c
-/demo/demo
+/demo/untextured
+/demo/textured
 
 # CMake
 CMakeFiles/
