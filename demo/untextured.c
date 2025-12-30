@@ -1,18 +1,13 @@
 #include "raycast/raycast.h"
+#include "util.h"
 
 #include <getopt.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-#define BLACK 0xFF000000
-#define RED 0xFFFF0000
-#define PURPLE 0xFFFF00FF
-#define GREEN 0xFF00FF00
-#define BLUE 0xFF0000FF
 
 static void demo             (int,  int,            int,        int);
 static int* expand_map       (int*, int,            int,        int,  int);
-static void handle_keypresses(int*, RaycastCamera*, Raycaster*, int*);
 
 int demoMap[] = {
     GREEN,  GREEN,  PURPLE, PURPLE, PURPLE, PURPLE, PURPLE, PURPLE, PURPLE, PURPLE,
@@ -66,20 +61,19 @@ static void demo(int w, int h, int fg, int bg) {
                 running = 0;
             } else if (event.type == SDL_EVENT_KEY_DOWN) {
                 keys[event.key.scancode] = 1;
-                draw = 1;
-                keys[event.key.scancode] = 1;
             } else if (event.type == SDL_EVENT_KEY_UP) {
                 keys[event.key.scancode] = 0;
             }
         }
         handle_keypresses(keys, &camera, raycaster, &draw);
+
         if (draw) {
             SDL_GetWindowSize(window, &w, &h);
             SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
             SDL_RenderClear(renderer);
 
             raycast_render(raycaster, &camera, renderer, w, h, &bg);
-            raycast_render_2d(raycaster, &camera, renderer, w, 0.7, &bg, &fg);
+            raycast_render_2d(raycaster, &camera, renderer, w, 0.2, &bg, NULL, &fg);
             SDL_RenderPresent(renderer);
             draw = 0;
         }
@@ -106,31 +100,4 @@ static int* expand_map(int *map, int w, int h, int nw, int nh) {
         }
     }
     return newMap;
-}
-
-static void handle_keypresses(int* keys, RaycastCamera* camera, Raycaster* raycaster, int* draw) {
-    if (keys[SDL_SCANCODE_W]) {
-        raycast_move_camera_with_collision(raycaster, camera, RAYCAST_FORWARD);
-        *draw = 1;
-    }
-    if (keys[SDL_SCANCODE_S]) {
-        raycast_move_camera_with_collision(raycaster, camera, RAYCAST_BACKWARD);
-        *draw = 1;
-    }
-    if (keys[SDL_SCANCODE_A]) {
-        raycast_move_camera_with_collision(raycaster, camera, RAYCAST_LEFT);
-        *draw = 1;
-    }
-    if (keys[SDL_SCANCODE_D]) {
-        raycast_move_camera_with_collision(raycaster, camera, RAYCAST_RIGHT);
-        *draw = 1;
-    }
-    if (keys[SDL_SCANCODE_Q]) {
-        raycast_rotate_camera(camera, -0.1f);
-        *draw = 1;
-    }
-    if (keys[SDL_SCANCODE_E]) {
-        raycast_rotate_camera(camera, 0.1f);
-        *draw = 1;
-    }
 }

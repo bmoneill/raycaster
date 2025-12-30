@@ -3,6 +3,7 @@
 #include <math.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <string.h>
 
 /**
  * @brief Cast a ray from a point at a given angle and return the distance to the first non-black pixel.
@@ -39,6 +40,168 @@ float raycast_cast(Raycaster* raycaster, float x, float y, float angle, RaycastC
 }
 
 /**
+ * @brief Cast a ray with texture information.
+ *
+ * This function performs DDA raycasting to find wall intersections and returns
+ * detailed hit information including texture coordinates.
+ *
+ * @param raycaster The Raycaster instance containing the map.
+ * @param x The x coordinate of the starting point.
+ * @param y The y coordinate of the starting point.
+ * @param angle The angle of the ray in degrees.
+ * @param hit Pointer to store the hit information.
+ */
+void raycast_cast_textured(Raycaster* raycaster, float x, float y, float angle, RaycastHit* hit) {
+    float radians = angle * (M_PI / 180.0f);
+    float rayDirX = cosf(radians);
+    float rayDirY = sinf(radians);
+
+    int mapX = (int)x;
+    int mapY = (int)y;
+
+    float deltaDistX = (rayDirX == 0) ? 1e30f : fabsf(1.0f / rayDirX);
+    float deltaDistY = (rayDirY == 0) ? 1e30f : fabsf(1.0f / rayDirY);
+
+    int stepX;
+    int stepY;
+    float sideDistX;
+    float sideDistY;
+
+    if (rayDirX < 0) {
+        stepX = -1;
+        sideDistX = (x - mapX) * deltaDistX;
+    } else {
+        stepX = 1;
+        sideDistX = (mapX + 1.0f - x) * deltaDistX;
+    }
+
+    if (rayDirY < 0) {
+        stepY = -1;
+        sideDistY = (y - mapY) * deltaDistY;
+    } else {
+        stepY = 1;
+        sideDistY = (mapY + 1.0f - y) * deltaDistY;
+    }
+
+    // Perform DDA
+    int side = 0;
+    bool hitWall = false;
+    int maxSteps = raycaster->width + raycaster->height;
+    for (int i = 0; i < maxSteps && !hitWall; i++) {
+        if (sideDistX < sideDistY) {
+            sideDistX += deltaDistX;
+            mapX += stepX;
+            side = 0;
+        } else {
+            sideDistY += deltaDistY;
+            mapY += stepY;
+            side = 1;
+        }
+
+        if (mapX < 0 || mapX >= raycaster->width || mapY < 0 || mapY >= raycaster->height) {
+            break;
+        }
+
+        if (raycaster->map[mapY * raycaster->width + mapX] != RAYCAST_EMPTY) {
+            hitWall = true;
+        }
+    }
+
+    if (!hitWall) {
+        hit->distance = 0.0f;
+        hit->wallX = 0.0f;
+        hit->side = 0;
+        hit->textureId = -1;
+        return;
+    }
+
+    float perpWallDist;
+    if (side == 0) {
+        perpWallDist = (mapX - x + (1 - stepX) / 2) / rayDirX;
+    } else {
+        perpWallDist = (mapY - y + (1 - stepY) / 2) / rayDirY;
+    }
+
+    float wallX;
+    if (side == 0) {
+        wallX = y + perpWallDist * rayDirY;
+    } else {
+        wallX = x + perpWallDist * rayDirX;
+    }
+    wallX -= floorf(wallX);
+
+    int textureId = raycaster->map[mapY * raycaster->width + mapX];
+
+    hit->distance = perpWallDist;
+    hit->wallX = wallX;
+    hit->side = side;
+    hit->textureId = textureId;
+}
+
+/**
+ * @brief Create a new texture.
+ *
+ * @param width Width of the texture.
+ * @param height Height of the texture.
+ * @return The newly allocated texture, or NULL on failure.
+ */
+RaycastTexture* raycast_texture_create(int width, int height) {
+    RaycastTexture* texture = (RaycastTexture*)malloc(sizeof(RaycastTexture));
+    if (!texture) {
+        return NULL;
+    }
+
+    texture->pixels = (RaycastColor*)calloc(width * height, sizeof(RaycastColor));
+    if (!texture->pixels) {
+        free(texture);
+        return NULL;
+    }
+
+    texture->width = width;
+    texture->height = height;
+    return texture;
+}
+
+/**
+ * @brief Destroy a texture.
+ *
+ * @param texture The texture to destroy.
+ */
+void raycast_texture_destroy(RaycastTexture* texture) {
+    if (texture) {
+        if (texture->pixels) {
+            free(texture->pixels);
+        }
+        free(texture);
+    }
+}
+
+/**
+ * @brief Add a texture to the raycaster.
+ *
+ * @param raycaster The raycaster instance.
+ * @param texture The texture to add.
+ */
+void raycast_add_texture(Raycaster* raycaster, RaycastTexture* texture) {
+    if (!raycaster || !texture) {
+        return;
+    }
+
+    RaycastTexture** newTextures = (RaycastTexture**)realloc(
+        raycaster->textures,
+        (raycaster->textureCount + 1) * sizeof(RaycastTexture*)
+    );
+
+    if (!newTextures) {
+        return;
+    }
+
+    raycaster->textures = newTextures;
+    raycaster->textures[raycaster->textureCount] = texture;
+    raycaster->textureCount++;
+}
+
+/**
  * @brief Check if a point collides with an occupied pixel in the Raycaster map.
  *
  * This function checks if the given point is within the bounds of the Raycaster map and
@@ -72,6 +235,12 @@ void raycast_destroy(Raycaster* raycaster) {
     if (raycaster) {
         if (raycaster->map) {
             free(raycaster->map);
+        }
+        if (raycaster->textures) {
+            for (int i = 0; i < raycaster->textureCount; i++) {
+                raycast_texture_destroy(raycaster->textures[i]);
+            }
+            free(raycaster->textures);
         }
         free(raycaster);
     }
@@ -159,6 +328,8 @@ int raycast_init_ptr(Raycaster* raycaster, int w, int h) {
 
     raycaster->width  = w;
     raycaster->height = h;
+    raycaster->textures = NULL;
+    raycaster->textureCount = 0;
     return 0;
 }
 
@@ -169,7 +340,7 @@ int raycast_init_ptr(Raycaster* raycaster, int w, int h) {
  * @param direction The direction to move the camera
  */
 void raycast_move_camera(RaycastCamera* camera, RaycastDirection direction) {
-    float speed = 0.01f;
+    float speed = 0.05f;
     if (direction == RAYCAST_FORWARD) {
         camera->posX += camera->dirX * speed;
         camera->posY += camera->dirY * speed;
@@ -246,6 +417,74 @@ void raycast_render(Raycaster*           raycaster,
 }
 
 /**
+ * @brief Render the Raycaster map with textures to the display.
+ *
+ * @param raycaster The Raycaster instance to render.
+ * @param camera The camera settings for rendering.
+ * @param renderer The SDL_Renderer to use for rendering.
+ * @param w The width of the rendering area.
+ * @param h The height of the rendering area.
+ * @param background The background color to use for empty spaces.
+ */
+void raycast_render_textured(Raycaster*           raycaster,
+                             const RaycastCamera* camera,
+                             SDL_Renderer*        renderer,
+                             int                  w,
+                             int                  h,
+                             const RaycastColor*  background) {
+    float direction = atan2f(camera->dirY, camera->dirX) * (180.0f / M_PI);
+
+    for (int x = 0; x < w; x++) {
+        float angle = direction - (camera->fov / 2.0f) + (camera->fov * x) / w;
+        RaycastHit hit;
+        raycast_cast_textured(raycaster, camera->posX, camera->posY, angle, &hit);
+
+        int wallHeight = (hit.distance > 0.0f) ? (int)(h / (hit.distance + 0.0001f)) : 0;
+        int wallTop    = (h - wallHeight) / 2;
+        int wallBottom = wallTop + wallHeight;
+
+        raycast_set_draw_color(renderer, background);
+        SDL_RenderLine(renderer, x, 0, x, wallTop);
+
+        if (hit.textureId >= 0 && hit.textureId < raycaster->textureCount) {
+            RaycastTexture* texture = raycaster->textures[hit.textureId];
+            int texX = (int)(hit.wallX * texture->width);
+            if (texX < 0) texX = 0;
+            if (texX >= texture->width) texX = texture->width - 1;
+
+            for (int y = wallTop; y < wallBottom; y++) {
+                if (y < 0 || y >= h) continue;
+
+                float texY = (float)(y - wallTop) / (float)wallHeight;
+                int texYCoord = (int)(texY * texture->height);
+                if (texYCoord < 0) texYCoord = 0;
+                if (texYCoord >= texture->height) texYCoord = texture->height - 1;
+
+                RaycastColor color = texture->pixels[texYCoord * texture->width + texX];
+
+                if (hit.side == 1) {
+                    int r = ((color >> 16) & 0xFF) / 2;
+                    int g = ((color >> 8) & 0xFF) / 2;
+                    int b = (color & 0xFF) / 2;
+                    int a = (color >> 24) & 0xFF;
+                    color = (a << 24) | (r << 16) | (g << 8) | b;
+                }
+
+                raycast_set_draw_color(renderer, &color);
+                SDL_RenderPoint(renderer, x, y);
+            }
+        } else {
+            RaycastColor fallbackColor = (hit.textureId == -1) ? *background : hit.textureId;
+            raycast_set_draw_color(renderer, &fallbackColor);
+            SDL_RenderLine(renderer, x, wallTop, x, wallBottom);
+        }
+
+        raycast_set_draw_color(renderer, background);
+        SDL_RenderLine(renderer, x, wallBottom, x, h);
+    }
+}
+
+/**
  * @brief Render the Raycaster map in 2D mode to the display.
  *
  * This function renders the Raycaster map in a 2D view using the provided SDL_Renderer.
@@ -256,6 +495,7 @@ void raycast_render(Raycaster*           raycaster,
  * @param w The width of the rendering area.
  * @param scale The scale factor for rendering the map.
  * @param background The background color to use for empty spaces.
+ * @param wallColor The color to use for textures.
  * @param rayColor The color to use for rendering rays.
  */
 void raycast_render_2d(Raycaster*           raycaster,
@@ -264,11 +504,15 @@ void raycast_render_2d(Raycaster*           raycaster,
                        int                  w,
                        float                scale,
                        const RaycastColor*  background,
+                       const RaycastColor*  wallColor,
                        const RaycastColor*  rayColor) {
     // Render the map
     for (int y = 0; y < raycaster->height; y++) {
         for (int x = 0; x < raycaster->width; x++) {
             RaycastColor color = raycaster->map[y * raycaster->width + x];
+            if (raycaster->textured) {
+                color = color == RAYCAST_EMPTY ? *background : *wallColor;
+            }
             raycast_set_draw_color(renderer, (color == RAYCAST_EMPTY) ? background : &color);
             SDL_RenderPoint(renderer, ((float) x) * scale, ((float) y) * scale);
         }
