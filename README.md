@@ -30,7 +30,7 @@ ctest .
 
 ## Showcase
 
-![3D View](https://oneill.sh/img/raycast-3d.gif)
+![Textured 3D View](https://oneill.sh/img/raycast-textured.gif)
 
 ![2D View](https://oneill.sh/img/raycast-2d.gif)
 
