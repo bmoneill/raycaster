@@ -176,11 +176,11 @@ Functions</h2></td></tr>
 <tr class="memitem:a47feb8008470b64562813dbcdd5b0183"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="raycast_8h.html#a47feb8008470b64562813dbcdd5b0183">raycast_init_ptr</a> (<a class="el" href="structRaycaster.html">Raycaster</a> *, int, int)</td></tr>
 <tr class="memdesc:a47feb8008470b64562813dbcdd5b0183"><td class="mdescLeft">&#160;</td><td class="mdescRight">(Re-)Initialize an allocated raycaster instance.  <br /></td></tr>
 <tr class="separator:a47feb8008470b64562813dbcdd5b0183"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a28dc5579bd972de94c3b62707ba3d6e8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="raycast_8h.html#a28dc5579bd972de94c3b62707ba3d6e8">raycast_move_camera</a> (<a class="el" href="structRaycastCamera.html">RaycastCamera</a> *, <a class="el" href="raycast_8h.html#a3fb1488b5c585184a8ab764c2e9346e2">RaycastDirection</a>)</td></tr>
-<tr class="memdesc:a28dc5579bd972de94c3b62707ba3d6e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move the camera in the specified direction.  <br /></td></tr>
-<tr class="separator:a28dc5579bd972de94c3b62707ba3d6e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a06d1752b0da92f3828b1efe05907eefb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="raycast_8h.html#a06d1752b0da92f3828b1efe05907eefb">raycast_move_camera_with_collision</a> (<a class="el" href="structRaycaster.html">Raycaster</a> *, <a class="el" href="structRaycastCamera.html">RaycastCamera</a> *, <a class="el" href="raycast_8h.html#a3fb1488b5c585184a8ab764c2e9346e2">RaycastDirection</a>)</td></tr>
-<tr class="separator:a06d1752b0da92f3828b1efe05907eefb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5536d298db2c5400e3e377a2986eba0c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="raycast_8h.html#a5536d298db2c5400e3e377a2986eba0c">raycast_move_camera</a> (<a class="el" href="structRaycastCamera.html">RaycastCamera</a> *, <a class="el" href="raycast_8h.html#a3fb1488b5c585184a8ab764c2e9346e2">RaycastDirection</a>, float)</td></tr>
+<tr class="memdesc:a5536d298db2c5400e3e377a2986eba0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move the camera in the specified direction.  <br /></td></tr>
+<tr class="separator:a5536d298db2c5400e3e377a2986eba0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a985aca78a0b216e05a25c9ffdf1bb2b7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="raycast_8h.html#a985aca78a0b216e05a25c9ffdf1bb2b7">raycast_move_camera_with_collision</a> (<a class="el" href="structRaycaster.html">Raycaster</a> *, <a class="el" href="structRaycastCamera.html">RaycastCamera</a> *, <a class="el" href="raycast_8h.html#a3fb1488b5c585184a8ab764c2e9346e2">RaycastDirection</a>, float)</td></tr>
+<tr class="separator:a985aca78a0b216e05a25c9ffdf1bb2b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a14d6797e49f3cd3d3b351568874cbf34"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="raycast_8h.html#a14d6797e49f3cd3d3b351568874cbf34">raycast_render</a> (<a class="el" href="structRaycaster.html">Raycaster</a> *, const <a class="el" href="structRaycastCamera.html">RaycastCamera</a> *, SDL_Renderer *, int, int, const <a class="el" href="raycast_8h.html#adb0bb24e14c2e4ec0a30346919827041">RaycastColor</a> *)</td></tr>
 <tr class="memdesc:a14d6797e49f3cd3d3b351568874cbf34"><td class="mdescLeft">&#160;</td><td class="mdescRight">Render the <a class="el" href="structRaycaster.html" title="Raycaster structure.">Raycaster</a> map to the display.  <br /></td></tr>
 <tr class="separator:a14d6797e49f3cd3d3b351568874cbf34"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -649,8 +649,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a28dc5579bd972de94c3b62707ba3d6e8" name="a28dc5579bd972de94c3b62707ba3d6e8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a28dc5579bd972de94c3b62707ba3d6e8">&#9670;&#160;</a></span>raycast_move_camera()</h2>
+<a id="a5536d298db2c5400e3e377a2986eba0c" name="a5536d298db2c5400e3e377a2986eba0c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5536d298db2c5400e3e377a2986eba0c">&#9670;&#160;</a></span>raycast_move_camera()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -665,7 +665,13 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="raycast_8h.html#a3fb1488b5c585184a8ab764c2e9346e2">RaycastDirection</a>&#160;</td>
-          <td class="paramname"><em>direction</em>&#160;</td>
+          <td class="paramname"><em>direction</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>speed</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -686,8 +692,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a06d1752b0da92f3828b1efe05907eefb" name="a06d1752b0da92f3828b1efe05907eefb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a06d1752b0da92f3828b1efe05907eefb">&#9670;&#160;</a></span>raycast_move_camera_with_collision()</h2>
+<a id="a985aca78a0b216e05a25c9ffdf1bb2b7" name="a985aca78a0b216e05a25c9ffdf1bb2b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a985aca78a0b216e05a25c9ffdf1bb2b7">&#9670;&#160;</a></span>raycast_move_camera_with_collision()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -708,7 +714,13 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="raycast_8h.html#a3fb1488b5c585184a8ab764c2e9346e2">RaycastDirection</a>&#160;</td>
-          <td class="paramname"><em>direction</em>&#160;</td>
+          <td class="paramname"><em>direction</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>speed</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
