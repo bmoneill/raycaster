@@ -36,7 +36,7 @@ int main(int argc, char* argv[]) {
     int             w                        = 800;
     int             h                        = 600;
     int             mapWidth                 = 20;
-    int             mapHeight                = 20;
+    int             mapLength                = 20;
     RaycastColor    fg                       = RED;
     RaycastColor    bg                       = BLACK;
     RaycastColor    bg2D                     = WHITE;
@@ -78,7 +78,7 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    if (!(raycaster = raycast_init(mapWidth, mapHeight))) {
+    if (!(raycaster = raycast_init(mapWidth, mapLength))) {
         fprintf(stderr, "Failed to create raycaster\n");
         SDL_DestroyRenderer(renderer);
         SDL_DestroyWindow(window);
@@ -92,7 +92,7 @@ int main(int argc, char* argv[]) {
     raycast_add_texture(raycaster, woodTexture); // 2
     raycast_add_texture(raycaster, checkerTexture); // 3
 
-    for (int i = 0; i < mapWidth * mapHeight; i++) {
+    for (int i = 0; i < mapWidth * mapLength; i++) {
         raycaster->map[i] = texturedDemoMap[i];
     }
 
@@ -112,7 +112,7 @@ int main(int argc, char* argv[]) {
             SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
             SDL_RenderClear(renderer);
             raycast_render_textured(raycaster, &camera, renderer, w, h, &bg);
-            raycast_render_2d(raycaster, &camera, renderer, w, 20.0, &bg2D, &wall2D, &fg);
+            raycast_render_2d(raycaster, &camera, renderer, mapWidth, 2.0, &bg2D, &wall2D, &fg);
             SDL_RenderPresent(renderer);
             draw = 0;
         }

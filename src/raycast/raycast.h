@@ -46,7 +46,7 @@ typedef struct {
  * @struct Raycaster
  * @brief Raycaster structure
  *
- * @param map 1D array representing the 2D map
+ * @param map 1D array representing the 2D map (RaycastColor if untextured, RaycastTexture if textured)
  * @param width Width of the map
  * @param height Height of the map
  * @param textures Array of textures
