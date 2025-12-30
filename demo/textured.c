@@ -112,7 +112,7 @@ int main(int argc, char* argv[]) {
             SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
             SDL_RenderClear(renderer);
             raycast_render_textured(raycaster, &camera, renderer, w, h, &bg);
-            raycast_render_2d(raycaster, &camera, renderer, mapWidth, 2.0, &bg2D, &wall2D, &fg);
+            raycast_render_2d(raycaster, &camera, renderer, mapWidth, 5.0, &bg2D, &wall2D, &fg);
             SDL_RenderPresent(renderer);
             draw = 0;
         }

@@ -518,14 +518,11 @@ void raycast_render_2d(Raycaster*           raycaster,
                 int textureID = raycaster->map[y * raycaster->width + x];
                 if (textureID == -1) {
                     raycast_set_draw_color(renderer, background);
-                    SDL_RenderPoint(renderer, ((float) x) * scale, ((float) y) * scale);
+                    SDL_FRect rect = { ((float) x) * scale, ((float) y) * scale, scale, scale };
+                    SDL_RenderFillRect(renderer, &rect);
                 } else {
-                    RaycastTexture* texture = raycaster->textures[textureID];
                     raycast_set_draw_color(renderer, wallColor);
-                    SDL_FRect rect = { ((float) x) * scale,
-                                      ((float) y) * scale,
-                                      texture->width * scale,
-                                      texture->width * scale };
+                    SDL_FRect rect = { ((float) x) * scale, ((float) y) * scale, scale, scale };
                     SDL_RenderFillRect(renderer, &rect);
                 }
             }
