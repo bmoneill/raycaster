@@ -32,8 +32,6 @@ ctest .
 
 ![Textured 3D View](https://oneill.sh/img/raycast-textured.gif)
 
-![2D View](https://oneill.sh/img/raycast-2d.gif)
-
 ## Further Reading
 
 * [Lode's Computer Graphics Tutorial](https://lodev.org/cgtutor/raycasting.html)
