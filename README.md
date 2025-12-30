@@ -30,7 +30,7 @@ ctest .
 
 ## Showcase
 
-![Textured 3D View](https://oneill.sh/img/raycast-textured.gif)
+![Textured 3D View](https://github.com/bmoneill/largegifs/blob/main/raycast-demo.gif?raw=true)
 
 ## Further Reading
 
