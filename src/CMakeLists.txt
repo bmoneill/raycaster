@@ -37,6 +37,7 @@ add_library (
 )
 
 target_link_libraries(${LIBRARY_NAME} SDL3::SDL3 m)
+target_link_libraries(${LIBRARY_NAME}_static SDL3::SDL3 m)
 
 set_target_properties(
  ${BINARY_NAME} PROPERTIES
