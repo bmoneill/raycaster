@@ -33,13 +33,13 @@ cd build
 ctest --verbose
 ```
 
-## Documentation
-
-[Library documentation is available here](https://bmoneill.github.io/raycaster/).
-
 ## Showcase
 
 ![Textured 3D View](https://github.com/bmoneill/largegifs/blob/main/raycast-demo.gif?raw=true)
+
+## Documentation
+
+[Library documentation is available here](https://bmoneill.github.io/raycaster/).
 
 ## Further Reading
 
