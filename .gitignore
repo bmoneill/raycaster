@@ -1,21 +1,6 @@
 vgcore.*
-*.o
-*.so
-*.a
-raycast_tests
-*_runner.c
-/demo/untextured
-/demo/textured
+build/
 
-# CMake
-CMakeFiles/
-*.cmake
-CMakeCache.txt
-DartConfiguration.tcl
-install_manifest.txt
-Makefile
-Testing
-
-# etc
+# Editor stuff
 .clangd
 .zed
