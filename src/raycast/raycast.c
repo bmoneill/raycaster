@@ -5,7 +5,30 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-static int get_or_add_texture(Raycaster* raycaster, RaycastTexture* texture);
+static int  get_or_add_texture(Raycaster* raycaster, RaycastTexture* texture);
+static void render_sprites(Raycaster*           raycaster,
+                           const RaycastCamera* camera,
+                           SDL_Renderer*        renderer,
+                           int                  w,
+                           int                  h,
+                           float*               zBuffer);
+
+/**
+ * @brief Sort order entry used during sprite rendering.
+ *
+ * Sprites are rendered back-to-front so that closer sprites
+ * paint over farther ones correctly.
+ */
+typedef struct {
+    int   index; //!< Index into raycaster->sprites
+    float dist; //!< Squared distance from camera (used for sort only)
+} SpriteOrder;
+
+static int compare_sprite_order(const void* a, const void* b) {
+    float da = ((const SpriteOrder*) a)->dist;
+    float db = ((const SpriteOrder*) b)->dist;
+    return (da < db) ? 1 : (da > db) ? -1 : 0; /* descending: farthest first */
+}
 
 /**
  * @brief Cast a ray from a point at a given angle and return the distance to the first non-black pixel.
@@ -264,6 +287,150 @@ void raycast_add_ceiling(Raycaster* raycaster, RaycastTexture* texture, const Ra
 }
 
 /**
+ * @brief Create a new sprite.
+ *
+ * @param x        Initial world-space X position.
+ * @param y        Initial world-space Y position.
+ * @param texture  Display texture.  May be NULL; can be changed later via
+ *                 raycast_sprite_set_texture().  The sprite does NOT take
+ *                 ownership of this pointer.
+ * @param collides Non-zero if this sprite should block camera movement
+ *                 (checked by raycast_collides_sprites()).
+ * @return Newly allocated RaycastSprite, or NULL on allocation failure.
+ */
+RaycastSprite* raycast_sprite_create(float x, float y, RaycastTexture* texture, int collides) {
+    RaycastSprite* sprite = (RaycastSprite*) calloc(1, sizeof(RaycastSprite));
+    if (!sprite) {
+        return NULL;
+    }
+    sprite->x        = x;
+    sprite->y        = y;
+    sprite->dirX     = 0.0f;
+    sprite->dirY     = 0.0f;
+    sprite->texture  = texture;
+    sprite->collides = collides;
+    return sprite;
+}
+
+/**
+ * @brief Free a sprite.
+ *
+ * Only the sprite struct itself is freed.  The texture pointer is not
+ * touched — manage texture lifetime separately (e.g. via
+ * raycast_add_texture() / raycast_texture_destroy()).
+ *
+ * @param sprite The sprite to free.
+ */
+void raycast_sprite_destroy(RaycastSprite* sprite) { free(sprite); }
+
+/**
+ * @brief Add a sprite to the raycaster.
+ *
+ * The raycaster takes ownership of the sprite: it will be freed by
+ * raycast_destroy().  The sprite's texture is not affected.
+ *
+ * @param raycaster The raycaster instance.
+ * @param sprite    The sprite to add.
+ */
+void raycast_add_sprite(Raycaster* raycaster, RaycastSprite* sprite) {
+    if (!raycaster || !sprite) {
+        return;
+    }
+    RaycastSprite** newSprites
+        = (RaycastSprite**) realloc(raycaster->sprites,
+                                    (raycaster->spriteCount + 1) * sizeof(RaycastSprite*));
+    if (!newSprites) {
+        return;
+    }
+    raycaster->sprites                           = newSprites;
+    raycaster->sprites[raycaster->spriteCount++] = sprite;
+}
+
+/**
+ * @brief Set the facing direction of a sprite.
+ *
+ * The direction vector does not need to be normalised.  It is used both
+ * by raycast_sprite_move() (the sprite advances along this vector scaled
+ * by speed) and by the caller for texture selection (e.g. choosing a
+ * front vs. back texture based on dirX/dirY relative to the camera).
+ *
+ * @param sprite The sprite to update.
+ * @param dirX   New X component of the direction vector.
+ * @param dirY   New Y component of the direction vector.
+ */
+void raycast_sprite_set_direction(RaycastSprite* sprite, float dirX, float dirY) {
+    if (!sprite) {
+        return;
+    }
+    sprite->dirX = dirX;
+    sprite->dirY = dirY;
+}
+
+/**
+ * @brief Move a sprite along its current direction vector.
+ *
+ * Advances the sprite's world position by (dirX * speed, dirY * speed).
+ * No collision checking is performed here — use raycast_collides() and
+ * raycast_collides_sprites() before calling this if you need collision.
+ *
+ * @param sprite The sprite to move.
+ * @param speed  Distance to move (world units).
+ */
+void raycast_sprite_move(RaycastSprite* sprite, float speed) {
+    if (!sprite) {
+        return;
+    }
+    sprite->x += sprite->dirX * speed;
+    sprite->y += sprite->dirY * speed;
+}
+
+/**
+ * @brief Replace a sprite's display texture without changing its position or direction.
+ *
+ * Use this to implement animations, directional sprites, or any other
+ * per-frame texture swap.  The old texture pointer is simply overwritten;
+ * neither the old nor the new texture is freed.
+ *
+ * @param sprite  The sprite to update.
+ * @param texture The new display texture (may be NULL to hide the sprite).
+ */
+void raycast_sprite_set_texture(RaycastSprite* sprite, RaycastTexture* texture) {
+    if (!sprite) {
+        return;
+    }
+    sprite->texture = texture;
+}
+
+/**
+ * @brief Check whether a world position is blocked by a collidable sprite.
+ *
+ * Returns true if the given point is within RAYCAST_SPRITE_COLLISION_RADIUS
+ * world units of any sprite whose collides field is non-zero.
+ *
+ * @param raycaster The raycaster instance.
+ * @param x         World-space X to test.
+ * @param y         World-space Y to test.
+ * @return true if the position collides with a sprite.
+ */
+bool raycast_collides_sprites(Raycaster* raycaster, float x, float y) {
+    if (!raycaster) {
+        return false;
+    }
+    for (int i = 0; i < raycaster->spriteCount; i++) {
+        RaycastSprite* s = raycaster->sprites[i];
+        if (!s || !s->collides) {
+            continue;
+        }
+        float dx = x - s->x;
+        float dy = y - s->y;
+        if (sqrtf(dx * dx + dy * dy) < RAYCAST_SPRITE_COLLISION_RADIUS) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
  * @brief Check if a point collides with an occupied pixel in the Raycaster map.
  *
  * This function checks if the given point is within the bounds of the Raycaster map and
@@ -309,6 +476,12 @@ void raycast_destroy(Raycaster* raycaster) {
                 raycast_texture_destroy(raycaster->textures[i]);
             }
             free(raycaster->textures);
+        }
+        if (raycaster->sprites) {
+            for (int i = 0; i < raycaster->spriteCount; i++) {
+                raycast_sprite_destroy(raycaster->sprites[i]);
+            }
+            free(raycaster->sprites);
         }
         free(raycaster);
     }
@@ -427,6 +600,8 @@ int raycast_init_ptr(Raycaster* raycaster, int w, int h) {
     raycaster->height       = h;
     raycaster->textures     = NULL;
     raycaster->textureCount = 0;
+    raycaster->sprites      = NULL;
+    raycaster->spriteCount  = 0;
     return 0;
 }
 
@@ -613,10 +788,118 @@ static void render_floor_ceiling(Raycaster*           raycaster,
 }
 
 /**
+ * @brief Render all sprites in the raycaster as depth-tested billboards.
+ *
+ * This is an internal helper called by raycast_render_textured() after the
+ * wall pass.  @p zBuffer holds the perpendicular wall distance for each
+ * screen column; sprite pixels are only drawn where they are closer than
+ * the corresponding wall.  Texture pixels with alpha == 0 are skipped.
+ *
+ * Sprites are rendered back-to-front (farthest first) so that closer
+ * sprites correctly paint over farther ones when they overlap.
+ *
+ * @param raycaster The Raycaster instance.
+ * @param camera    The active camera.
+ * @param renderer  SDL renderer to draw into.
+ * @param w         Render width in pixels.
+ * @param h         Render height in pixels.
+ * @param zBuffer   Per-column perpendicular wall distances (length >= w).
+ */
+static void render_sprites(Raycaster*           raycaster,
+                           const RaycastCamera* camera,
+                           SDL_Renderer*        renderer,
+                           int                  w,
+                           int                  h,
+                           float*               zBuffer) {
+    int n = raycaster->spriteCount;
+    if (n == 0)
+        return;
+
+    SpriteOrder* order = (SpriteOrder*) malloc((size_t) n * sizeof(SpriteOrder));
+    if (!order)
+        return;
+
+    for (int i = 0; i < n; i++) {
+        float dx       = raycaster->sprites[i]->x - camera->posX;
+        float dy       = raycaster->sprites[i]->y - camera->posY;
+        order[i].index = i;
+        order[i].dist  = dx * dx + dy * dy;
+    }
+    qsort(order, (size_t) n, sizeof(SpriteOrder), compare_sprite_order);
+
+    /* Inverse camera matrix: transforms world-space offsets into camera space. */
+    float invDet = 1.0f / (camera->planeX * camera->dirY - camera->dirX * camera->planeY);
+
+    for (int s = 0; s < n; s++) {
+        RaycastSprite* sprite = raycaster->sprites[order[s].index];
+        if (!sprite->texture)
+            continue;
+
+        float spriteX = sprite->x - camera->posX;
+        float spriteY = sprite->y - camera->posY;
+
+        /* Camera-space transform. transformY is the perp. depth of the sprite. */
+        float transformX = invDet * (camera->dirY * spriteX - camera->dirX * spriteY);
+        float transformY = invDet * (-camera->planeY * spriteX + camera->planeX * spriteY);
+        if (transformY <= 0.0f)
+            continue; /* behind or on the camera plane */
+
+        int spriteScreenX = (int) ((w / 2.0f) * (1.0f + transformX / transformY));
+
+        /* Sprite occupies the same screen height as a wall at the same depth. */
+        int spriteH    = abs((int) ((float) h / transformY));
+        int spriteW    = spriteH;
+
+        int drawStartY = -(spriteH / 2) + (h / 2);
+        int drawEndY   = (spriteH / 2) + (h / 2);
+        int drawStartX = -(spriteW / 2) + spriteScreenX;
+        int drawEndX   = (spriteW / 2) + spriteScreenX;
+
+        for (int stripe = drawStartX; stripe < drawEndX; stripe++) {
+            if (stripe < 0 || stripe >= w)
+                continue;
+            /* Skip if a wall (or closer sprite) already owns this column. */
+            if (transformY >= zBuffer[stripe])
+                continue;
+
+            int texX = (int) ((float) (stripe - drawStartX) / (float) spriteW
+                              * (float) sprite->texture->width);
+            if (texX < 0)
+                texX = 0;
+            if (texX >= sprite->texture->width)
+                texX = sprite->texture->width - 1;
+
+            for (int y = drawStartY; y < drawEndY; y++) {
+                if (y < 0 || y >= h)
+                    continue;
+
+                int texY = (int) ((float) (y - drawStartY) / (float) spriteH
+                                  * (float) sprite->texture->height);
+                if (texY < 0)
+                    texY = 0;
+                if (texY >= sprite->texture->height)
+                    texY = sprite->texture->height - 1;
+
+                int color = sprite->texture->pixels[texY * sprite->texture->width + texX];
+                /* Alpha == 0: transparent, skip. */
+                if (((color >> 24) & 0xFF) == 0)
+                    continue;
+
+                raycast_set_draw_color(renderer, &color);
+                SDL_RenderPoint(renderer, (float) stripe, (float) y);
+            }
+        }
+    }
+
+    free(order);
+}
+
+/**
  * @brief Render the Raycaster map with textures to the display.
  *
  * Renders textured floors and ceilings first (full-screen pre-pass via
- * render_floor_ceiling()), then draws textured wall slices on top.
+ * render_floor_ceiling()), then draws textured wall slices, then composites
+ * sprites on top using a per-column Z-buffer.
  * Cells whose floor/ceiling map entry is RAYCAST_EMPTY fall back to @p background.
  *
  * @param raycaster The Raycaster instance to render.
@@ -636,12 +919,24 @@ void raycast_render_textured(Raycaster*           raycaster,
      * only needs to draw the wall slices themselves. */
     render_floor_ceiling(raycaster, camera, renderer, w, h, background);
 
+    /* Per-column perpendicular wall distance for sprite occlusion testing. */
+    float* zBuffer = (float*) malloc((size_t) w * sizeof(float));
+    if (zBuffer) {
+        for (int i = 0; i < w; i++)
+            zBuffer[i] = 1e30f;
+    }
+
     float direction = atan2f(camera->dirY, camera->dirX) * (180.0f / M_PI);
 
     for (int x = 0; x < w; x++) {
         float      angle = direction - (camera->fov / 2.0f) + (camera->fov * x) / w;
         RaycastHit hit;
         raycast_cast_textured(raycaster, camera->posX, camera->posY, angle, &hit);
+
+        /* Record wall depth so sprites can test occlusion later. */
+        if (zBuffer) {
+            zBuffer[x] = (hit.distance > 0.0f) ? hit.distance : 1e30f;
+        }
 
         int wallHeight = (hit.distance > 0.0f) ? (int) (h / (hit.distance + 0.0001f)) : 0;
         int wallTop    = (h - wallHeight) / 2;
@@ -684,6 +979,12 @@ void raycast_render_textured(Raycaster*           raycaster,
             raycast_set_draw_color(renderer, &fallbackColor);
             SDL_RenderLine(renderer, x, wallTop, x, wallBottom);
         }
+    }
+
+    /* Sprite pass: composite sprites in front of walls using the Z-buffer. */
+    if (zBuffer) {
+        render_sprites(raycaster, camera, renderer, w, h, zBuffer);
+        free(zBuffer);
     }
 }
 

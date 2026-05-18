@@ -14,6 +14,14 @@
 static const int RAYCAST_EMPTY = -1;
 
 /**
+ * @brief Sprite collision radius in world units.
+ *
+ * This is the minimum distance a camera position may be from a collidable
+ * sprite before raycast_collides_sprites() reports a hit.
+ */
+#define RAYCAST_SPRITE_COLLISION_RADIUS 0.3f
+
+/**
  * @brief Raycast direction type
  */
 typedef enum { RAYCAST_FORWARD, RAYCAST_BACKWARD, RAYCAST_LEFT, RAYCAST_RIGHT } RaycastDirection;
@@ -27,6 +35,30 @@ typedef struct {
     int  width; //!< Width of the texture
     int  height; //!< Height of the texture
 } RaycastTexture;
+
+/**
+ * @struct RaycastSprite
+ * @brief A billboard sprite placed in world space.
+ *
+ * The texture pointer can be swapped freely at any time without affecting
+ * the sprite's position or direction — use this to implement animations or
+ * directional views (e.g. an enemy texture that changes when they turn
+ * around).  Pixels with alpha == 0 in the texture are treated as
+ * transparent and are not drawn.
+ *
+ * Ownership: sprites added via raycast_add_sprite() are owned and freed by
+ * the Raycaster.  Sprite textures are NOT owned by the sprite; the caller
+ * is responsible for their lifetime (e.g. by adding them to the raycaster's
+ * texture array via raycast_add_texture() for automatic cleanup).
+ */
+typedef struct {
+    float           x; //!< World-space X position
+    float           y; //!< World-space Y position
+    float           dirX; //!< Facing direction X (for movement and texture selection)
+    float           dirY; //!< Facing direction Y
+    RaycastTexture* texture; //!< Current display texture — swap freely, position unaffected
+    int             collides; //!< Non-zero if this sprite blocks camera movement
+} RaycastSprite;
 
 /**
  * @struct RaycastHit
@@ -53,6 +85,8 @@ typedef struct {
     int              textured; //!< Whether to use textures
     int* floorMap; //!< Per-cell floor texture IDs (RAYCAST_EMPTY = no texture / use background)
     int* ceilMap; //!< Per-cell ceiling texture IDs (RAYCAST_EMPTY = no texture / use background)
+    RaycastSprite** sprites; //!< Array of sprites owned by this raycaster
+    int             spriteCount; //!< Number of sprites
 } Raycaster;
 
 /**
@@ -87,7 +121,14 @@ void            raycast_texture_destroy(RaycastTexture*);
 void            raycast_add_texture(Raycaster*, RaycastTexture*);
 void            raycast_add_floor(Raycaster*, RaycastTexture*, const RaycastRect*);
 void            raycast_add_ceiling(Raycaster*, RaycastTexture*, const RaycastRect*);
+RaycastSprite*  raycast_sprite_create(float, float, RaycastTexture*, int);
+void            raycast_sprite_destroy(RaycastSprite*);
+void            raycast_add_sprite(Raycaster*, RaycastSprite*);
+void            raycast_sprite_set_direction(RaycastSprite*, float, float);
+void            raycast_sprite_move(RaycastSprite*, float);
+void            raycast_sprite_set_texture(RaycastSprite*, RaycastTexture*);
 bool            raycast_collides(Raycaster*, float, float);
+bool            raycast_collides_sprites(Raycaster*, float, float);
 void            raycast_destroy(Raycaster*);
 void            raycast_draw(Raycaster*, const RaycastRect*, const int*);
 void            raycast_erase(Raycaster*, const RaycastRect*);
