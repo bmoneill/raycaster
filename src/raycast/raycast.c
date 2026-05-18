@@ -5,6 +5,8 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
+static int get_or_add_texture(Raycaster* raycaster, RaycastTexture* texture);
+
 /**
  * @brief Cast a ray from a point at a given angle and return the distance to the first non-black pixel.
  *
@@ -201,6 +203,67 @@ void raycast_add_texture(Raycaster* raycaster, RaycastTexture* texture) {
 }
 
 /**
+ * @brief Fill a rectangular region of the floor map with a texture.
+ *
+ * Registers the texture with the raycaster if it has not been added yet
+ * (equivalent to calling raycast_add_texture once), then stamps every cell
+ * inside @p rect with that texture's ID.  Cells outside the map bounds are
+ * silently ignored.
+ *
+ * The texture pointer itself is the only thing needed here — it can be
+ * created programmatically with raycast_texture_create() or, in the future,
+ * loaded from a file with a helper such as raycast_texture_load_file().
+ *
+ * @param raycaster The raycaster instance.
+ * @param texture   Texture to use for the floor in this region.
+ * @param rect      Map-space rectangle to fill (x/y/w/h in tile units).
+ */
+void raycast_add_floor(Raycaster* raycaster, RaycastTexture* texture, const RaycastRect* rect) {
+    if (!raycaster || !texture || !rect) {
+        return;
+    }
+    int texId = get_or_add_texture(raycaster, texture);
+    if (texId < 0) {
+        return;
+    }
+    for (int row = (int) rect->y; row < (int) (rect->y + rect->h); row++) {
+        for (int col = (int) rect->x; col < (int) (rect->x + rect->w); col++) {
+            if (col < 0 || col >= raycaster->width || row < 0 || row >= raycaster->height) {
+                continue;
+            }
+            raycaster->floorMap[row * raycaster->width + col] = texId;
+        }
+    }
+}
+
+/**
+ * @brief Fill a rectangular region of the ceiling map with a texture.
+ *
+ * Behaves identically to raycast_add_floor() but writes into the ceiling map.
+ *
+ * @param raycaster The raycaster instance.
+ * @param texture   Texture to use for the ceiling in this region.
+ * @param rect      Map-space rectangle to fill (x/y/w/h in tile units).
+ */
+void raycast_add_ceiling(Raycaster* raycaster, RaycastTexture* texture, const RaycastRect* rect) {
+    if (!raycaster || !texture || !rect) {
+        return;
+    }
+    int texId = get_or_add_texture(raycaster, texture);
+    if (texId < 0) {
+        return;
+    }
+    for (int row = (int) rect->y; row < (int) (rect->y + rect->h); row++) {
+        for (int col = (int) rect->x; col < (int) (rect->x + rect->w); col++) {
+            if (col < 0 || col >= raycaster->width || row < 0 || row >= raycaster->height) {
+                continue;
+            }
+            raycaster->ceilMap[row * raycaster->width + col] = texId;
+        }
+    }
+}
+
+/**
  * @brief Check if a point collides with an occupied pixel in the Raycaster map.
  *
  * This function checks if the given point is within the bounds of the Raycaster map and
@@ -234,6 +297,12 @@ void raycast_destroy(Raycaster* raycaster) {
     if (raycaster) {
         if (raycaster->map) {
             free(raycaster->map);
+        }
+        if (raycaster->floorMap) {
+            free(raycaster->floorMap);
+        }
+        if (raycaster->ceilMap) {
+            free(raycaster->ceilMap);
         }
         if (raycaster->textures) {
             for (int i = 0; i < raycaster->textureCount; i++) {
@@ -319,10 +388,39 @@ int raycast_init_ptr(Raycaster* raycaster, int w, int h) {
     if (raycaster->map) {
         free(raycaster->map);
     }
+    if (raycaster->floorMap) {
+        free(raycaster->floorMap);
+        raycaster->floorMap = NULL;
+    }
+    if (raycaster->ceilMap) {
+        free(raycaster->ceilMap);
+        raycaster->ceilMap = NULL;
+    }
 
     raycaster->map = (int*) malloc(w * h * sizeof(int));
     if (!raycaster->map) {
         return 1;
+    }
+
+    raycaster->floorMap = (int*) malloc(w * h * sizeof(int));
+    if (!raycaster->floorMap) {
+        free(raycaster->map);
+        raycaster->map = NULL;
+        return 1;
+    }
+
+    raycaster->ceilMap = (int*) malloc(w * h * sizeof(int));
+    if (!raycaster->ceilMap) {
+        free(raycaster->map);
+        free(raycaster->floorMap);
+        raycaster->map      = NULL;
+        raycaster->floorMap = NULL;
+        return 1;
+    }
+
+    for (int i = 0; i < w * h; i++) {
+        raycaster->floorMap[i] = RAYCAST_EMPTY;
+        raycaster->ceilMap[i]  = RAYCAST_EMPTY;
     }
 
     raycaster->width        = w;
@@ -416,7 +514,110 @@ void raycast_render(Raycaster*           raycaster,
 }
 
 /**
+ * @brief Render textured floors and ceilings as a full-screen pre-pass.
+ *
+ * Uses perspective-correct floor casting to project each screen row back into
+ * world space, samples the per-cell floor/ceiling texture at that position,
+ * and falls back to @p background for cells that have no texture assigned.
+ *
+ * This function is called internally by raycast_render_textured() before the
+ * wall rendering loop so that walls are composited on top.
+ *
+ * @param raycaster The Raycaster instance.
+ * @param camera    The active camera.
+ * @param renderer  SDL renderer to draw into.
+ * @param w         Render width in pixels.
+ * @param h         Render height in pixels.
+ * @param background Fallback ARGB color for cells with no floor/ceiling texture.
+ */
+static void render_floor_ceiling(Raycaster*           raycaster,
+                                 const RaycastCamera* camera,
+                                 SDL_Renderer*        renderer,
+                                 int                  w,
+                                 int                  h,
+                                 const int*           background) {
+    /* The left-most and right-most ray directions for this frame. */
+    float rayDirX0 = camera->dirX - camera->planeX;
+    float rayDirY0 = camera->dirY - camera->planeY;
+    float rayDirX1 = camera->dirX + camera->planeX;
+    float rayDirY1 = camera->dirY + camera->planeY;
+
+    int   halfH    = h / 2;
+
+    for (int y = 0; y < h; y++) {
+        int isFloor = (y >= halfH);
+
+        /*
+         * p is the number of pixels this row is away from the horizon.
+         * At the exact horizon (p == 0) the row projects to infinity;
+         * fill it with the background colour and move on.
+         */
+        float p = isFloor ? (float) (y - halfH) : (float) (halfH - y);
+        if (p < 1.0f) {
+            raycast_set_draw_color(renderer, background);
+            SDL_RenderLine(renderer, 0, y, w - 1, y);
+            continue;
+        }
+
+        /* Perpendicular distance from camera to the floor/ceiling plane. */
+        float rowDistance = (0.5f * (float) h) / p;
+
+        /* World-space step between adjacent screen columns on this row. */
+        float floorStepX = rowDistance * (rayDirX1 - rayDirX0) / (float) w;
+        float floorStepY = rowDistance * (rayDirY1 - rayDirY0) / (float) w;
+
+        /* World-space position of the leftmost pixel on this row. */
+        float floorX  = camera->posX + rowDistance * rayDirX0;
+        float floorY  = camera->posY + rowDistance * rayDirY0;
+
+        int*  tileMap = isFloor ? raycaster->floorMap : raycaster->ceilMap;
+
+        for (int x = 0; x < w; x++) {
+            /* Map cell the current world position falls inside. */
+            int cellX = (int) floorf(floorX);
+            int cellY = (int) floorf(floorY);
+
+            int texId = RAYCAST_EMPTY;
+            if (cellX >= 0 && cellX < raycaster->width && cellY >= 0 && cellY < raycaster->height) {
+                texId = tileMap[cellY * raycaster->width + cellX];
+            }
+
+            int color;
+            if (texId >= 0 && texId < raycaster->textureCount) {
+                RaycastTexture* tex = raycaster->textures[texId];
+                /* Fractional position within the cell gives texture UVs. */
+                float fracX = floorX - floorf(floorX);
+                float fracY = floorY - floorf(floorY);
+                int   texX  = (int) (fracX * (float) tex->width);
+                int   texY  = (int) (fracY * (float) tex->height);
+                if (texX < 0)
+                    texX = 0;
+                if (texX >= tex->width)
+                    texX = tex->width - 1;
+                if (texY < 0)
+                    texY = 0;
+                if (texY >= tex->height)
+                    texY = tex->height - 1;
+                color = tex->pixels[texY * tex->width + texX];
+            } else {
+                color = *background;
+            }
+
+            raycast_set_draw_color(renderer, &color);
+            SDL_RenderPoint(renderer, (float) x, (float) y);
+
+            floorX += floorStepX;
+            floorY += floorStepY;
+        }
+    }
+}
+
+/**
  * @brief Render the Raycaster map with textures to the display.
+ *
+ * Renders textured floors and ceilings first (full-screen pre-pass via
+ * render_floor_ceiling()), then draws textured wall slices on top.
+ * Cells whose floor/ceiling map entry is RAYCAST_EMPTY fall back to @p background.
  *
  * @param raycaster The Raycaster instance to render.
  * @param camera The camera settings for rendering.
@@ -431,6 +632,10 @@ void raycast_render_textured(Raycaster*           raycaster,
                              int                  w,
                              int                  h,
                              const int*           background) {
+    /* Floor/ceiling pre-pass — covers every pixel so the wall loop below
+     * only needs to draw the wall slices themselves. */
+    render_floor_ceiling(raycaster, camera, renderer, w, h, background);
+
     float direction = atan2f(camera->dirY, camera->dirX) * (180.0f / M_PI);
 
     for (int x = 0; x < w; x++) {
@@ -441,9 +646,6 @@ void raycast_render_textured(Raycaster*           raycaster,
         int wallHeight = (hit.distance > 0.0f) ? (int) (h / (hit.distance + 0.0001f)) : 0;
         int wallTop    = (h - wallHeight) / 2;
         int wallBottom = wallTop + wallHeight;
-
-        raycast_set_draw_color(renderer, background);
-        SDL_RenderLine(renderer, x, 0, x, wallTop);
 
         if (hit.textureId >= 0 && hit.textureId < raycaster->textureCount) {
             RaycastTexture* texture = raycaster->textures[hit.textureId];
@@ -482,9 +684,6 @@ void raycast_render_textured(Raycaster*           raycaster,
             raycast_set_draw_color(renderer, &fallbackColor);
             SDL_RenderLine(renderer, x, wallTop, x, wallBottom);
         }
-
-        raycast_set_draw_color(renderer, background);
-        SDL_RenderLine(renderer, x, wallBottom, x, h);
     }
 }
 
@@ -587,3 +786,22 @@ void raycast_set_draw_color(SDL_Renderer* renderer, const int* color) {
  * @return A string containing the version of the libraycast library.
  */
 const char* raycast_version(void) { return RAYCAST_VERSION; }
+
+/**
+ * @brief Return the index of a texture already registered with the raycaster,
+ *        or add it and return the new index.
+ *
+ * @param raycaster The raycaster instance.
+ * @param texture   The texture to look up or register.
+ * @return Index of the texture in raycaster->textures, or -1 on allocation failure.
+ */
+static int get_or_add_texture(Raycaster* raycaster, RaycastTexture* texture) {
+    for (int i = 0; i < raycaster->textureCount; i++) {
+        if (raycaster->textures[i] == texture) {
+            return i;
+        }
+    }
+    int prevCount = raycaster->textureCount;
+    raycast_add_texture(raycaster, texture);
+    return (raycaster->textureCount > prevCount) ? prevCount : -1;
+}

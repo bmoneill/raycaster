@@ -11,6 +11,8 @@ static RaycastTexture* create_brick_texture(int, int);
 static RaycastTexture* create_checkered_texture(int, int);
 static RaycastTexture* create_stone_texture(int, int);
 static RaycastTexture* create_wood_texture(int, int);
+static RaycastTexture* create_tile_texture(int, int);
+static RaycastTexture* create_panel_texture(int, int);
 
 int                    texturedDemoMap[] = {
     1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  -1, -1, -1,
@@ -48,6 +50,8 @@ int main(int argc, char* argv[]) {
     RaycastTexture* stoneTexture             = create_stone_texture(64, 64);
     RaycastTexture* woodTexture              = create_wood_texture(64, 64);
     RaycastTexture* checkerTexture           = create_checkered_texture(64, 64);
+    RaycastTexture* floorTexture             = create_tile_texture(64, 64);
+    RaycastTexture* ceilTexture              = create_panel_texture(64, 64);
     int             running                  = 1;
     int             keys[SDL_SCANCODE_COUNT] = { 0 };
     int             draw                     = 1;
@@ -91,6 +95,10 @@ int main(int argc, char* argv[]) {
     raycast_add_texture(raycaster, stoneTexture); // 1
     raycast_add_texture(raycaster, woodTexture); // 2
     raycast_add_texture(raycaster, checkerTexture); // 3
+
+    RaycastRect fullMap = { 0.0f, 0.0f, (float) mapWidth, (float) mapLength };
+    raycast_add_floor(raycaster, floorTexture, &fullMap);
+    raycast_add_ceiling(raycaster, ceilTexture, &fullMap);
 
     for (int i = 0; i < mapWidth * mapLength; i++) {
         raycaster->map[i] = texturedDemoMap[i];
@@ -237,6 +245,86 @@ static RaycastTexture* create_wood_texture(int width, int height) {
             int   g                        = CLAMP(90 + (int) grain);
             int   b                        = CLAMP(43 + (int) (grain * 0.5f));
             texture->pixels[y * width + x] = 0xFF000000 | (r << 16) | (g << 8) | b;
+        }
+    }
+
+    return texture;
+}
+
+/**
+ * @brief Create a floor tile texture: light stone squares with darker grout lines.
+ *
+ * This texture is intended for flat floors.  It can be replaced by a file-loaded
+ * texture via a future raycast_texture_load_file() without changing any other code.
+ *
+ * @param width  Width of the texture
+ * @param height Height of the texture
+ * @return RaycastTexture* The created tile texture
+ */
+static RaycastTexture* create_tile_texture(int width, int height) {
+    RaycastTexture* texture = raycast_texture_create(width, height);
+    if (!texture)
+        return NULL;
+
+    int tile_color  = 0xFFD2B48C; /* tan */
+    int grout_color = 0xFF8B7355; /* darker tan / grout */
+    int tile_size   = 16;
+    int grout_width = 2;
+
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            int tx = x % tile_size;
+            int ty = y % tile_size;
+            if (tx < grout_width || ty < grout_width) {
+                texture->pixels[y * width + x] = grout_color;
+            } else {
+                /* Slight variation to break up the uniform colour */
+                int variation                  = ((tx * 3 + ty * 5) % 16) - 8;
+                int r                          = CLAMP(((tile_color >> 16) & 0xFF) + variation);
+                int g                          = CLAMP(((tile_color >> 8) & 0xFF) + variation);
+                int b                          = CLAMP((tile_color & 0xFF) + variation);
+                texture->pixels[y * width + x] = 0xFF000000 | (r << 16) | (g << 8) | b;
+            }
+        }
+    }
+
+    return texture;
+}
+
+/**
+ * @brief Create a ceiling panel texture: dark grey metal panels with seam lines.
+ *
+ * This texture is intended for flat ceilings.  It can be replaced by a file-loaded
+ * texture via a future raycast_texture_load_file() without changing any other code.
+ *
+ * @param width  Width of the texture
+ * @param height Height of the texture
+ * @return RaycastTexture* The created panel texture
+ */
+static RaycastTexture* create_panel_texture(int width, int height) {
+    RaycastTexture* texture = raycast_texture_create(width, height);
+    if (!texture)
+        return NULL;
+
+    int panel_color = 0xFF4A4A4A; /* dark grey */
+    int seam_color  = 0xFF2A2A2A; /* near-black seams */
+    int panel_w     = 32;
+    int panel_h     = 16;
+    int seam_width  = 1;
+
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            int px = x % panel_w;
+            int py = y % panel_h;
+            if (px < seam_width || py < seam_width) {
+                texture->pixels[y * width + x] = seam_color;
+            } else {
+                int variation                  = ((px * 2 + py * 7) % 12) - 6;
+                int r                          = CLAMP(((panel_color >> 16) & 0xFF) + variation);
+                int g                          = CLAMP(((panel_color >> 8) & 0xFF) + variation);
+                int b                          = CLAMP((panel_color & 0xFF) + variation);
+                texture->pixels[y * width + x] = 0xFF000000 | (r << 16) | (g << 8) | b;
+            }
         }
     }
 

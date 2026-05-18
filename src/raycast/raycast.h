@@ -51,6 +51,8 @@ typedef struct {
     RaycastTexture** textures; //!< Array of textures
     int              textureCount; //!< Number of textures
     int              textured; //!< Whether to use textures
+    int* floorMap; //!< Per-cell floor texture IDs (RAYCAST_EMPTY = no texture / use background)
+    int* ceilMap; //!< Per-cell ceiling texture IDs (RAYCAST_EMPTY = no texture / use background)
 } Raycaster;
 
 /**
@@ -83,6 +85,8 @@ void            raycast_cast_textured(Raycaster*, float, float, float, RaycastHi
 RaycastTexture* raycast_texture_create(int, int);
 void            raycast_texture_destroy(RaycastTexture*);
 void            raycast_add_texture(Raycaster*, RaycastTexture*);
+void            raycast_add_floor(Raycaster*, RaycastTexture*, const RaycastRect*);
+void            raycast_add_ceiling(Raycaster*, RaycastTexture*, const RaycastRect*);
 bool            raycast_collides(Raycaster*, float, float);
 void            raycast_destroy(Raycaster*);
 void            raycast_draw(Raycaster*, const RaycastRect*, const int*);
