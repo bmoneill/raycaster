@@ -1,7 +1,9 @@
 <div align="center">
     <h1><b>raycast</b>
     <h4>A Raycasting engine using SDL3.</h4>
-    <a href="https://github.com/bmoneill/raycast/actions/workflows/cmake-single-platform.yml"><img src="https://github.com/bmoneill/raycast/actions/workflows/cmake-single-platform.yml/badge.svg?branch=main" alt="Build Status" /></a>
+    <a href="https://github.com/bmoneill/raycast/actions/workflows/ci-linux.yml"><img src="https://github.com/bmoneill/raycast/actions/workflows/ci-linux.yml/badge.svg?branch=main" alt="Linux CI status" /></a>
+    <a href="https://github.com/bmoneill/raycast/actions/workflows/ci-macos.yml"><img src="https://github.com/bmoneill/raycast/actions/workflows/ci-macos.yml/badge.svg?branch=main" alt="macOS CI status" /></a>
+    <a href="https://github.com/bmoneill/raycast/actions/workflows/ci-windows.yml"><img src="https://github.com/bmoneill/raycast/actions/workflows/ci-windows.yml/badge.svg?branch=main" alt="Windows CI status" /></a>
     <a href="https://bmoneill.github.io/raycast"><img src="https://github.com/bmoneill/raycast/actions/workflows/doxygen.yml/badge.svg?branch=main" alt="Doxygen Status" /></a>
     <a href="https://github.com/bmoneill/raycast/actions/workflows/clang-format.yml"><img src="https://github.com/bmoneill/raycast/actions/workflows/clang-format.yml/badge.svg?branch=main" alt="Clang-format status" /></a>
 </div>
@@ -31,7 +33,7 @@ rendering, as well as 2-D top-down "minimap" rendering.
 - A C99-compatible C compiler (e.g. GCC, Clang)
 - [SDL3](https://wiki.libsdl.org/SDL3/FrontPage)
 
-### Linux / macOS
+### Linux / macOS / Windows (WSL or MinGW)
 
 ```shell
 # build library and demo

@@ -12,27 +12,27 @@ execute_process(
 )
 
 # Version
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DRAYCAST_VERSION='\"${GIT_COMMIT_HASH}\"'")
+add_compile_definitions(RAYCAST_VERSION="${GIT_COMMIT_HASH}")
 
 
 # SDL3
 include(FetchContent)
 function(include_dependency libName gitURL gitTag)
-    FetchContent_Declare(${libName}
+  FetchContent_Declare(${libName}
             GIT_REPOSITORY ${gitURL}
             GIT_TAG        ${gitTag}
             GIT_SHALLOW    TRUE
             GIT_PROGRESS   TRUE
     )
 
-    FetchContent_MakeAvailable(${libName})
+  FetchContent_MakeAvailable(${libName})
 endfunction()
 find_package(SDL3 QUIET)
 if (NOT SDL3_FOUND)
-    message(STATUS "Getting SDL3 from Github")
-    include_dependency(SDL3 https://github.com/libsdl-org/SDL.git release-3.2.18)
+  message(STATUS "Getting SDL3 from Github")
+  include_dependency(SDL3 https://github.com/libsdl-org/SDL.git release-3.2.18)
 else()
-    message(STATUS "Using local SDL3")
+  message(STATUS "Using local SDL3")
 endif()
 
 # C standard
@@ -43,29 +43,29 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -Wpedantic -Werror")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-unused-parameter -Wno-unused-function -Wno-unused-variable -Wno-missing-field-initializers")
 
 function(Enable_Tests)
-    set(TEST ON CACHE INTERNAL "")
+  set(TEST ON CACHE INTERNAL "")
 endfunction()
 
 function(Build_Demo)
-    add_subdirectory(demo)
-    include_directories(demo)
+  add_subdirectory(demo)
+  include_directories(demo)
 endfunction()
 
 function(Build_Library)
-    add_subdirectory(src)
-    include_directories(src)
+  add_subdirectory(src)
+  include_directories(src)
 endfunction()
 
 function(Build_Tests)
-    add_subdirectory(external)
-    add_subdirectory(test)
+  add_subdirectory(external)
+  add_subdirectory(test)
 endfunction()
 
 if(TEST)
-    Enable_Tests()
-    Build_Library()
-    Build_Tests()
+  Enable_Tests()
+  Build_Library()
+  Build_Tests()
 else()
-    Build_Library()
-    Build_Demo()
+  Build_Library()
+  Build_Demo()
 endif()
