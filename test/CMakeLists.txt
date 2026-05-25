@@ -13,6 +13,13 @@ function(add_raycast_test name)
   add_executable(${name}_tests ${test_src} ${runner_src})
   target_link_libraries(${name}_tests raycast_static Unity)
 
+  # On MinGW, statically link the GCC and threading runtimes so the test
+  # executable does not depend on libgcc_s_seh-1.dll / libwinpthread-1.dll
+  # being present on PATH at test time.
+  if(MINGW)
+    target_link_options(${name}_tests PRIVATE -static)
+  endif()
+
   # Register as a CTest test
   add_test(NAME ${name} COMMAND ${name}_tests)
 endfunction()
