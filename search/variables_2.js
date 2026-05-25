@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['h_0',['h',['../structRaycastRect.html#a85f2f1bd58b3b44ffdf3881823393959',1,'RaycastRect']]],
-  ['height_1',['height',['../structRaycastTexture.html#ad12fc34ce789bce6c8a05d8a17138534',1,'RaycastTexture::height()'],['../structRaycaster.html#ad12fc34ce789bce6c8a05d8a17138534',1,'Raycaster::height()']]]
+  ['floormap_0',['floorMap',['../structRaycaster.html#abdbcd287f72bfdfe6b34d3a5b3d22d8f',1,'Raycaster']]],
+  ['fov_1',['fov',['../structRaycastCamera.html#a0e2c6074b080f7edcb7ed453e39b005b',1,'RaycastCamera']]]
 ];

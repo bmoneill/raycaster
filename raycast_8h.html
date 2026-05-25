@@ -108,6 +108,9 @@ Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRaycastTexture.html">RaycastTexture</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Texture structure for wall rendering.  <a href="structRaycastTexture.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRaycastSprite.html">RaycastSprite</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A billboard sprite placed in world space.  <a href="structRaycastSprite.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRaycastHit.html">RaycastHit</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Information about a raycast hit.  <a href="structRaycastHit.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -125,6 +128,9 @@ Data Structures</h2></td></tr>
 Macros</h2></td></tr>
 <tr class="memitem:aa876f913258beec082e707b19374023a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="raycast_8h.html#aa876f913258beec082e707b19374023a">RAYCAST_VERSION</a>&#160;&#160;&#160;&quot;unknown&quot;</td></tr>
 <tr class="separator:aa876f913258beec082e707b19374023a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c541ed0387e7186a478740804c124c9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="raycast_8h.html#a4c541ed0387e7186a478740804c124c9">RAYCAST_SPRITE_COLLISION_RADIUS</a>&#160;&#160;&#160;0.3f</td></tr>
+<tr class="memdesc:a4c541ed0387e7186a478740804c124c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sprite collision radius in world units.  <br /></td></tr>
+<tr class="separator:a4c541ed0387e7186a478740804c124c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
@@ -153,9 +159,36 @@ Functions</h2></td></tr>
 <tr class="memitem:a75328cafb733b026a499c66dee3b8bfc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="raycast_8h.html#a75328cafb733b026a499c66dee3b8bfc">raycast_add_texture</a> (<a class="el" href="structRaycaster.html">Raycaster</a> *, <a class="el" href="structRaycastTexture.html">RaycastTexture</a> *)</td></tr>
 <tr class="memdesc:a75328cafb733b026a499c66dee3b8bfc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a texture to the raycaster.  <br /></td></tr>
 <tr class="separator:a75328cafb733b026a499c66dee3b8bfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec01219c63b6ae1d4a595221cdb0f4a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="raycast_8h.html#aec01219c63b6ae1d4a595221cdb0f4a5">raycast_add_floor</a> (<a class="el" href="structRaycaster.html">Raycaster</a> *, <a class="el" href="structRaycastTexture.html">RaycastTexture</a> *, const <a class="el" href="structRaycastRect.html">RaycastRect</a> *)</td></tr>
+<tr class="memdesc:aec01219c63b6ae1d4a595221cdb0f4a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fill a rectangular region of the floor map with a texture.  <br /></td></tr>
+<tr class="separator:aec01219c63b6ae1d4a595221cdb0f4a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10233941e278dc2657ca1b0dc0aa2b47"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="raycast_8h.html#a10233941e278dc2657ca1b0dc0aa2b47">raycast_add_ceiling</a> (<a class="el" href="structRaycaster.html">Raycaster</a> *, <a class="el" href="structRaycastTexture.html">RaycastTexture</a> *, const <a class="el" href="structRaycastRect.html">RaycastRect</a> *)</td></tr>
+<tr class="memdesc:a10233941e278dc2657ca1b0dc0aa2b47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fill a rectangular region of the ceiling map with a texture.  <br /></td></tr>
+<tr class="separator:a10233941e278dc2657ca1b0dc0aa2b47"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a106ec8f327efb038f1b3203af10f3d7e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structRaycastSprite.html">RaycastSprite</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="raycast_8h.html#a106ec8f327efb038f1b3203af10f3d7e">raycast_sprite_create</a> (float, float, <a class="el" href="structRaycastTexture.html">RaycastTexture</a> *, int)</td></tr>
+<tr class="memdesc:a106ec8f327efb038f1b3203af10f3d7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new sprite.  <br /></td></tr>
+<tr class="separator:a106ec8f327efb038f1b3203af10f3d7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3451e8abf9f898d11b70974906751cda"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="raycast_8h.html#a3451e8abf9f898d11b70974906751cda">raycast_sprite_destroy</a> (<a class="el" href="structRaycastSprite.html">RaycastSprite</a> *)</td></tr>
+<tr class="memdesc:a3451e8abf9f898d11b70974906751cda"><td class="mdescLeft">&#160;</td><td class="mdescRight">Free a sprite.  <br /></td></tr>
+<tr class="separator:a3451e8abf9f898d11b70974906751cda"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac46caa97fbfae7ff8aac73410763d392"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="raycast_8h.html#ac46caa97fbfae7ff8aac73410763d392">raycast_add_sprite</a> (<a class="el" href="structRaycaster.html">Raycaster</a> *, <a class="el" href="structRaycastSprite.html">RaycastSprite</a> *)</td></tr>
+<tr class="memdesc:ac46caa97fbfae7ff8aac73410763d392"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a sprite to the raycaster.  <br /></td></tr>
+<tr class="separator:ac46caa97fbfae7ff8aac73410763d392"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b03f74c8f0756a6d88ed99c29814bad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="raycast_8h.html#a1b03f74c8f0756a6d88ed99c29814bad">raycast_sprite_set_direction</a> (<a class="el" href="structRaycastSprite.html">RaycastSprite</a> *, float, float)</td></tr>
+<tr class="memdesc:a1b03f74c8f0756a6d88ed99c29814bad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the facing direction of a sprite.  <br /></td></tr>
+<tr class="separator:a1b03f74c8f0756a6d88ed99c29814bad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a16c2ccc90cab470f3225015af9b48f9c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="raycast_8h.html#a16c2ccc90cab470f3225015af9b48f9c">raycast_sprite_move</a> (<a class="el" href="structRaycastSprite.html">RaycastSprite</a> *, float)</td></tr>
+<tr class="memdesc:a16c2ccc90cab470f3225015af9b48f9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move a sprite along its current direction vector.  <br /></td></tr>
+<tr class="separator:a16c2ccc90cab470f3225015af9b48f9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf226ff0680f2ca6c44edb9538d80dc0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="raycast_8h.html#adf226ff0680f2ca6c44edb9538d80dc0">raycast_sprite_set_texture</a> (<a class="el" href="structRaycastSprite.html">RaycastSprite</a> *, <a class="el" href="structRaycastTexture.html">RaycastTexture</a> *)</td></tr>
+<tr class="memdesc:adf226ff0680f2ca6c44edb9538d80dc0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Replace a sprite's display texture without changing its position or direction.  <br /></td></tr>
+<tr class="separator:adf226ff0680f2ca6c44edb9538d80dc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aac3675046ba5900969dc35d08fc94aad"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="raycast_8h.html#aac3675046ba5900969dc35d08fc94aad">raycast_collides</a> (<a class="el" href="structRaycaster.html">Raycaster</a> *, float, float)</td></tr>
 <tr class="memdesc:aac3675046ba5900969dc35d08fc94aad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a point collides with an occupied pixel in the <a class="el" href="structRaycaster.html" title="Raycaster structure.">Raycaster</a> map.  <br /></td></tr>
 <tr class="separator:aac3675046ba5900969dc35d08fc94aad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a656c62236e5955306d4aebba081b5d42"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="raycast_8h.html#a656c62236e5955306d4aebba081b5d42">raycast_collides_sprites</a> (<a class="el" href="structRaycaster.html">Raycaster</a> *, float, float)</td></tr>
+<tr class="memdesc:a656c62236e5955306d4aebba081b5d42"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether a world position is blocked by a collidable sprite.  <br /></td></tr>
+<tr class="separator:a656c62236e5955306d4aebba081b5d42"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad2b765f9782f6a43155a0b8a7f9678a2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="raycast_8h.html#ad2b765f9782f6a43155a0b8a7f9678a2">raycast_destroy</a> (<a class="el" href="structRaycaster.html">Raycaster</a> *)</td></tr>
 <tr class="memdesc:ad2b765f9782f6a43155a0b8a7f9678a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy a <a class="el" href="structRaycaster.html" title="Raycaster structure.">Raycaster</a> instance.  <br /></td></tr>
 <tr class="separator:ad2b765f9782f6a43155a0b8a7f9678a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -196,6 +229,23 @@ Functions</h2></td></tr>
 <tr class="separator:ab6c2a4c9c9e2778155a0ea592a332661"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a4c541ed0387e7186a478740804c124c9" name="a4c541ed0387e7186a478740804c124c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c541ed0387e7186a478740804c124c9">&#9670;&#160;</a></span>RAYCAST_SPRITE_COLLISION_RADIUS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define RAYCAST_SPRITE_COLLISION_RADIUS&#160;&#160;&#160;0.3f</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sprite collision radius in world units. </p>
+<p>This is the minimum distance a camera position may be from a collidable sprite before <a class="el" href="raycast_8h.html#a656c62236e5955306d4aebba081b5d42" title="Check whether a world position is blocked by a collidable sprite.">raycast_collides_sprites()</a> reports a hit. </p>
+
+</div>
+</div>
 <a id="aa876f913258beec082e707b19374023a" name="aa876f913258beec082e707b19374023a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa876f913258beec082e707b19374023a">&#9670;&#160;</a></span>RAYCAST_VERSION</h2>
 
@@ -234,6 +284,135 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="a10233941e278dc2657ca1b0dc0aa2b47" name="a10233941e278dc2657ca1b0dc0aa2b47"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a10233941e278dc2657ca1b0dc0aa2b47">&#9670;&#160;</a></span>raycast_add_ceiling()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void raycast_add_ceiling </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structRaycaster.html">Raycaster</a> *&#160;</td>
+          <td class="paramname"><em>raycaster</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structRaycastTexture.html">RaycastTexture</a> *&#160;</td>
+          <td class="paramname"><em>texture</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structRaycastRect.html">RaycastRect</a> *&#160;</td>
+          <td class="paramname"><em>rect</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Fill a rectangular region of the ceiling map with a texture. </p>
+<p>Behaves identically to <a class="el" href="raycast_8c.html#a350127c005bfe34c7b960ff17c008212" title="Fill a rectangular region of the floor map with a texture.">raycast_add_floor()</a> but writes into the ceiling map.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">raycaster</td><td>The raycaster instance. </td></tr>
+    <tr><td class="paramname">texture</td><td>Texture to use for the ceiling in this region. </td></tr>
+    <tr><td class="paramname">rect</td><td>Map-space rectangle to fill (x/y/w/h in tile units). </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aec01219c63b6ae1d4a595221cdb0f4a5" name="aec01219c63b6ae1d4a595221cdb0f4a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec01219c63b6ae1d4a595221cdb0f4a5">&#9670;&#160;</a></span>raycast_add_floor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void raycast_add_floor </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structRaycaster.html">Raycaster</a> *&#160;</td>
+          <td class="paramname"><em>raycaster</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structRaycastTexture.html">RaycastTexture</a> *&#160;</td>
+          <td class="paramname"><em>texture</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structRaycastRect.html">RaycastRect</a> *&#160;</td>
+          <td class="paramname"><em>rect</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Fill a rectangular region of the floor map with a texture. </p>
+<p>Registers the texture with the raycaster if it has not been added yet (equivalent to calling raycast_add_texture once), then stamps every cell inside <code>rect</code> with that texture's ID. Cells outside the map bounds are silently ignored.</p>
+<p>The texture pointer itself is the only thing needed here — it can be created programmatically with <a class="el" href="raycast_8c.html#ad0079ac048fca241fe056340ab078a77" title="Create a new texture.">raycast_texture_create()</a> or, in the future, loaded from a file with a helper such as raycast_texture_load_file().</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">raycaster</td><td>The raycaster instance. </td></tr>
+    <tr><td class="paramname">texture</td><td>Texture to use for the floor in this region. </td></tr>
+    <tr><td class="paramname">rect</td><td>Map-space rectangle to fill (x/y/w/h in tile units). </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ac46caa97fbfae7ff8aac73410763d392" name="ac46caa97fbfae7ff8aac73410763d392"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac46caa97fbfae7ff8aac73410763d392">&#9670;&#160;</a></span>raycast_add_sprite()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void raycast_add_sprite </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structRaycaster.html">Raycaster</a> *&#160;</td>
+          <td class="paramname"><em>raycaster</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structRaycastSprite.html">RaycastSprite</a> *&#160;</td>
+          <td class="paramname"><em>sprite</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Add a sprite to the raycaster. </p>
+<p>The raycaster takes ownership of the sprite: it will be freed by <a class="el" href="raycast_8c.html#aa58f1a011a3e12428cde979356e647e4" title="Destroy a Raycaster instance.">raycast_destroy()</a>. The sprite's texture is not affected.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">raycaster</td><td>The raycaster instance. </td></tr>
+    <tr><td class="paramname">sprite</td><td>The sprite to add. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a75328cafb733b026a499c66dee3b8bfc" name="a75328cafb733b026a499c66dee3b8bfc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a75328cafb733b026a499c66dee3b8bfc">&#9670;&#160;</a></span>raycast_add_texture()</h2>
 
@@ -433,6 +612,52 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if the point collides with an occupied pixel, false otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="a656c62236e5955306d4aebba081b5d42" name="a656c62236e5955306d4aebba081b5d42"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a656c62236e5955306d4aebba081b5d42">&#9670;&#160;</a></span>raycast_collides_sprites()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool raycast_collides_sprites </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structRaycaster.html">Raycaster</a> *&#160;</td>
+          <td class="paramname"><em>raycaster</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Check whether a world position is blocked by a collidable sprite. </p>
+<p>Returns true if the given point is within RAYCAST_SPRITE_COLLISION_RADIUS world units of any sprite whose collides field is non-zero.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">raycaster</td><td>The raycaster instance. </td></tr>
+    <tr><td class="paramname">x</td><td>World-space X to test. </td></tr>
+    <tr><td class="paramname">y</td><td>World-space Y to test. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if the position collides with a sprite. </dd></dl>
 
 </div>
 </div>
@@ -910,6 +1135,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Render the <a class="el" href="structRaycaster.html" title="Raycaster structure.">Raycaster</a> map with textures to the display. </p>
+<p>Renders textured floors and ceilings first (full-screen pre-pass via render_floor_ceiling()), then draws textured wall slices, then composites sprites on top using a per-column Z-buffer. Cells whose floor/ceiling map entry is RAYCAST_EMPTY fall back to <code>background</code>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">raycaster</td><td>The <a class="el" href="structRaycaster.html" title="Raycaster structure.">Raycaster</a> instance to render. </td></tr>
@@ -993,6 +1219,206 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">renderer</td><td>The SDL_Renderer to set the draw color for. </td></tr>
     <tr><td class="paramname">color</td><td>Pointer to the int to use for setting the draw color. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a106ec8f327efb038f1b3203af10f3d7e" name="a106ec8f327efb038f1b3203af10f3d7e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a106ec8f327efb038f1b3203af10f3d7e">&#9670;&#160;</a></span>raycast_sprite_create()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structRaycastSprite.html">RaycastSprite</a> * raycast_sprite_create </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structRaycastTexture.html">RaycastTexture</a> *&#160;</td>
+          <td class="paramname"><em>texture</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>collides</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Create a new sprite. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>Initial world-space X position. </td></tr>
+    <tr><td class="paramname">y</td><td>Initial world-space Y position. </td></tr>
+    <tr><td class="paramname">texture</td><td>Display texture. May be NULL; can be changed later via <a class="el" href="raycast_8c.html#aa6d6ed871f51c342153f674531624021" title="Replace a sprite&#39;s display texture without changing its position or direction.">raycast_sprite_set_texture()</a>. The sprite does NOT take ownership of this pointer. </td></tr>
+    <tr><td class="paramname">collides</td><td>Non-zero if this sprite should block camera movement (checked by <a class="el" href="raycast_8c.html#afdc0f2be470e3362e3ea051a533e0e76" title="Check whether a world position is blocked by a collidable sprite.">raycast_collides_sprites()</a>). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Newly allocated <a class="el" href="structRaycastSprite.html" title="A billboard sprite placed in world space.">RaycastSprite</a>, or NULL on allocation failure. </dd></dl>
+
+</div>
+</div>
+<a id="a3451e8abf9f898d11b70974906751cda" name="a3451e8abf9f898d11b70974906751cda"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3451e8abf9f898d11b70974906751cda">&#9670;&#160;</a></span>raycast_sprite_destroy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void raycast_sprite_destroy </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structRaycastSprite.html">RaycastSprite</a> *&#160;</td>
+          <td class="paramname"><em>sprite</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Free a sprite. </p>
+<p>Only the sprite struct itself is freed. The texture pointer is not touched — manage texture lifetime separately (e.g. via <a class="el" href="raycast_8c.html#ae62fd8762f5316fe31c60a2998bca933" title="Add a texture to the raycaster.">raycast_add_texture()</a> / <a class="el" href="raycast_8c.html#ab0bec7e954be4b899cd2eb33cf8c553b" title="Destroy a texture.">raycast_texture_destroy()</a>).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sprite</td><td>The sprite to free. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a16c2ccc90cab470f3225015af9b48f9c" name="a16c2ccc90cab470f3225015af9b48f9c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a16c2ccc90cab470f3225015af9b48f9c">&#9670;&#160;</a></span>raycast_sprite_move()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void raycast_sprite_move </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structRaycastSprite.html">RaycastSprite</a> *&#160;</td>
+          <td class="paramname"><em>sprite</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>speed</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Move a sprite along its current direction vector. </p>
+<p>Advances the sprite's world position by (dirX * speed, dirY * speed). No collision checking is performed here — use <a class="el" href="raycast_8c.html#a9e59eddf9b8ebb43dbc8896628907d4f" title="Check if a point collides with an occupied pixel in the Raycaster map.">raycast_collides()</a> and <a class="el" href="raycast_8c.html#afdc0f2be470e3362e3ea051a533e0e76" title="Check whether a world position is blocked by a collidable sprite.">raycast_collides_sprites()</a> before calling this if you need collision.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sprite</td><td>The sprite to move. </td></tr>
+    <tr><td class="paramname">speed</td><td>Distance to move (world units). </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a1b03f74c8f0756a6d88ed99c29814bad" name="a1b03f74c8f0756a6d88ed99c29814bad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b03f74c8f0756a6d88ed99c29814bad">&#9670;&#160;</a></span>raycast_sprite_set_direction()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void raycast_sprite_set_direction </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structRaycastSprite.html">RaycastSprite</a> *&#160;</td>
+          <td class="paramname"><em>sprite</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>dirX</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>dirY</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the facing direction of a sprite. </p>
+<p>The direction vector does not need to be normalised. It is used both by <a class="el" href="raycast_8c.html#a962b30c3d8e6502719d633d4a5c22741" title="Move a sprite along its current direction vector.">raycast_sprite_move()</a> (the sprite advances along this vector scaled by speed) and by the caller for texture selection (e.g. choosing a front vs. back texture based on dirX/dirY relative to the camera).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sprite</td><td>The sprite to update. </td></tr>
+    <tr><td class="paramname">dirX</td><td>New X component of the direction vector. </td></tr>
+    <tr><td class="paramname">dirY</td><td>New Y component of the direction vector. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="adf226ff0680f2ca6c44edb9538d80dc0" name="adf226ff0680f2ca6c44edb9538d80dc0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf226ff0680f2ca6c44edb9538d80dc0">&#9670;&#160;</a></span>raycast_sprite_set_texture()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void raycast_sprite_set_texture </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structRaycastSprite.html">RaycastSprite</a> *&#160;</td>
+          <td class="paramname"><em>sprite</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structRaycastTexture.html">RaycastTexture</a> *&#160;</td>
+          <td class="paramname"><em>texture</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Replace a sprite's display texture without changing its position or direction. </p>
+<p>Use this to implement animations, directional sprites, or any other per-frame texture swap. The old texture pointer is simply overwritten; neither the old nor the new texture is freed.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sprite</td><td>The sprite to update. </td></tr>
+    <tr><td class="paramname">texture</td><td>The new display texture (may be NULL to hide the sprite). </td></tr>
   </table>
   </dd>
 </dl>

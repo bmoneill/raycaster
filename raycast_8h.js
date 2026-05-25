@@ -1,10 +1,12 @@
 var raycast_8h =
 [
     [ "RaycastTexture", "structRaycastTexture.html", "structRaycastTexture" ],
+    [ "RaycastSprite", "structRaycastSprite.html", "structRaycastSprite" ],
     [ "RaycastHit", "structRaycastHit.html", "structRaycastHit" ],
     [ "Raycaster", "structRaycaster.html", "structRaycaster" ],
     [ "RaycastRect", "structRaycastRect.html", "structRaycastRect" ],
     [ "RaycastCamera", "structRaycastCamera.html", "structRaycastCamera" ],
+    [ "RAYCAST_SPRITE_COLLISION_RADIUS", "raycast_8h.html#a4c541ed0387e7186a478740804c124c9", null ],
     [ "RAYCAST_VERSION", "raycast_8h.html#aa876f913258beec082e707b19374023a", null ],
     [ "RaycastDirection", "raycast_8h.html#a3fb1488b5c585184a8ab764c2e9346e2", [
       [ "RAYCAST_FORWARD", "raycast_8h.html#a3fb1488b5c585184a8ab764c2e9346e2a30786283d189fac4c894883d50987515", null ],
@@ -12,10 +14,14 @@ var raycast_8h =
       [ "RAYCAST_LEFT", "raycast_8h.html#a3fb1488b5c585184a8ab764c2e9346e2a59e81b411fddb448e4313bbf5acbbe1e", null ],
       [ "RAYCAST_RIGHT", "raycast_8h.html#a3fb1488b5c585184a8ab764c2e9346e2a3735cb2a68b554cec1f1019af5d695c1", null ]
     ] ],
+    [ "raycast_add_ceiling", "raycast_8h.html#a10233941e278dc2657ca1b0dc0aa2b47", null ],
+    [ "raycast_add_floor", "raycast_8h.html#aec01219c63b6ae1d4a595221cdb0f4a5", null ],
+    [ "raycast_add_sprite", "raycast_8h.html#ac46caa97fbfae7ff8aac73410763d392", null ],
     [ "raycast_add_texture", "raycast_8h.html#a75328cafb733b026a499c66dee3b8bfc", null ],
     [ "raycast_cast", "raycast_8h.html#aa505bc1ac700547a1222b4634eee0c73", null ],
     [ "raycast_cast_textured", "raycast_8h.html#a7c033de34d735433e8e5264f2ee33105", null ],
     [ "raycast_collides", "raycast_8h.html#aac3675046ba5900969dc35d08fc94aad", null ],
+    [ "raycast_collides_sprites", "raycast_8h.html#a656c62236e5955306d4aebba081b5d42", null ],
     [ "raycast_destroy", "raycast_8h.html#ad2b765f9782f6a43155a0b8a7f9678a2", null ],
     [ "raycast_draw", "raycast_8h.html#a8da7c5c45d9f64e5336ae5fa14dd2e90", null ],
     [ "raycast_erase", "raycast_8h.html#a94e782fec208fe07426218f54539c306", null ],
@@ -28,6 +34,11 @@ var raycast_8h =
     [ "raycast_render_textured", "raycast_8h.html#ab23402acae9d4c1642223eda31886dd9", null ],
     [ "raycast_rotate_camera", "raycast_8h.html#a4e4f4f5f3533275c6cc9fc1f395b752a", null ],
     [ "raycast_set_draw_color", "raycast_8h.html#a8cd217b6c384d18197d9667e8ec8b539", null ],
+    [ "raycast_sprite_create", "raycast_8h.html#a106ec8f327efb038f1b3203af10f3d7e", null ],
+    [ "raycast_sprite_destroy", "raycast_8h.html#a3451e8abf9f898d11b70974906751cda", null ],
+    [ "raycast_sprite_move", "raycast_8h.html#a16c2ccc90cab470f3225015af9b48f9c", null ],
+    [ "raycast_sprite_set_direction", "raycast_8h.html#a1b03f74c8f0756a6d88ed99c29814bad", null ],
+    [ "raycast_sprite_set_texture", "raycast_8h.html#adf226ff0680f2ca6c44edb9538d80dc0", null ],
     [ "raycast_texture_create", "raycast_8h.html#a9661066d389b5a12d64658a9723ffc18", null ],
     [ "raycast_texture_destroy", "raycast_8h.html#a637c66f7680d7843b8f41ee13528f108", null ],
     [ "raycast_version", "raycast_8h.html#ab6c2a4c9c9e2778155a0ea592a332661", null ]

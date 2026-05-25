@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['texturecount_0',['textureCount',['../structRaycaster.html#af2d17811c18ed8fc24bf21d18ea12eef',1,'Raycaster']]],
-  ['textured_1',['textured',['../structRaycaster.html#a34e5c4e9fa0d6c5a6380769827e1d3db',1,'Raycaster']]],
-  ['textureid_2',['textureId',['../structRaycastHit.html#ad15b49b5df395a928e37311bf7fd6d31',1,'RaycastHit']]],
-  ['textures_3',['textures',['../structRaycaster.html#a9ae4626f7d54f3632aec8bbf531af2b8',1,'Raycaster']]]
+  ['side_0',['side',['../structRaycastHit.html#a2d7431eddd5ca6d1ac206533ee0bad0e',1,'RaycastHit']]],
+  ['spritecount_1',['spriteCount',['../structRaycaster.html#a9ffaf94def0f742a41a3413fcaa266d7',1,'Raycaster']]],
+  ['spriteorder_2',['SpriteOrder',['../structSpriteOrder.html',1,'']]],
+  ['sprites_3',['sprites',['../structRaycaster.html#ae2df79381c97e6430fa800c800acc8e1',1,'Raycaster']]]
 ];

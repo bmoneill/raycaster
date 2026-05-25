@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.6"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>libraycast: Data Structures</title>
+<title>libraycast: SpriteOrder Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -64,7 +64,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(document).ready(function(){initNavTree('annotated.html',''); initResizable(); });
+$(document).ready(function(){initNavTree('structSpriteOrder.html',''); initResizable(); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -90,25 +90,69 @@ $(document).ready(function(){initNavTree('annotated.html',''); initResizable(); 
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">Data Structures</div></div>
+  <div class="summary">
+<a href="#pub-attribs">Data Fields</a>  </div>
+  <div class="headertitle"><div class="title">SpriteOrder Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock">Here are the data structures with brief descriptions:</div><div class="directory">
-<table class="directory">
-<tr id="row_0_" class="even"><td class="entry"><span style="width:16px;display:inline-block;">&#160;</span><span class="icona"><span class="icon">C</span></span><a class="el" href="structRaycastCamera.html" target="_self">RaycastCamera</a></td><td class="desc">Raycast camera structure </td></tr>
-<tr id="row_1_" class="odd"><td class="entry"><span style="width:16px;display:inline-block;">&#160;</span><span class="icona"><span class="icon">C</span></span><a class="el" href="structRaycaster.html" target="_self">Raycaster</a></td><td class="desc"><a class="el" href="structRaycaster.html" title="Raycaster structure.">Raycaster</a> structure </td></tr>
-<tr id="row_2_" class="even"><td class="entry"><span style="width:16px;display:inline-block;">&#160;</span><span class="icona"><span class="icon">C</span></span><a class="el" href="structRaycastHit.html" target="_self">RaycastHit</a></td><td class="desc">Information about a raycast hit </td></tr>
-<tr id="row_3_" class="odd"><td class="entry"><span style="width:16px;display:inline-block;">&#160;</span><span class="icona"><span class="icon">C</span></span><a class="el" href="structRaycastRect.html" target="_self">RaycastRect</a></td><td class="desc">Raycast rectangle structure </td></tr>
-<tr id="row_4_" class="even"><td class="entry"><span style="width:16px;display:inline-block;">&#160;</span><span class="icona"><span class="icon">C</span></span><a class="el" href="structRaycastSprite.html" target="_self">RaycastSprite</a></td><td class="desc">A billboard sprite placed in world space </td></tr>
-<tr id="row_5_" class="odd"><td class="entry"><span style="width:16px;display:inline-block;">&#160;</span><span class="icona"><span class="icon">C</span></span><a class="el" href="structRaycastTexture.html" target="_self">RaycastTexture</a></td><td class="desc">Texture structure for wall rendering </td></tr>
-<tr id="row_6_" class="even"><td class="entry"><span style="width:16px;display:inline-block;">&#160;</span><span class="icona"><span class="icon">C</span></span><a class="el" href="structSpriteOrder.html" target="_self">SpriteOrder</a></td><td class="desc">Sort order entry used during sprite rendering </td></tr>
+
+<p>Sort order entry used during sprite rendering.  
+ <a href="structSpriteOrder.html#details">More...</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+Data Fields</h2></td></tr>
+<tr class="memitem:a750b5d744c39a06bfb13e6eb010e35d0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structSpriteOrder.html#a750b5d744c39a06bfb13e6eb010e35d0">index</a></td></tr>
+<tr class="memdesc:a750b5d744c39a06bfb13e6eb010e35d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Index into raycaster-&gt;sprites.  <br /></td></tr>
+<tr class="separator:a750b5d744c39a06bfb13e6eb010e35d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2578b368dad74bcd4a88bbeeb319a833"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structSpriteOrder.html#a2578b368dad74bcd4a88bbeeb319a833">dist</a></td></tr>
+<tr class="memdesc:a2578b368dad74bcd4a88bbeeb319a833"><td class="mdescLeft">&#160;</td><td class="mdescRight">Squared distance from camera (used for sort only)  <br /></td></tr>
+<tr class="separator:a2578b368dad74bcd4a88bbeeb319a833"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-</div><!-- directory -->
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Sort order entry used during sprite rendering. </p>
+<p>Sprites are rendered back-to-front so that closer sprites paint over farther ones correctly. </p>
+</div><h2 class="groupheader">Field Documentation</h2>
+<a id="a2578b368dad74bcd4a88bbeeb319a833" name="a2578b368dad74bcd4a88bbeeb319a833"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2578b368dad74bcd4a88bbeeb319a833">&#9670;&#160;</a></span>dist</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float dist</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Squared distance from camera (used for sort only) </p>
+
+</div>
+</div>
+<a id="a750b5d744c39a06bfb13e6eb010e35d0" name="a750b5d744c39a06bfb13e6eb010e35d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a750b5d744c39a06bfb13e6eb010e35d0">&#9670;&#160;</a></span>index</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int index</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Index into raycaster-&gt;sprites. </p>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li>src/raycast/<a class="el" href="raycast_8c.html">raycast.c</a></li>
+</ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="structSpriteOrder.html">SpriteOrder</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6 </li>
   </ul>
 </div>

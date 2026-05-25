@@ -30,7 +30,7 @@ var NAVTREE =
       [ "Overview", "index.html#autotoc_md1", null ],
       [ "Building", "index.html#autotoc_md2", [
         [ "Requirements", "index.html#autotoc_md3", null ],
-        [ "Linux / macOS", "index.html#autotoc_md4", null ]
+        [ "Linux / macOS / Windows (WSL or MinGW)", "index.html#autotoc_md4", null ]
       ] ],
       [ "Testing", "index.html#autotoc_md5", [
         [ "Linux / macOS", "index.html#autotoc_md6", null ]

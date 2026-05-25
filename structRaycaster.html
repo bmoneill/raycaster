@@ -121,10 +121,54 @@ Data Fields</h2></td></tr>
 <tr class="memitem:a34e5c4e9fa0d6c5a6380769827e1d3db"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRaycaster.html#a34e5c4e9fa0d6c5a6380769827e1d3db">textured</a></td></tr>
 <tr class="memdesc:a34e5c4e9fa0d6c5a6380769827e1d3db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether to use textures.  <br /></td></tr>
 <tr class="separator:a34e5c4e9fa0d6c5a6380769827e1d3db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abdbcd287f72bfdfe6b34d3a5b3d22d8f"><td class="memItemLeft" align="right" valign="top">int *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRaycaster.html#abdbcd287f72bfdfe6b34d3a5b3d22d8f">floorMap</a></td></tr>
+<tr class="memdesc:abdbcd287f72bfdfe6b34d3a5b3d22d8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Per-cell floor texture IDs (RAYCAST_EMPTY = no texture / use background)  <br /></td></tr>
+<tr class="separator:abdbcd287f72bfdfe6b34d3a5b3d22d8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f7ef5109bd70f2fb8c14a6b767822ab"><td class="memItemLeft" align="right" valign="top">int *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRaycaster.html#a7f7ef5109bd70f2fb8c14a6b767822ab">ceilMap</a></td></tr>
+<tr class="memdesc:a7f7ef5109bd70f2fb8c14a6b767822ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Per-cell ceiling texture IDs (RAYCAST_EMPTY = no texture / use background)  <br /></td></tr>
+<tr class="separator:a7f7ef5109bd70f2fb8c14a6b767822ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2df79381c97e6430fa800c800acc8e1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structRaycastSprite.html">RaycastSprite</a> **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRaycaster.html#ae2df79381c97e6430fa800c800acc8e1">sprites</a></td></tr>
+<tr class="memdesc:ae2df79381c97e6430fa800c800acc8e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Array of sprites owned by this raycaster.  <br /></td></tr>
+<tr class="separator:ae2df79381c97e6430fa800c800acc8e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ffaf94def0f742a41a3413fcaa266d7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRaycaster.html#a9ffaf94def0f742a41a3413fcaa266d7">spriteCount</a></td></tr>
+<tr class="memdesc:a9ffaf94def0f742a41a3413fcaa266d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of sprites.  <br /></td></tr>
+<tr class="separator:a9ffaf94def0f742a41a3413fcaa266d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="structRaycaster.html" title="Raycaster structure.">Raycaster</a> structure. </p>
 </div><h2 class="groupheader">Field Documentation</h2>
+<a id="a7f7ef5109bd70f2fb8c14a6b767822ab" name="a7f7ef5109bd70f2fb8c14a6b767822ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f7ef5109bd70f2fb8c14a6b767822ab">&#9670;&#160;</a></span>ceilMap</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int* ceilMap</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Per-cell ceiling texture IDs (RAYCAST_EMPTY = no texture / use background) </p>
+
+</div>
+</div>
+<a id="abdbcd287f72bfdfe6b34d3a5b3d22d8f" name="abdbcd287f72bfdfe6b34d3a5b3d22d8f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abdbcd287f72bfdfe6b34d3a5b3d22d8f">&#9670;&#160;</a></span>floorMap</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int* floorMap</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Per-cell floor texture IDs (RAYCAST_EMPTY = no texture / use background) </p>
+
+</div>
+</div>
 <a id="ad12fc34ce789bce6c8a05d8a17138534" name="ad12fc34ce789bce6c8a05d8a17138534"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad12fc34ce789bce6c8a05d8a17138534">&#9670;&#160;</a></span>height</h2>
 
@@ -154,6 +198,38 @@ Data Fields</h2></td></tr>
 </div><div class="memdoc">
 
 <p>1D array representing the 2D map (ARGB color if untextured, texture ID if textured) </p>
+
+</div>
+</div>
+<a id="a9ffaf94def0f742a41a3413fcaa266d7" name="a9ffaf94def0f742a41a3413fcaa266d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ffaf94def0f742a41a3413fcaa266d7">&#9670;&#160;</a></span>spriteCount</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int spriteCount</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Number of sprites. </p>
+
+</div>
+</div>
+<a id="ae2df79381c97e6430fa800c800acc8e1" name="ae2df79381c97e6430fa800c800acc8e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2df79381c97e6430fa800c800acc8e1">&#9670;&#160;</a></span>sprites</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structRaycastSprite.html">RaycastSprite</a>** sprites</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Array of sprites owned by this raycaster. </p>
 
 </div>
 </div>

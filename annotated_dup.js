@@ -4,5 +4,7 @@ var annotated_dup =
     [ "Raycaster", "structRaycaster.html", "structRaycaster" ],
     [ "RaycastHit", "structRaycastHit.html", "structRaycastHit" ],
     [ "RaycastRect", "structRaycastRect.html", "structRaycastRect" ],
-    [ "RaycastTexture", "structRaycastTexture.html", "structRaycastTexture" ]
+    [ "RaycastSprite", "structRaycastSprite.html", "structRaycastSprite" ],
+    [ "RaycastTexture", "structRaycastTexture.html", "structRaycastTexture" ],
+    [ "SpriteOrder", "structSpriteOrder.html", "structSpriteOrder" ]
 ];

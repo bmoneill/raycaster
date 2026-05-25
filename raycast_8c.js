@@ -1,10 +1,15 @@
 var raycast_8c =
 [
+    [ "SpriteOrder", "structSpriteOrder.html", "structSpriteOrder" ],
     [ "c", "raycast_8c.html#aafc737ea9ef91f59cf9acd287fb8d085", null ],
+    [ "raycast_add_ceiling", "raycast_8c.html#a4ac807dd4832e0b7da0f7216e0200771", null ],
+    [ "raycast_add_floor", "raycast_8c.html#a350127c005bfe34c7b960ff17c008212", null ],
+    [ "raycast_add_sprite", "raycast_8c.html#a02593db62bf12317e169b86b88d3b168", null ],
     [ "raycast_add_texture", "raycast_8c.html#ae62fd8762f5316fe31c60a2998bca933", null ],
     [ "raycast_cast", "raycast_8c.html#a4b485d1865969ab7151fac42b5a9994b", null ],
     [ "raycast_cast_textured", "raycast_8c.html#a304a70924dbd3d3e1d05baacd341d4e4", null ],
     [ "raycast_collides", "raycast_8c.html#a9e59eddf9b8ebb43dbc8896628907d4f", null ],
+    [ "raycast_collides_sprites", "raycast_8c.html#afdc0f2be470e3362e3ea051a533e0e76", null ],
     [ "raycast_destroy", "raycast_8c.html#aa58f1a011a3e12428cde979356e647e4", null ],
     [ "raycast_draw", "raycast_8c.html#abf39a86b1c4b018c0dc0046545acf7ed", null ],
     [ "raycast_erase", "raycast_8c.html#aa511c202dc11f8ec4f84851be5c9e4aa", null ],
@@ -17,6 +22,11 @@ var raycast_8c =
     [ "raycast_render_textured", "raycast_8c.html#a683f3b60bd57bf5b2814fb2c954bf602", null ],
     [ "raycast_rotate_camera", "raycast_8c.html#a1e5e7e2539b8e20a67a572903d6ff3ff", null ],
     [ "raycast_set_draw_color", "raycast_8c.html#ab87c2f529f9a3e9d0fbc1c22c32f6bad", null ],
+    [ "raycast_sprite_create", "raycast_8c.html#a62933e864b833e3298815e0f3d217def", null ],
+    [ "raycast_sprite_destroy", "raycast_8c.html#ace18e45efe33439736afe84be0008c99", null ],
+    [ "raycast_sprite_move", "raycast_8c.html#a962b30c3d8e6502719d633d4a5c22741", null ],
+    [ "raycast_sprite_set_direction", "raycast_8c.html#acc44d14d5ddd3a1c183d1693466e97a4", null ],
+    [ "raycast_sprite_set_texture", "raycast_8c.html#aa6d6ed871f51c342153f674531624021", null ],
     [ "raycast_texture_create", "raycast_8c.html#ad0079ac048fca241fe056340ab078a77", null ],
     [ "raycast_texture_destroy", "raycast_8c.html#ab0bec7e954be4b899cd2eb33cf8c553b", null ],
     [ "raycast_version", "raycast_8c.html#ab6c2a4c9c9e2778155a0ea592a332661", null ]
